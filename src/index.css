@@ -76,30 +76,6 @@
   --sidebar-ring: oklch(0.708 0 0);
 }
 
-/* Sugar Magic font - put your font file(s) in public/fonts/ */
-@font-face {
-  font-family: 'Sugar Magic';
-  src: url('/fonts/sugarmagicpersonaluseonly-jemyo.otf') format('woff2');
-  font-weight: 700 900;
-  font-style: normal;
-  font-display: swap;
-}
-
-.font-sugar-magic {
-  font-family:
-    'Sugar Magic',
-    'Inter',
-    system-ui,
-    -apple-system,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    'Noto Sans',
-    'Liberation Sans',
-    sans-serif;
-}
-
 .font-oswald {
   font-family: 'Oswald', sans-serif;
 }
