@@ -31,7 +31,7 @@ export default function HeroSection() {
         </div>
 
         {/* Heading */}
-        <div className="relative flex flex-col items-center justify-center px-4 sm:-mt-16 sm:space-y-6 lg:-mt-[87px] lg:space-y-0">
+        <div className="relative ml-[18px] flex flex-col items-center justify-center px-4 sm:-mt-16 sm:space-y-6 lg:-mt-[87px] lg:space-y-0">
           <div className="from-primary font-oswald relative bg-gradient-to-b from-50% to-[#4e67b0] to-50% bg-clip-text text-3xl leading-tight font-bold tracking-widest text-transparent sm:text-5xl lg:text-7xl xl:text-[140px]">
             ARCHIE ALBARICO
             <span className="from-primary/30 absolute inset-0 -z-10 bg-gradient-to-b to-[#4e67b0]/30 opacity-50 blur-xl" />

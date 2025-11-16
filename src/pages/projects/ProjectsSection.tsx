@@ -43,7 +43,9 @@ export function ProjectsSection() {
             </CardHeader>
             <CardContent className="flex flex-grow flex-col space-y-4">
               <CardDescription className="text-justify">{p.description}</CardDescription>
-              <img ref={registerItem} src={p.image} alt={p.title} loading="lazy" className="mt-auto h-48 w-auto rounded-md border object-cover" />
+              <div className="mt-auto cursor-pointer">
+                <img ref={registerItem} src={p.image} alt={p.title} loading="lazy" className="h-48 w-full rounded-md object-cover" />
+              </div>
             </CardContent>
             <CardFooter className="flex justify-end gap-2">
               {p.website && (
