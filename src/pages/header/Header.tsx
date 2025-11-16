@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import { cn } from '@/lib/utils'
 import { useIsMobile } from '@/hooks/use-mobile'
 import type { SectionId } from './types'
-import { SCROLL_OFFSET, MINI_MODE_THRESHOLD, CHATBOT_CLOSE_DELAY, SCROLL_TOP_OFFSET } from './constants'
+import { SCROLL_OFFSET, MINI_MODE_THRESHOLD, CHATBOT_CLOSE_DELAY, SCROLL_TOP_OFFSET, CHATBOT_TRANSITION_DURATION } from './constants'
 import ChatbotContainer from './ChatbotContainer'
 import NavigationList from './NavigationList'
 import GlassEffectLayers from './components/glass-effect'
@@ -112,11 +112,27 @@ const useClickOutside = (ref: React.RefObject<HTMLElement | null>, isOpen: boole
 
 export function HeaderSection() {
   const [isChatbotOpen, setIsChatbotOpen] = useState(false)
+  const [isSpotlightDisabled, setIsSpotlightDisabled] = useState(false)
   const isMobile = useIsMobile()
   const navRef = useRef<HTMLElement>(null)
 
   const isMini = useScrollDirection(isMobile, isChatbotOpen)
   const [activeSection, setActiveSection] = useActiveSection(isChatbotOpen)
+
+  useEffect(() => {
+    if (isChatbotOpen) {
+      setIsSpotlightDisabled(true)
+      return
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      setIsSpotlightDisabled(false)
+    }, CHATBOT_TRANSITION_DURATION)
+
+    return () => {
+      window.clearTimeout(timeoutId)
+    }
+  }, [isChatbotOpen])
 
   const handleChatbotClose = useCallback(() => {
     setIsChatbotOpen(false)
@@ -174,8 +190,8 @@ export function HeaderSection() {
 
   return (
     <nav ref={navRef} className={cn('fixed top-4 left-1/2 z-800 -translate-x-1/2', 'max-md:top-auto max-md:bottom-4 max-md:flex max-md:flex-row')}>
-      <Spotlight ProximitySpotlight={true} CursorFlowGradient={true} HoverFocusSpotlight={true}>
-        <SpotLightItem>
+      <Spotlight ProximitySpotlight={true} CursorFlowGradient={true} HoverFocusSpotlight={false} disabled={isSpotlightDisabled}>
+        <SpotLightItem className="rounded-2xl">
           {/* Glass effect layers */}
           <GlassEffectLayers isChatbotOpen={isChatbotOpen} />
 

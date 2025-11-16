@@ -17,8 +17,8 @@ export function ProjectsSection() {
     <section id="projects" className="section-wrapper">
       <motion.div
         className="mb-10"
-        initial={{ x: -800, opacity: 0 }}
-        whileInView={{ x: 0, opacity: 1 }}
+        initial={{ x: -800, opacity: 0, filter: 'blur(8px)' }}
+        whileInView={{ x: 0, opacity: 1, filter: 'blur(0px)' }}
         transition={{ duration: 0.7 }}
         viewport={{ once: true }}
       >
