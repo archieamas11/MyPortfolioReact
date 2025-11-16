@@ -1,0 +1,62 @@
+{
+  "mcpServers": {
+    "shadcn": {
+      "command": "npx",
+      "args": ["shadcn@latest", "mcp"]
+    },
+    "Ref": {
+      "type": "http",
+      "url": "https://api.ref.tools/mcp?apiKey=ref-b6323330083ad75f66db",
+      "headers": {}
+    },
+    "Context7": {
+      "url": "https://mcp.context7.com/mcp",
+      "headers": {}
+    },
+    "Postman": {
+      "url": "https://mcp.postman.com/minimal",
+      "headers": {
+        "Authorization": "Bearer u9T0DWzDgVlsI9EhzZh8nX1N72GlhWax"
+      }
+    },
+    "@21st-dev/magic": {
+      "command": "npx",
+      "args": ["-y", "@21st-dev/magic@latest", "API_KEY=\"5f9b167d80ae2b5cd017677f0d3a0030045f78d8e1931854e835193c36f6119e\""]
+    },
+    "browsermcp": {
+      "command": "npx",
+      "args": ["@browsermcp/mcp@latest"]
+    },
+    "grep": {
+      "url": "https://mcp.grep.app"
+    },
+    "shadcn-ui": {
+      "command": "npx",
+      "args": [
+        "@jpisnice/shadcn-ui-mcp-server",
+        "--github-api-key",
+        "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"
+      ]
+    },
+    "sequential-thinking": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]
+    },
+    "TestSprite": {
+      "command": "npx",
+      "args": ["@testsprite/testsprite-mcp@latest"],
+      "env": {
+        "API_KEY": "sk-user-T5NgyZ5v3iZr0WXzrGBZnh0LLzvwW6GChPbutJ9IfVplAjeG5R22FzcU7ag8e-71EeuHUM2HiM3m38FfzbdELKzXLSjv0gm54krTdvlX33jHKfNjyUsDRaHsx9QvBj6fT1E"
+      },
+      "type": "stdio"
+    },
+    "mcp-deepwiki": {
+      "command": "npx",
+      "args": ["-y", "mcp-deepwiki@latest"]
+    },
+    "chrome-devtools": {
+      "command": "npx",
+      "args": ["-y", "chrome-devtools-mcp@latest"]
+    }
+  }
+}

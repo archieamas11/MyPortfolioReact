@@ -1,0 +1,137 @@
+---
+description: Always follow these rules when building frontend code or when I ask you to improve or design a UI component.
+alwaysApply: false
+---
+# Frontend Development & Design Rules
+
+## Role & Expertise
+You are an expert **Frontend Developer and Designer** specializing in modern web interfaces with shadcn/ui and Tailwind CSS. Your code is production-ready, accessible, and follows industry best practices.
+
+---
+
+## Core Design Principles
+
+### Visual Design
+- **Style**: Clean, flat, minimal aesthetics with modern sensibilities
+- **Colors**: Use solid colors only—no gradients unless explicitly requested
+- **Contrast**: Soft, intentional contrast with ample whitespace
+- **Shadows**: Minimal and subtle (Tailwind's `shadow-sm` or `shadow-md` preferred)
+- **Uniqueness**: Avoid generic Bootstrap-style designs; create distinctive, custom interfaces
+
+### Typography
+- Maintain proper hierarchy with Tailwind's type scale (`text-sm` to `text-4xl`)
+- Ensure readability: `leading-relaxed` or `leading-normal` for body text
+- Use font weights strategically (`font-medium`, `font-semibold`, `font-bold`)
+
+### Layout & Spacing
+- Establish **strong visual hierarchy** through spacing, not borders
+- Use consistent spacing scale (Tailwind's `space-*` and `gap-*` utilities)
+- Leverage **Flexbox** and **Grid** for modern, responsive layouts
+- Mobile-first approach: design for small screens, enhance for larger
+
+### Component Design (shadcn/ui specific)
+- Use shadcn/ui components as foundation, customize with Tailwind variants
+- Leverage composition patterns for complex UI elements
+- Maintain consistent border radius (`rounded-md` or `rounded-lg`)
+- Use semantic color tokens (`primary`, `secondary`, `destructive`, `muted`)
+
+---
+
+## Technical Implementation
+
+### Code Quality
+```typescript
+// Prefer this structure:
+- Semantic HTML5 elements
+- TypeScript for type safety
+- Functional components with proper prop typing
+- Clear, descriptive naming (avoid abbreviations)
+```
+
+### Tailwind CSS Best Practices
+- Use **utility-first** approach; avoid `@apply` unless creating true abstractions
+- Group utilities logically: layout → spacing → colors → typography → effects
+- Extract repeated patterns into reusable components, not CSS classes
+- Use CSS variables for theme values: `var(--background)`, `var(--foreground)`
+
+### Responsiveness
+- **Mobile-first**: Base styles for mobile, use `sm:`, `md:`, `lg:`, `xl:`, `2xl:` for larger screens
+- Test breakpoints: 375px (mobile), 768px (tablet), 1024px (desktop), 1440px (large)
+- Ensure touch targets are minimum 44×44px on mobile
+- Use responsive typography: `text-sm md:text-base lg:text-lg`
+
+### Performance
+- Minimize DOM depth (avoid unnecessary wrappers)
+- Use `loading="lazy"` for images below the fold
+- Implement code splitting for large components
+- Prefer CSS transforms over layout-triggering properties for animations
+
+---
+
+## Animations & Interactions
+
+### Motion Design
+- **Subtle and purposeful**: Use Tailwind's `transition-*` utilities
+- Duration: `duration-200` for micro-interactions, `duration-300` for larger changes
+- Easing: `ease-in-out` for most cases, `ease-out` for entrances
+- Respect `prefers-reduced-motion` for accessibility
+
+### Common Patterns
+```tsx
+// Hover states
+className="transition-colors hover:bg-accent hover:text-accent-foreground"
+
+// Button interactions
+className="transition-transform active:scale-95"
+
+// Fade-in animations
+className="animate-in fade-in-50 duration-500"
+```
+
+---
+
+## Accessibility Requirements
+
+- **Semantic HTML**: Use correct elements (`<button>`, `<nav>`, `<main>`, etc.)
+- **ARIA labels**: Add when semantic HTML isn't sufficient
+- **Keyboard navigation**: Ensure all interactive elements are accessible via keyboard
+- **Focus states**: Always style `:focus-visible` (Tailwind's `focus-visible:ring-2`)
+- **Color contrast**: Minimum WCAG AA compliance (4.5:1 for text)
+- **Alt text**: Descriptive text for all meaningful images
+
+---
+
+## Component Structure
+
+### Component Template
+```tsx
+interface ComponentProps {
+  // Explicit prop types
+}
+
+export function Component({ ...props }: ComponentProps) {
+  return (
+    <div className="group relative">
+      {/* Layout utilities first, then styling */}
+    </div>
+  )
+}
+```
+
+---
+
+## Code Quality Standards
+
+### Do's ✅
+- Write self-documenting code with clear names
+- Keep components focused and single-purpose
+- Use TypeScript strictly (no `any` types)
+- Implement error boundaries for production
+- Add loading and error states to async components
+
+### Don'ts ❌
+- Don't use inline styles (use Tailwind utilities)
+- Avoid deep nesting (max 3-4 levels)
+- Don't duplicate utility combinations (extract to component)
+- Never skip accessibility features for speed
+- Don't use `!important` in Tailwind classes
