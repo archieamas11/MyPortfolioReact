@@ -19,7 +19,7 @@ export default function HeroSection() {
   return (
     <section id="hero" className="relative flex min-h-screen w-full items-center justify-center overflow-hidden px-4 sm:px-6 lg:px-8">
       <div className="relative flex min-h-screen w-full flex-col items-center justify-center text-center">
-        <div className="relative mt-30 flex w-full max-w-7xl justify-center">
+        <div className="relative mt-45 flex w-full max-w-7xl justify-center">
           <div className="bg-primary/20 hidden h-65 w-full rounded-t-xl sm:block" />
           <a href="#hero" aria-label="Go to homepage">
             <img
@@ -31,7 +31,7 @@ export default function HeroSection() {
         </div>
 
         {/* Heading */}
-        <div className="relative ml-[18px] flex flex-col items-center justify-center px-4 sm:-mt-16 sm:space-y-6 lg:-mt-[87px] lg:space-y-0">
+        <div className="relative ml-[18px] flex flex-col items-center justify-center px-4 sm:-mt-16 sm:space-y-6 lg:-mt-[87px] lg:space-y-2">
           <div className="from-primary font-oswald relative bg-gradient-to-b from-50% to-[#4e67b0] to-50% bg-clip-text text-3xl leading-tight font-bold tracking-widest text-transparent sm:text-5xl lg:text-7xl xl:text-[140px]">
             ARCHIE ALBARICO
             <span className="from-primary/30 absolute inset-0 -z-10 bg-gradient-to-b to-[#4e67b0]/30 opacity-50 blur-xl" />
