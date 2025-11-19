@@ -37,8 +37,8 @@ export default function HeroSection() {
               id="logo"
               src={theme === 'dark' ? 'images/aaa-white.png' : 'images/aaa-black.png'}
               className={cn(
-                `home-logo rounded-full object-contain ${isScrolled ? 'scrolled' : 'border-b-2'}`,
-                isMobile ? '' : 'glass-effect border-background rounded-full border-15 bg-[#d1d1d1] transition-all duration-500 dark:bg-[#4e67b0]',
+                `home-logo glass-effect rounded-full object-contain ${isScrolled ? 'scrolled' : 'border-b-2'}`,
+                isMobile ? '' : 'border-background rounded-full border-15 bg-[#d1d1d1] dark:bg-[#4e67b0]',
               )}
             />
           </a>
