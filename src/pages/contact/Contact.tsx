@@ -3,8 +3,8 @@ import ContactForm from './Forms'
 
 export function ContactSection() {
   return (
-    <section id="contact" className="min-h-screen w-full py-20">
-      <div className="grid w-full grid-cols-2 justify-between">
+    <section id="contact" className="section-wrapper">
+      <div className="grid w-full grid-cols-1 justify-between gap-20 lg:grid-cols-2 lg:gap-0">
         {/* Left content*/}
         <div>
           <h2 className="mb-4 text-3xl font-bold md:text-5xl">Get In Touch</h2>

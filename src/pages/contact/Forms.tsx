@@ -161,22 +161,29 @@ export default function ContactForm() {
           name="turnstileToken"
           render={({ field }) => (
             <FormItem>
-              <FormControl className="mx-auto">
-                <Turnstile
-                  ref={turnstileRef}
-                  siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY || '1x00000000000000000000AA'}
-                  onSuccess={(token) => {
-                    field.onChange(token)
-                  }}
-                  onError={() => {
-                    field.onChange('')
-                    toast.error('Verification failed. Please try again.')
-                  }}
-                  onExpire={() => {
-                    field.onChange('')
-                    toast.warning('Verification expired. Please verify again.')
-                  }}
-                />
+              <FormControl>
+                <div className="flex w-full justify-center overflow-scroll">
+                  <Turnstile
+                    ref={turnstileRef}
+                    siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY || '1x00000000000000000000AA'}
+                    options={{
+                      theme: 'auto',
+                      size: 'flexible',
+                      appearance: 'execute',
+                    }}
+                    onSuccess={(token) => {
+                      field.onChange(token)
+                    }}
+                    onError={() => {
+                      field.onChange('')
+                      toast.error('Verification failed. Please try again.')
+                    }}
+                    onExpire={() => {
+                      field.onChange('')
+                      toast.warning('Verification expired. Please verify again.')
+                    }}
+                  />
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>

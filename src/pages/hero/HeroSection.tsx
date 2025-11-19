@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { useTheme } from 'next-themes'
 import { ChevronDown } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { motion } from 'framer-motion'
 
 export default function HeroSection() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -18,9 +19,17 @@ export default function HeroSection() {
 
   return (
     <section id="hero" className="relative flex min-h-screen w-full items-center justify-center overflow-hidden px-4 sm:px-6 lg:px-8">
-      <div className="relative flex min-h-screen w-full flex-col items-center justify-center text-center">
-        <div className="relative mt-45 flex w-full max-w-7xl justify-center">
+      <div className="relative z-10 flex min-h-screen w-full flex-col items-center justify-center text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="relative mt-45 flex w-full max-w-7xl justify-center"
+        >
+          {/* Hero section logo background */}
           <div className="bg-primary/20 hidden h-65 w-full rounded-t-xl sm:block" />
+
+          {/* Logo  */}
           <a href="#hero" aria-label="Go to homepage">
             <img
               id="logo"
@@ -28,16 +37,26 @@ export default function HeroSection() {
               className={cn(`home-logo ${isScrolled ? 'scrolled' : 'border-b-2'}`, 'glass-effect bg-secondary rounded-full object-contain')}
             />
           </a>
-        </div>
+        </motion.div>
 
         {/* Heading */}
         <div className="relative ml-[18px] flex flex-col items-center justify-center px-4 sm:-mt-16 sm:space-y-6 lg:-mt-[87px] lg:space-y-2">
-          <div className="from-primary font-oswald relative bg-gradient-to-b from-50% to-[#4e67b0] to-50% bg-clip-text text-3xl leading-tight font-bold tracking-widest text-transparent sm:text-5xl lg:text-7xl xl:text-[140px]">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="from-primary font-oswald relative bg-gradient-to-b from-50% to-[#4e67b0] to-50% bg-clip-text text-3xl leading-tight font-bold tracking-widest text-transparent sm:text-5xl lg:text-7xl xl:text-[140px]"
+          >
             ARCHIE ALBARICO
             <span className="from-primary/30 absolute inset-0 -z-10 bg-gradient-to-b to-[#4e67b0]/30 opacity-50 blur-xl" />
-          </div>
+          </motion.div>
 
-          <div className="flex w-full items-center justify-between gap-4 sm:gap-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="flex w-full items-center justify-between gap-4 sm:gap-6"
+          >
             <h2 className="text-muted-foreground font-base text-lg leading-none sm:text-2xl lg:text-4xl">Full-Stack Developer</h2>
             <div className="flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row sm:gap-4">
               <a href="#projects" aria-label="View Projects" className="w-full sm:w-auto">
@@ -51,10 +70,10 @@ export default function HeroSection() {
                 </Button>
               </a>
             </div>
-          </div>
+          </motion.div>
         </div>
         {/* scroll indicator */}
-        <div className="hidden lg:block">
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1, duration: 1 }} className="hidden lg:block">
           <a
             href="#about-me"
             className="group text-muted-foreground hover:text-foreground absolute bottom-20 inline-flex flex-col items-center gap-1 transition-colors"
@@ -63,7 +82,7 @@ export default function HeroSection() {
             <span className="text-xs">Scroll</span>
             <ChevronDown className="size-5 animate-bounce" aria-hidden />
           </a>
-        </div>
+        </motion.div>
       </div>
     </section>
   )
