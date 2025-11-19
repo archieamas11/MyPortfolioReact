@@ -31,7 +31,7 @@ const NavigationItem = ({
             className={cn(
               'text-primary/50 flex flex-col items-center justify-center rounded-lg text-center text-xs no-underline transition-all delay-100 duration-500 ease-[cubic-bezier(0.175,0.885,0.32,1.275)] hover:opacity-100',
               {
-                'text-secondary dark:text-primary bg-[#4e67b0]': isActive,
+                'text-secondary dark:text-primary border bg-[#4e67b0]': isActive,
                 'h-17 w-17 p-1': !isMini && !isMobile,
                 'h-14 w-14': isMini && !isMobile,
                 'h-10 w-10': isMobile,

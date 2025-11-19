@@ -24,7 +24,7 @@ export function AboutSection() {
             <AvatarImage
               src="/images/profile-picture.avif"
               alt="Archie Albarico profile picture"
-              className={cn('object-cover transition-colors duration-300', theme === 'dark' ? 'grayscale-50' : '')}
+              className={cn('object-cover transition-colors duration-300', theme === 'dark' ? 'grayscale-60' : '')}
               loading="eager"
             />
             <AvatarFallback className="bg-primary/10 text-primary text-4xl font-bold">AA</AvatarFallback>
