@@ -4,10 +4,12 @@ import { useTheme } from 'next-themes'
 import { ChevronDown } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { motion } from 'framer-motion'
+import { useIsMobile } from '@/hooks/use-mobile'
 
 export default function HeroSection() {
   const [isScrolled, setIsScrolled] = useState(false)
   const { theme } = useTheme()
+  const isMobile = useIsMobile()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -27,14 +29,17 @@ export default function HeroSection() {
           className="relative mt-45 flex w-full max-w-7xl justify-center"
         >
           {/* Hero section logo background */}
-          <div className="bg-primary/20 hidden h-65 w-full rounded-t-xl sm:block" />
+          <div className="bg-primary/15 bg-effect hidden h-65 w-full rounded-t-3xl sm:block" />
 
           {/* Logo  */}
           <a href="#hero" aria-label="Go to homepage">
             <img
               id="logo"
               src={theme === 'dark' ? 'images/aaa-white.png' : 'images/aaa-black.png'}
-              className={cn(`home-logo ${isScrolled ? 'scrolled' : 'border-b-2'}`, 'glass-effect bg-secondary rounded-full object-contain')}
+              className={cn(
+                `home-logo rounded-full object-contain ${isScrolled ? 'scrolled' : 'border-b-2'}`,
+                isMobile ? '' : 'glass-effect border-background rounded-full border-15 bg-[#d1d1d1] transition-all duration-500 dark:bg-[#4e67b0]',
+              )}
             />
           </a>
         </motion.div>
@@ -48,7 +53,7 @@ export default function HeroSection() {
             className="from-primary font-oswald relative bg-gradient-to-b from-50% to-[#4e67b0] to-50% bg-clip-text text-3xl leading-tight font-bold tracking-widest text-transparent sm:text-5xl lg:text-7xl xl:text-[140px]"
           >
             ARCHIE ALBARICO
-            <span className="from-primary/30 absolute inset-0 -z-10 bg-gradient-to-b to-[#4e67b0]/30 opacity-50 blur-xl" />
+            <span className="from-primary/10 absolute inset-0 -z-10 bg-gradient-to-b to-[#4e67b0]/30 opacity-50 blur-xl" />
           </motion.div>
 
           <motion.div

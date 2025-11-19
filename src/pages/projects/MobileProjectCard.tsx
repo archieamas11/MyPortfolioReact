@@ -1,9 +1,8 @@
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import { Github, Globe } from 'lucide-react'
 import type { Project } from './types'
 import { Iphone } from '@/components/ui/iphone'
+import ProjectFooter from './components/footer'
 
 interface MobileProjectCardProps {
   project: Project
@@ -39,23 +38,8 @@ export function MobileProjectCard({ project, registerItem }: MobileProjectCardPr
               </div>
             </div>
 
-            <div className="mt-6 flex gap-3 border-t border-white/10 pt-4">
-              {project.website && (
-                <Button asChild variant="glass" size="sm" className="flex-1">
-                  <a href={project.website} target="_blank" rel="noopener noreferrer">
-                    <Globe className="mr-2 h-4 w-4" />
-                    Website
-                  </a>
-                </Button>
-              )}
-              {project.link && (
-                <Button asChild variant="glass" size="sm" className="flex-1">
-                  <a href={project.link} target="_blank" rel="noopener noreferrer">
-                    <Github className="mr-2 h-4 w-4" />
-                    Source
-                  </a>
-                </Button>
-              )}
+            <div className="mt-6 flex justify-end border-t border-white/10 pt-4">
+              <ProjectFooter project={project} fullWidth />
             </div>
           </div>
         </div>

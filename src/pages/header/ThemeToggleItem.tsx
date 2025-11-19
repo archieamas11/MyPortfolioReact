@@ -17,7 +17,7 @@ const ThemeToggleItem = ({ isMini, isMobile }: { isMini: boolean; isMobile: bool
             start="right-middle"
             size={isMini && !isMobile ? 'sm' : 'md'}
             className={cn(
-              'text-primary m-2 h-full w-full bg-transparent hover:cursor-pointer hover:bg-transparent dark:hover:bg-transparent',
+              'text-primary/50 m-2 h-full w-full bg-transparent transition-all duration-200 hover:cursor-pointer hover:bg-transparent dark:hover:bg-transparent',
               isMobile ? 'm-0' : '',
             )}
             showLabel={false}
