@@ -5,4 +5,5 @@ export interface Project {
   website?: string
   link?: string
   image?: string
+  platform: 'web' | 'mobile'
 }

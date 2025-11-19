@@ -24,12 +24,12 @@ export function AboutSection() {
             <AvatarImage
               src="/images/profile-picture.avif"
               alt="Archie Albarico profile picture"
-              className={cn('object-cover transition-colors duration-300', theme === 'dark' ? 'grayscale-30' : '')}
+              className={cn('object-cover transition-colors duration-300', theme === 'dark' ? 'grayscale-50' : '')}
               loading="eager"
             />
             <AvatarFallback className="bg-primary/10 text-primary text-4xl font-bold">AA</AvatarFallback>
           </Avatar>
-          <div className="glass absolute inset-0 rounded-xl bg-white/10"></div>
+          <div className="glass absolute inset-0 rounded-xl bg-white/20 dark:bg-white/5"></div>
         </div>
 
         <div className="grid w-full grid-cols-1 gap-8 lg:grid-cols-3 lg:gap-12">

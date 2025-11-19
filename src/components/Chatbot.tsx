@@ -112,8 +112,8 @@ export function Chatbot() {
               {messages.map((msg) => (
                 <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
                   <div
-                    className={`max-w-100 rounded-lg p-2.5 text-sm leading-relaxed ${
-                      msg.sender === 'user' ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground shadow-sm'
+                    className={`max-w-100 rounded-lg border p-2.5 text-sm leading-relaxed ${
+                      msg.sender === 'user' ? 'bg-white text-gray-950' : 'bg-[#4e67b0] text-gray-200'
                     }`}
                   >
                     {msg.text === 'typing' ? (

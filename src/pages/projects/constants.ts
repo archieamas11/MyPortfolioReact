@@ -7,8 +7,8 @@ export const projects: Project[] = [
       'GIS-powered cross-platform system for cemetery plot inventory and navigation. Real-time tracking, web/Android apps, turn-by-turn navigation with TTS for Finisterre Gardenz.',
     tags: ['React', 'Tailwind', 'PHP'],
     website: 'https://www.finisterre.site',
-    // link: '#',
     image: '/images/projects/finisterre.avif',
+    platform: 'web',
   },
   {
     title: 'AskMeBot',
@@ -17,6 +17,7 @@ export const projects: Project[] = [
     website: 'https://askmebot.example.com',
     link: '#',
     image: '/images/projects/cemeterease.avif',
+    platform: 'web',
   },
   {
     title: 'Shoptify',
@@ -25,5 +26,24 @@ export const projects: Project[] = [
     tags: ['JAVA', 'MySQL'],
     link: '#',
     image: '/images/projects/shoptify.avif',
+    platform: 'web',
+  },
+  {
+    title: 'Finisterre Mobile',
+    description:
+      'Finisterre Gardenz Mobile is a React Native app that lets users locate graves, check their owned plots, stay updated with news, offers, and announcements, and view plot availability even without internet.',
+    tags: ['React Native', 'PHP'],
+    link: '#',
+    image: '/images/projects/finisterre-mobile.avif',
+    platform: 'mobile',
+  },
+  {
+    title: 'Self Thoughts',
+    description:
+      'A digital diary application built with React Native that allows users to write and manage journal entries. It supports cross-device sync with Firebase, offline access, and features like undo/redo and auto-save for a seamless writing experience.',
+    tags: ['React Native', 'SQLite', 'Expo'],
+    link: 'https://github.com/archieamas11/self-thoughts',
+    image: '/images/projects/self-thoughts.avif',
+    platform: 'mobile',
   },
 ]
