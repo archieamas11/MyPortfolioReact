@@ -50,7 +50,7 @@ const NavigationItem = ({
                 `ease-[${BOUNCE_CURVE}]`,
                 {
                   'h-6 w-6 scale-100': !isMini,
-                  'h-4 w-4 scale-90': isMini,
+                  'h-5 w-5 scale-90': isMini,
                   'scale-125 rotate-0': isActive,
                   'h-5 w-5': isMobile,
                 },
