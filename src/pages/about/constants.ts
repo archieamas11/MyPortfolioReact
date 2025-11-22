@@ -1,3 +1,5 @@
+import { BsDiscord } from 'react-icons/bs'
+import { FaTelegramPlane } from 'react-icons/fa'
 import {
   Phone,
   Facebook,
@@ -15,6 +17,7 @@ import {
   ChefHat,
   PenTool,
   Trophy,
+  Instagram,
 } from 'lucide-react'
 import Html5Original from 'devicons-react/icons/Html5Original'
 import Css3Original from 'devicons-react/icons/Css3Original'
@@ -49,10 +52,13 @@ export const interests = [
 ]
 
 export const personalDetails = [
-  { icon: Phone, label: 'Phone', value: '+63 963 463 6306', href: 'tel:+639634636306' },
   { icon: Facebook, label: 'Facebook', value: 'archie.albarico88', href: 'https://www.facebook.com/archie.albarico88' },
-  { icon: Mail, label: 'Email', value: 'archiealbarico69@gmail.com', href: 'mailto:archiealbarico69@gmail.com' },
+  { icon: Instagram, label: 'Instagram', value: 'chielbrc', href: 'https://www.instagram.com/chielbrc' },
+  { icon: FaTelegramPlane, label: 'Telegram', value: 'rico', href: 'https://t.me/rico' },
+  { icon: BsDiscord, label: 'Discord', value: 'archieamas11', href: 'https://discord.com/users/archieamas11' },
+  { icon: Phone, label: 'Phone', value: '+63 963 463 6306', href: 'tel:+639634636306' },
   { icon: Github, label: 'GitHub', value: 'archieamas11', href: 'https://github.com/archieamas11' },
+  { icon: Mail, label: 'Email', value: 'archiealbarico69@gmail.com', href: 'mailto:archiealbarico69@gmail.com' },
 ]
 
 export const skillsArr: Array<{

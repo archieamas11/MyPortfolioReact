@@ -1,6 +1,6 @@
 import { interests } from '@/pages/about/constants'
-import { InterestTooltip } from './interest-tooltip'
 import { useSequentialReveal } from '@/hooks/useSequentialReveal'
+import { AnimatedTooltip } from '@/components/ui/animated-tooltip'
 
 export function InterestItem() {
   const { containerRef, registerItem } = useSequentialReveal({
@@ -15,7 +15,17 @@ export function InterestItem() {
       <div className="grid grid-cols-3 gap-3">
         {interests.map((interest) => (
           <div key={interest.id} ref={registerItem}>
-            <InterestTooltip label={interest.label} icon={interest.icon} />
+            <AnimatedTooltip
+              label={interest.label}
+              className="bg-card hover:border-primary/20 overflow-hidden rounded-lg border p-2 text-center shadow-sm transition-all duration-200 hover:bg-white/10 hover:shadow-md sm:p-3"
+            >
+              <div className="flex flex-col items-center gap-2 py-2 sm:gap-3 lg:py-0">
+                <div className="text-primary flex h-8 w-8 items-center justify-center rounded-md transition-colors sm:h-10 sm:w-10 lg:h-12 lg:w-12">
+                  <interest.icon size={20} className="sm:h-6 sm:w-6" />
+                </div>
+                <span className="text-muted-foreground not-sr-only text-xs font-medium lg:sr-only">{interest.label}</span>
+              </div>
+            </AnimatedTooltip>
           </div>
         ))}
       </div>

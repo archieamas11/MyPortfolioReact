@@ -201,9 +201,6 @@ html {
     }
   }
 
-  @media screen and (max-width: 375px) {
-    height: 80vw;
-  }
 }
 
 .glass-effect {
