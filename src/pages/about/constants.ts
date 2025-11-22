@@ -58,22 +58,22 @@ export const personalDetails = [
 export const skillsArr: Array<{
   icon: ComponentType<{ size?: string | number }>
   label: string
-  experience: string
+  experience: number
   level: SkillLevel
   progressWidth: string
 }> = [
-  { icon: Html5Original, label: 'HTML5', experience: '3', level: 'intermediate', progressWidth: '70%' },
-  { icon: Css3Original, label: 'CSS3', experience: '3', level: 'intermediate', progressWidth: '70%' },
-  { icon: BootstrapOriginal, label: 'Bootstrap', experience: '2', level: 'intermediate', progressWidth: '60%' },
-  { icon: MysqlOriginal, label: 'MySQL', experience: '2', level: 'intermediate', progressWidth: '60%' },
-  { icon: PhpOriginal, label: 'PHP', experience: '2', level: 'beginner', progressWidth: '30%' },
-  { icon: JavascriptOriginal, label: 'JavaScript', experience: '1', level: 'beginner', progressWidth: '30%' },
-  { icon: ReactOriginal, label: 'React', experience: '1', level: 'beginner', progressWidth: '30%' },
-  { icon: ReactOriginal, label: 'React Native', experience: '1', level: 'beginner', progressWidth: '30%' },
-  { icon: TailwindcssOriginal, label: 'Tailwind CSS', experience: '1', level: 'beginner', progressWidth: '30%' },
-  { icon: TypescriptOriginal, label: 'Typescript', experience: '1', level: 'beginner', progressWidth: '30%' },
-  { icon: CapacitorOriginal, label: 'Capacitor', experience: '1', level: 'beginner', progressWidth: '30%' },
-  { icon: CplusplusOriginal, label: 'C++', experience: '1', level: 'beginner', progressWidth: '30%' },
-  { icon: GitOriginal, label: 'Git', experience: '1', level: 'beginner', progressWidth: '30%' },
-  { icon: QgisIcon, label: 'QGIS', experience: '1', level: 'beginner', progressWidth: '30%' },
+  { icon: Html5Original, label: 'HTML5', experience: 3, level: 'advanced', progressWidth: '70%' },
+  { icon: Css3Original, label: 'CSS3', experience: 3, level: 'intermediate', progressWidth: '70%' },
+  { icon: BootstrapOriginal, label: 'Bootstrap', experience: 2, level: 'intermediate', progressWidth: '60%' },
+  { icon: MysqlOriginal, label: 'MySQL', experience: 2, level: 'intermediate', progressWidth: '60%' },
+  { icon: PhpOriginal, label: 'PHP', experience: 2, level: 'beginner', progressWidth: '30%' },
+  { icon: JavascriptOriginal, label: 'JavaScript', experience: 1, level: 'beginner', progressWidth: '30%' },
+  { icon: ReactOriginal, label: 'React', experience: 1, level: 'beginner', progressWidth: '30%' },
+  { icon: ReactOriginal, label: 'React Native', experience: 1, level: 'beginner', progressWidth: '30%' },
+  { icon: TailwindcssOriginal, label: 'Tailwind CSS', experience: 1, level: 'beginner', progressWidth: '30%' },
+  { icon: TypescriptOriginal, label: 'Typescript', experience: 1, level: 'beginner', progressWidth: '30%' },
+  { icon: CapacitorOriginal, label: 'Capacitor', experience: 1, level: 'beginner', progressWidth: '30%' },
+  { icon: CplusplusOriginal, label: 'C++', experience: 1, level: 'beginner', progressWidth: '30%' },
+  { icon: GitOriginal, label: 'Git', experience: 1, level: 'beginner', progressWidth: '30%' },
+  { icon: QgisIcon, label: 'QGIS', experience: 1, level: 'beginner', progressWidth: '30%' },
 ]

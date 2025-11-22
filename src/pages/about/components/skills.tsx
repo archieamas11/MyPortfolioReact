@@ -86,7 +86,7 @@ function SkillsItems() {
                 </h6>
                 {skill.experience && (
                   <span className="bg-primary/10 rounded-full border px-3 py-1 text-xs font-medium whitespace-nowrap">
-                    {skill.experience}+ {Number(skill.experience) < 2 ? 'Year' : 'Years'}
+                    {skill.experience}+ {skill.experience < 2 ? 'Year' : 'Years'}
                   </span>
                 )}
               </div>
