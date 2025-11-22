@@ -1,4 +1,4 @@
-import { Home, Smile, Code, MessageCircle, Bot } from 'lucide-react'
+import { Home, Smile, CodeXml, MessageCircle, Bot } from 'lucide-react'
 import type { NavItem } from './types'
 
 export const navigationItems: NavItem[] = [
@@ -19,7 +19,7 @@ export const navigationItems: NavItem[] = [
   {
     id: 'projects-nav',
     label: 'Projects',
-    icon: Code,
+    icon: CodeXml,
     href: '#projects',
     ariaLabel: 'Projects - Navigation bar',
   },
