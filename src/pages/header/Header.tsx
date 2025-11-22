@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
+import { motion } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import { useIsMobile } from '@/hooks/use-mobile'
 import type { SectionId } from './types'
@@ -189,7 +190,13 @@ export function HeaderSection() {
   )
 
   return (
-    <nav ref={navRef} className={cn('fixed top-4 left-1/2 z-800 -translate-x-1/2', 'max-md:top-auto max-md:bottom-4 max-md:flex max-md:flex-row')}>
+    <motion.nav
+      ref={navRef}
+      className={cn('fixed top-4 left-1/2 z-800', 'max-md:top-auto max-md:bottom-4 max-md:flex max-md:flex-row')}
+      initial={{ y: -100, x: '-50%', opacity: 0, filter: 'blur(10px)' }}
+      animate={{ y: 0, x: '-50%', opacity: 1, filter: 'blur(0px)', transitionEnd: { filter: 'none' } }}
+      transition={{ duration: 0.8, ease: 'easeOut' }}
+    >
       <Spotlight ProximitySpotlight={true} CursorFlowGradient={true} HoverFocusSpotlight={false} disabled={isSpotlightDisabled}>
         <SpotLightItem className="rounded-2xl">
           {/* Glass effect layers */}
@@ -206,6 +213,6 @@ export function HeaderSection() {
           </div>
         </SpotLightItem>
       </Spotlight>
-    </nav>
+    </motion.nav>
   )
 }
