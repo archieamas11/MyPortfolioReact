@@ -8,7 +8,7 @@ const GlassEffectLayers = ({ isChatbotOpen = false }: GlassEffectLayersProps) =>
   <>
     <div
       className={cn(
-        'glass-effect bg-secondary/70 absolute inset-0 z-10 overflow-hidden rounded-2xl backdrop-blur-sm',
+        'glass-effect bg-secondary/70 bouncy absolute inset-0 z-10 overflow-hidden rounded-2xl backdrop-blur-sm',
         isChatbotOpen && 'bg-secondary/90 backdrop-blur-lg',
       )}
     />

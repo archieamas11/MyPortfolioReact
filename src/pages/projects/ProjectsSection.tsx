@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { useSequentialReveal } from '@/hooks/useSequentialReveal'
 import { projects } from './constants'
 import { ProjectGrid } from './ProjectGrid'
+import { useMemo } from 'react'
 
 export function ProjectsSection() {
   const { containerRef, registerItem } = useSequentialReveal({
@@ -10,8 +11,8 @@ export function ProjectsSection() {
     replay: true,
   })
 
-  const webProjects = projects.filter((p) => p.platform === 'web')
-  const mobileProjects = projects.filter((p) => p.platform === 'mobile')
+  const webProjects = useMemo(() => projects.filter((p) => p.platform === 'web'), [])
+  const mobileProjects = useMemo(() => projects.filter((p) => p.platform === 'mobile'), [])
 
   return (
     <section id="projects" className="section-wrapper">

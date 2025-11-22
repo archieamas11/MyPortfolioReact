@@ -7,7 +7,7 @@ const ThemeToggleItem = ({ isMini, isMobile }: { isMini: boolean; isMobile: bool
     <Tooltip open={!isMobile ? undefined : false}>
       <TooltipTrigger asChild>
         <div
-          className={cn('flex h-15 items-center justify-center transition-all delay-100 duration-500 ease-[cubic-bezier(0.175,0.885,0.32,1.275)]', {
+          className={cn('bouncy flex h-15 items-center justify-center', {
             'scale-100': !isMini || isMobile,
             'scale-75': isMini && !isMobile,
           })}

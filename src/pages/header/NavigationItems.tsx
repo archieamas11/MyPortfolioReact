@@ -20,7 +20,7 @@ const NavigationItem = ({
   const showTooltip = !isActive && !isMobile
 
   return (
-    <li className="mx-1 transition-all delay-100 duration-500 ease-[cubic-bezier(0.175,0.885,0.32,1.275)]">
+    <li className="bouncy mx-1">
       <Tooltip open={showTooltip ? undefined : false}>
         <TooltipTrigger asChild>
           {/* Navigation items */}
@@ -29,7 +29,7 @@ const NavigationItem = ({
             aria-label={item.ariaLabel}
             onClick={(e) => onClick(e, item.href, item.id)}
             className={cn(
-              'text-primary/50 flex flex-col items-center justify-center rounded-lg text-center text-xs no-underline transition-all delay-100 duration-500 ease-[cubic-bezier(0.175,0.885,0.32,1.275)] hover:opacity-100',
+              'text-primary/50 bouncy flex flex-col items-center justify-center rounded-lg text-center text-xs no-underline hover:opacity-100',
               {
                 'text-secondary dark:text-primary border bg-[#4e67b0]': isActive,
                 'h-17 w-17 p-1': !isMini && !isMobile,
@@ -40,7 +40,7 @@ const NavigationItem = ({
           >
             {/* Icon */}
             <Icon
-              className={cn('transition-all delay-100 duration-500 ease-[cubic-bezier(0.175,0.885,0.32,1.275)]', {
+              className={cn('bouncy', {
                 'h-6 w-6': !isMini,
                 'h-4 w-4': isMini,
               })}
@@ -48,7 +48,7 @@ const NavigationItem = ({
 
             {/* Caption */}
             <span
-              className={cn('transition-all delay-100 duration-500 ease-[cubic-bezier(0.175,0.885,0.32,1.275)] max-[480px]:hidden max-md:hidden', {
+              className={cn('bouncy max-[480px]:hidden max-md:hidden', {
                 'h-0 scale-0': !isActive && !isMini,
                 'h-3 scale-110': isActive && !isMini,
                 hidden: isMini,
