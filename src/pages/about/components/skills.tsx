@@ -76,7 +76,7 @@ function SkillsItems() {
                 {skill.level}
               </div>
 
-              <div ref={registerItem} className="mb-3 transition-transform duration-300 group-hover:scale-110">
+              <div ref={registerItem} className="mb-3 transition-transform duration-100 group-hover:scale-110">
                 <Icon size="40" />
               </div>
 
@@ -85,7 +85,9 @@ function SkillsItems() {
                   {skill.label}
                 </h6>
                 {skill.experience && (
-                  <span className="bg-primary/10 rounded-full border px-3 py-1 text-xs font-medium whitespace-nowrap">{skill.experience}</span>
+                  <span className="bg-primary/10 rounded-full border px-3 py-1 text-xs font-medium whitespace-nowrap">
+                    {skill.experience}+ {Number(skill.experience) < 2 ? 'Year' : 'Years'}
+                  </span>
                 )}
               </div>
 
