@@ -181,6 +181,7 @@ html {
   transform: translate(-50%, -50%);
   z-index: 100;
 
+  /* mobile screens */
   @media screen and (max-width: 480px) {
     top: -1px;
     right: 0;
@@ -201,6 +202,10 @@ html {
     }
   }
 
+  /* very small screens */
+  @media screen and (max-width: 375px) {
+    height: 80vw;
+  }
 }
 
 .glass-effect {

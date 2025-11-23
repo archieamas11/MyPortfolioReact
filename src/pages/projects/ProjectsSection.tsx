@@ -3,6 +3,7 @@ import { useSequentialReveal } from '@/hooks/useSequentialReveal'
 import { projects } from './constants'
 import { ProjectGrid } from './ProjectGrid'
 import { useMemo } from 'react'
+import { useIsMobile } from '@/hooks/use-mobile'
 
 export function ProjectsSection() {
   const { containerRef, registerItem } = useSequentialReveal({
@@ -11,6 +12,8 @@ export function ProjectsSection() {
     replay: true,
   })
 
+  const isMobile = useIsMobile()
+
   const webProjects = useMemo(() => projects.filter((p) => p.platform === 'web'), [])
   const mobileProjects = useMemo(() => projects.filter((p) => p.platform === 'mobile'), [])
 
@@ -18,7 +21,7 @@ export function ProjectsSection() {
     <section id="projects" className="section-wrapper">
       <motion.div
         className="mb-10"
-        initial={{ x: -800, opacity: 0, filter: 'blur(8px)' }}
+        initial={{ x: isMobile ? 0 : -800, opacity: 0, filter: 'blur(8px)' }}
         whileInView={{ x: 0, opacity: 1, filter: 'blur(0px)' }}
         transition={{ duration: 0.7 }}
         viewport={{ once: true }}

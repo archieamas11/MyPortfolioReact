@@ -55,6 +55,12 @@ const useScrollDirection = (isMobile: boolean, isChatbotOpen: boolean) => {
   const [lastScrollTop, setLastScrollTop] = useState(0)
 
   useEffect(() => {
+    if (isMobile) {
+      setIsMini(false)
+    }
+  }, [isMobile])
+
+  useEffect(() => {
     const handleScroll = () => {
       const currentScroll = window.pageYOffset || document.documentElement.scrollTop
 
@@ -119,6 +125,21 @@ export function HeaderSection() {
 
   const isMini = useScrollDirection(isMobile, isChatbotOpen)
   const [activeSection, setActiveSection] = useActiveSection(isChatbotOpen)
+
+  const navListRef = useRef<HTMLDivElement>(null)
+  const [navListWidth, setNavListWidth] = useState(0)
+
+  useEffect(() => {
+    const updateWidth = () => {
+      if (navListRef.current) {
+        setNavListWidth(navListRef.current.offsetWidth)
+      }
+    }
+
+    updateWidth()
+    window.addEventListener('resize', updateWidth)
+    return () => window.removeEventListener('resize', updateWidth)
+  }, [isMobile, isMini, activeSection])
 
   useEffect(() => {
     if (isChatbotOpen) {
@@ -192,22 +213,37 @@ export function HeaderSection() {
   return (
     <motion.nav
       ref={navRef}
-      className={cn('fixed top-4 left-1/2 z-800', 'max-md:top-auto max-md:bottom-4 max-md:flex max-md:flex-row')}
-      initial={{ y: -100, x: '-50%', opacity: 0, filter: 'blur(10px)' }}
-      animate={{ y: 0, x: '-50%', opacity: 1, filter: 'blur(0px)', transitionEnd: { filter: 'none' } }}
-      transition={{ duration: 0.8, ease: 'easeOut' }}
+      className={cn(
+        'fixed z-800',
+        isMobile ? 'right-0 bottom-4 left-0 mx-auto flex w-full max-w-[calc(100%-2rem)] justify-center overflow-hidden' : 'top-4 left-1/2',
+      )}
+      initial={isMobile ? { y: 0, x: 0, opacity: 1, filter: 'none' } : { y: -100, x: '-50%', opacity: 0, filter: 'blur(10px)' }}
+      animate={{
+        y: 0,
+        x: isMobile ? 0 : '-50%',
+        opacity: 1,
+        filter: 'blur(0px)',
+        transitionEnd: { filter: 'none' },
+      }}
+      transition={{ duration: isMobile ? 0 : 0.8, ease: 'easeOut' }}
     >
       <Spotlight ProximitySpotlight={true} CursorFlowGradient={true} HoverFocusSpotlight={false} disabled={isSpotlightDisabled}>
-        <SpotLightItem className="rounded-2xl">
+        <SpotLightItem className="bg-transparent">
           {/* Glass effect layers */}
           <GlassEffectLayers isChatbotOpen={isChatbotOpen} />
 
           {/* Content layer */}
-          <div className="relative z-999 flex flex-col">
-            <NavigationList activeSection={activeSection} isMini={isMini} isMobile={isMobile} onNavClick={handleNavClick} />
+          <div className="relative z-999 flex w-full flex-col overflow-hidden">
+            {/* Navigation - ensure it wraps on small screens */}
+            <div ref={navListRef} className={cn('max-w-full overflow-x-auto', isMobile ? 'w-fit' : 'w-full')}>
+              <NavigationList activeSection={activeSection} isMini={isMini} isMobile={isMobile} onNavClick={handleNavClick} />
+            </div>
 
             {/* Chatbot Container */}
-            <div className={cn(isMini ? 'w-[400px]' : 'w-full', isMobile ? 'w-full p-0' : '')}>
+            <div
+              className={cn('w-full', isMini && !isMobile && 'w-[400px]', isMobile && 'max-h-screen p-0')}
+              style={isMobile && navListWidth ? { width: navListWidth } : undefined}
+            >
               <ChatbotContainer isOpen={isChatbotOpen} isMini={isMini} isMobile={isMobile} />
             </div>
           </div>

@@ -22,10 +22,11 @@ export default function HeroSection() {
   return (
     <section id="hero" className="relative flex min-h-screen w-full items-center justify-center overflow-hidden px-4 sm:px-6 lg:px-8">
       <div className="relative z-10 flex min-h-screen w-full flex-col items-center justify-center text-center">
+        {/* TODO: this is also part of the problem that causes overflow alongside with the header  */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={isMobile ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: isMobile ? 0 : 0.5 }}
           className="relative mt-45 flex w-full max-w-7xl justify-center"
         >
           {/* Hero section logo background */}
@@ -47,9 +48,9 @@ export default function HeroSection() {
         {/* Heading */}
         <div className="relative ml-[18px] flex flex-col items-center justify-center space-y-2 px-4 sm:-mt-16 sm:space-y-6 lg:-mt-[87px] lg:space-y-2">
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={isMobile ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
+            transition={{ duration: isMobile ? 0 : 0.7, delay: isMobile ? 0 : 0.2 }}
             className="from-primary font-oswald relative mt-20 bg-gradient-to-b from-50% to-[#4e67b0] to-50% bg-clip-text text-5xl leading-tight font-bold tracking-widest text-transparent lg:mt-0 lg:text-7xl xl:text-[140px]"
           >
             ARCHIE ALBARICO
@@ -57,9 +58,9 @@ export default function HeroSection() {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={isMobile ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
+            transition={{ duration: isMobile ? 0 : 0.5, delay: isMobile ? 0 : 0.4 }}
             className="flex w-full flex-col items-center justify-between gap-4 sm:gap-6 lg:flex-row"
           >
             <h2 className="text-muted-foreground font-base text-sm leading-none lg:text-4xl">Full-Stack Developer</h2>
@@ -78,7 +79,12 @@ export default function HeroSection() {
           </motion.div>
         </div>
         {/* scroll indicator */}
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1, duration: 1 }} className="hidden lg:block">
+        <motion.div
+          initial={isMobile ? { opacity: 1 } : { opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: isMobile ? 0 : 1, duration: isMobile ? 0 : 1 }}
+          className="hidden lg:block"
+        >
           <a
             href="#about-me"
             className="group text-muted-foreground hover:text-foreground absolute bottom-20 inline-flex flex-col items-center gap-1 transition-colors"

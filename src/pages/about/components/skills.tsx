@@ -2,6 +2,7 @@ import { cn } from '@/lib/utils'
 import { skillsArr } from '../constants'
 import { motion } from 'framer-motion'
 import { useSequentialReveal } from '@/hooks/useSequentialReveal'
+import { useIsMobile } from '@/hooks/use-mobile'
 
 function SkillsItems() {
   const { containerRef, registerItem } = useSequentialReveal({
@@ -10,11 +11,13 @@ function SkillsItems() {
     replay: true,
   })
 
+  const isMobile = useIsMobile()
+
   return (
     <div className="space-y-8">
       <motion.div
         className="space-y-2"
-        initial={{ x: 800, opacity: 0, filter: 'blur(8px)' }}
+        initial={{ x: isMobile ? 0 : 800, opacity: 0, filter: 'blur(8px)' }}
         whileInView={{ x: 0, opacity: 1, filter: 'blur(0px)' }}
         transition={{ duration: 0.7 }}
         viewport={{ once: true }}

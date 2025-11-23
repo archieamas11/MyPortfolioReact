@@ -106,7 +106,7 @@ export function Chatbot() {
         <CardHeader>
           <CardTitle className="text-foreground text-base font-semibold">AI Assistant</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-3">
+        <CardContent className="space-y-8">
           <ScrollArea ref={scrollAreaRef} className="h-80 overflow-y-auto pr-3">
             <div className="space-y-5">
               {messages.map((msg) => (
@@ -152,11 +152,10 @@ export function Chatbot() {
                 target.style.height = `${newHeight}px`
                 target.style.overflow = scrollHeight > 200 ? 'auto' : 'hidden'
               }}
-              className="glass-effect min-h-[40px] w-full resize-none rounded-lg py-3 pr-12 leading-relaxed"
+              className="glass-effect min-h-[40px] w-full resize-none rounded-lg py-3"
               onKeyDown={(e) => {
                 handleKeyPress(e)
               }}
-              rows={1}
             />
             <Button
               onClick={sendMessage}
@@ -171,11 +170,6 @@ export function Chatbot() {
                 <ArrowRightIcon className="text-primary-foreground h-4 w-4" />
               )}
             </Button>
-          </div>
-
-          <div className="text-muted-foreground mx-auto w-full max-w-105 text-center text-[8px] lg:text-xs">
-            Powered by a custom RAG-enabled Ollama setup, delivering precise, context-aware responses about my portfolio, projects, and professional
-            experience.
           </div>
         </CardContent>
       </Card>
