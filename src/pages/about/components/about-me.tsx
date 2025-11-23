@@ -6,10 +6,9 @@ export default function AboutMe() {
 
       <div className="text-muted-foreground space-y-4 text-justify text-sm leading-relaxed sm:text-base lg:text-lg">
         <p>
-          I’m Archie Albarico — a developer who loves that moment when an idea stops being theory and becomes a working web app. I learn by diving in,
-          breaking things, fixing them, and pushing until everything feels clean, smooth, and solid. I stay focused on one project at a time, chasing
-          that sweet spot where simple design meets reliable function. If something can be made clearer, faster, or smarter, I’m the type who won’t
-          stop until it is.
+          I’m Archie Albarico — a developer obsessed with turning ideas into fast, clean, reliable web apps. I learn by diving in, breaking things,
+          fixing them, and pushing until everything feels clean, smooth, solid, and still built the “right” way. If it can be faster, more responsive,
+          look better or smarter, I don’t stop until it is.
         </p>
       </div>
       <div className="mt-8 space-y-5 lg:mt-12">

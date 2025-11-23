@@ -6,7 +6,6 @@ import Contact from './components/contact'
 import SkillsItems from './components/skills'
 import { useSequentialReveal } from '@/hooks/useSequentialReveal'
 import { useTheme } from 'next-themes'
-import { cn } from '@/lib/utils'
 
 export function AboutSection() {
   const { theme } = useTheme()
@@ -24,7 +23,7 @@ export function AboutSection() {
             <AvatarImage
               src={theme === 'dark' ? 'images/me-dark.png' : 'images/me-light.jpg'}
               alt="Archie Albarico profile picture"
-              className={cn('object-cover transition-colors duration-300', theme === 'dark' ? 'grayscale-60' : '')}
+              className="object-cover transition-colors duration-300"
               loading="eager"
             />
             <AvatarFallback className="text-primary bg-transparent text-4xl font-bold">AA</AvatarFallback>

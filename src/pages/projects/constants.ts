@@ -13,7 +13,7 @@ export const projects: Project[] = [
   {
     title: 'AskMeBot',
     description: 'Chatbot that gives replies based on stored FAQs in a vector database. No made-up answers. Clear and direct info only.',
-    tags: ['Chatbot', 'RAG', 'AI'],
+    tags: ['React', 'RAG', 'AI'],
     website: 'https://askmebot.example.com',
     link: '#',
     image: '/images/projects/cemeterease.avif',
