@@ -22,12 +22,12 @@ export function AboutSection() {
         <div className="relative mx-auto p-2 lg:mx-0">
           <Avatar className="h-full w-full rounded-lg shadow-lg lg:h-full lg:w-80" ref={registerItem}>
             <AvatarImage
-              src="/images/profile-picture.avif"
+              src={theme === 'dark' ? 'images/me-dark.png' : 'images/me-light.jpg'}
               alt="Archie Albarico profile picture"
               className={cn('object-cover transition-colors duration-300', theme === 'dark' ? 'grayscale-60' : '')}
               loading="eager"
             />
-            <AvatarFallback className="bg-primary/10 text-primary text-4xl font-bold">AA</AvatarFallback>
+            <AvatarFallback className="text-primary bg-transparent text-4xl font-bold">AA</AvatarFallback>
           </Avatar>
           <div className="glass absolute inset-0 rounded-xl bg-white/20 dark:bg-white/5"></div>
         </div>

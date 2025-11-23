@@ -152,7 +152,7 @@ export function Chatbot() {
                 target.style.height = `${newHeight}px`
                 target.style.overflow = scrollHeight > 200 ? 'auto' : 'hidden'
               }}
-              className="glass-effect min-h-[50px] w-full resize-none rounded-lg py-3 pr-12 leading-relaxed"
+              className="glass-effect min-h-[40px] w-full resize-none rounded-lg py-3 pr-12 leading-relaxed"
               onKeyDown={(e) => {
                 handleKeyPress(e)
               }}
@@ -173,7 +173,7 @@ export function Chatbot() {
             </Button>
           </div>
 
-          <div className="text-muted-foreground mx-auto w-full max-w-105 text-center text-xs">
+          <div className="text-muted-foreground mx-auto w-full max-w-105 text-center text-[8px] lg:text-xs">
             Powered by a custom RAG-enabled Ollama setup, delivering precise, context-aware responses about my portfolio, projects, and professional
             experience.
           </div>
