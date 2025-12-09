@@ -17,9 +17,9 @@ const ThemeToggleItem = ({ isMini, isMobile }: { isMini: boolean; isMobile: bool
             start="right-middle"
             size={isMini && !isMobile ? 'sm' : 'md'}
             className={cn(
-              'hover:text-primary/50 hover:bg-primary/5 dark:hover:bg-primary/5 text-primary/50 m-2 h-full w-full rounded-lg hover:scale-105 hover:cursor-pointer',
+              'hover:text-primary/50 hover:bg-primary/5 dark:hover:bg-primary/5 text-primary/50 m-1.5 h-full w-full rounded-lg hover:scale-105 hover:cursor-pointer',
               isMobile ? 'm-0 h-10 w-10' : '',
-              isMini && !isMobile ? 'm-1 h-16 w-16' : '',
+              isMini && !isMobile ? 'm-3' : '',
             )}
             showLabel={false}
           />
