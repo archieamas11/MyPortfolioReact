@@ -10,8 +10,8 @@ export function ContactSection() {
         <div className="p-0 lg:p-25">
           <h2 className="mb-4 text-3xl font-bold sm:text-4xl md:text-5xl lg:text-6xl">Get In Touch</h2>
           <p className="text-muted-foreground font-base max-w-md text-justify text-lg md:text-xl">
-            I'm always interested in new opportunities. Whether you want to collaborate, discuss a project, or just say hello, I'd love to hear from
-            you!
+            I'm always interested in new opportunities. Whether you want to collaborate, discuss a project, or
+            just say hello, I'd love to hear from you!
           </p>
           <div className="mt-10 flex flex-col gap-2">
             {personalDetails
@@ -62,7 +62,9 @@ export function ContactSection() {
           <Card className="glass-effect bg-black/[0.025]">
             <CardHeader>
               <CardTitle className="text-primary text-xl md:text-2xl">Drop Me a Line</CardTitle>
-              <CardTitle className="text-muted-foreground font-base text-sm">I'd love to hear from you</CardTitle>
+              <CardTitle className="text-muted-foreground font-base text-sm">
+                I'd love to hear from you
+              </CardTitle>
             </CardHeader>
             <CardContent className="mt-5 w-full">
               <ContactForm />

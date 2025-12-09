@@ -21,7 +21,11 @@
     },
     "@21st-dev/magic": {
       "command": "npx",
-      "args": ["-y", "@21st-dev/magic@latest", "API_KEY=\"5f9b167d80ae2b5cd017677f0d3a0030045f78d8e1931854e835193c36f6119e\""]
+      "args": [
+        "-y",
+        "@21st-dev/magic@latest",
+        "API_KEY=\"5f9b167d80ae2b5cd017677f0d3a0030045f78d8e1931854e835193c36f6119e\""
+      ]
     },
     "browsermcp": {
       "command": "npx",

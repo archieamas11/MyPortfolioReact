@@ -16,9 +16,22 @@ const NavigationList = ({
   isMobile: boolean
   onNavClick: (e: React.MouseEvent<HTMLAnchorElement>, href: string, id: string) => void
 }) => (
-  <ul className={cn('bouncy flex list-none flex-row items-center justify-between p-1', isMini ? 'py-1.2' : 'py-2', isMobile ? 'm-0 p-0 pl-1.5' : '')}>
+  <ul
+    className={cn(
+      'bouncy flex list-none flex-row items-center justify-between p-1',
+      isMini ? 'py-1.2' : 'py-2',
+      isMobile ? 'p-0 pl-1.5' : '',
+    )}
+  >
     {navigationItems.map((item) => (
-      <NavigationItem key={item.id} item={item} isActive={activeSection === item.id} isMini={isMini} isMobile={isMobile} onClick={onNavClick} />
+      <NavigationItem
+        key={item.id}
+        item={item}
+        isActive={activeSection === item.id}
+        isMini={isMini}
+        isMobile={isMobile}
+        onClick={onNavClick}
+      />
     ))}
 
     <Separator isMini={isMini} />

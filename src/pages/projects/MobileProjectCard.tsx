@@ -15,7 +15,10 @@ export function MobileProjectCard({ project, registerItem }: MobileProjectCardPr
       <CardContent className="h-full p-0">
         <div className="grid h-full grid-cols-1 md:grid-cols-2">
           {/* Image Section */}
-          <div ref={registerItem} className="from-accent/10 relative flex items-center justify-center bg-gradient-to-br to-transparent p-8">
+          <div
+            ref={registerItem}
+            className="from-accent/10 relative flex items-center justify-center bg-gradient-to-br to-transparent p-8"
+          >
             <div className="relative w-full max-w-[200px] transition-transform duration-500 ease-out group-hover:scale-105 group-hover:rotate-[-2deg]">
               <Iphone src={project.image} />
             </div>
@@ -26,7 +29,11 @@ export function MobileProjectCard({ project, registerItem }: MobileProjectCardPr
             <div className="space-y-4">
               <div className="flex flex-wrap gap-2">
                 {project.tags.slice(0, 3).map((t) => (
-                  <Badge key={t} variant="secondary" className="bg-white/10 transition-colors hover:bg-white/20">
+                  <Badge
+                    key={t}
+                    variant="secondary"
+                    className="bg-white/10 transition-colors hover:bg-white/20"
+                  >
                     {t}
                   </Badge>
                 ))}
@@ -34,7 +41,9 @@ export function MobileProjectCard({ project, registerItem }: MobileProjectCardPr
 
               <div className="space-y-2">
                 <h3 className="text-foreground text-2xl font-bold tracking-tight">{project.title}</h3>
-                <p className="text-muted-foreground text-justify text-sm leading-relaxed">{project.description}</p>
+                <p className="text-muted-foreground text-justify text-sm leading-relaxed">
+                  {project.description}
+                </p>
               </div>
             </div>
 

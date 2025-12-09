@@ -211,9 +211,15 @@ export function HeaderSection() {
       ref={navRef}
       className={cn(
         'fixed z-800',
-        isMobile ? 'right-0 bottom-4 left-0 mx-auto flex w-full max-w-[calc(100%-2rem)] justify-center overflow-hidden' : 'top-4 left-1/2',
+        isMobile
+          ? 'max-full right-0 bottom-4 left-0 mx-auto flex w-fit justify-center overflow-hidden'
+          : 'top-4 left-1/2',
       )}
-      initial={isMobile ? { y: 0, x: 0, opacity: 1, filter: 'none' } : { y: -100, x: '-50%', opacity: 0, filter: 'blur(10px)' }}
+      initial={
+        isMobile
+          ? { y: 0, x: 0, opacity: 1, filter: 'none' }
+          : { y: -100, x: '-50%', opacity: 0, filter: 'blur(10px)' }
+      }
       animate={{
         y: 0,
         x: isMobile ? 0 : '-50%',
@@ -230,7 +236,12 @@ export function HeaderSection() {
       <div className="relative z-999 flex w-full flex-col overflow-hidden">
         {/* Navigation - ensure it wraps on small screens */}
         <div ref={navListRef} className={cn('max-w-full overflow-x-auto', isMobile ? 'w-fit' : 'w-full')}>
-          <NavigationList activeSection={activeSection} isMini={isMini} isMobile={isMobile} onNavClick={handleNavClick} />
+          <NavigationList
+            activeSection={activeSection}
+            isMini={isMini}
+            isMobile={isMobile}
+            onNavClick={handleNavClick}
+          />
         </div>
 
         {/* Chatbot Container */}

@@ -11,7 +11,9 @@ export function InterestItem() {
 
   return (
     <div className="col-span-1 w-full space-y-6 lg:space-y-9 lg:text-center" ref={containerRef}>
-      <h1 className="font-oswald text-3xl font-bold tracking-widest sm:text-4xl md:text-5xl lg:text-6xl">INTEREST</h1>
+      <h1 className="font-oswald text-3xl font-bold tracking-widest sm:text-4xl md:text-5xl lg:text-6xl">
+        INTEREST
+      </h1>
       <div className="grid grid-cols-3 gap-3">
         {interests.map((interest) => (
           <div key={interest.id} ref={registerItem}>
@@ -23,7 +25,9 @@ export function InterestItem() {
                 <div className="text-primary flex h-8 w-8 items-center justify-center rounded-md transition-colors sm:h-10 sm:w-10 lg:h-12 lg:w-12">
                   <interest.icon size={20} className="sm:h-6 sm:w-6" />
                 </div>
-                <span className="text-muted-foreground not-sr-only text-xs font-medium lg:sr-only">{interest.label}</span>
+                <span className="text-muted-foreground not-sr-only text-xs font-medium lg:sr-only">
+                  {interest.label}
+                </span>
               </div>
             </AnimatedTooltip>
           </div>

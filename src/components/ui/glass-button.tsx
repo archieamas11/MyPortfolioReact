@@ -31,14 +31,18 @@ const buttonVariants = cva(
   },
 )
 
-export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonVariants> {
   asChild?: boolean
 }
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(({ className, variant, size, asChild = false, ...props }, ref) => {
-  const Comp = asChild ? Slot : 'button'
-  return <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props} />
-})
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ className, variant, size, asChild = false, ...props }, ref) => {
+    const Comp = asChild ? Slot : 'button'
+    return <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props} />
+  },
+)
 Button.displayName = 'Button'
 
 export { Button, buttonVariants, liquidbuttonVariants, LiquidButton }
@@ -49,7 +53,8 @@ const liquidbuttonVariants = cva(
     variants: {
       variant: {
         default: 'bg-transparent hover:scale-105 duration-300 transition text-primary',
-        destructive: 'bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40',
+        destructive:
+          'bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40',
         outline: 'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
         secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
         ghost: 'hover:bg-accent hover:text-accent-foreground',
@@ -86,7 +91,11 @@ function LiquidButton({
 
   return (
     <>
-      <Comp data-slot="button" className={cn('relative', liquidbuttonVariants({ variant, size, className }))} {...props}>
+      <Comp
+        data-slot="button"
+        className={cn('relative', liquidbuttonVariants({ variant, size, className }))}
+        {...props}
+      >
         <div className="absolute top-0 left-0 z-0 h-full w-full rounded-full shadow-[0_0_6px_rgba(0,0,0,0.03),0_2px_6px_rgba(0,0,0,0.08),inset_3px_3px_0.5px_-3px_rgba(0,0,0,0.9),inset_-3px_-3px_0.5px_-3px_rgba(0,0,0,0.85),inset_1px_1px_1px_-0.5px_rgba(0,0,0,0.6),inset_-1px_-1px_1px_-0.5px_rgba(0,0,0,0.6),inset_0_0_6px_6px_rgba(0,0,0,0.12),inset_0_0_2px_2px_rgba(0,0,0,0.06),0_0_12px_rgba(255,255,255,0.15)] transition-all dark:shadow-[0_0_8px_rgba(0,0,0,0.03),0_2px_6px_rgba(0,0,0,0.08),inset_3px_3px_0.5px_-3.5px_rgba(255,255,255,0.09),inset_-3px_-3px_0.5px_-3.5px_rgba(255,255,255,0.85),inset_1px_1px_1px_-0.5px_rgba(255,255,255,0.6),inset_-1px_-1px_1px_-0.5px_rgba(255,255,255,0.6),inset_0_0_6px_6px_rgba(255,255,255,0.12),inset_0_0_2px_2px_rgba(255,255,255,0.06),0_0_12px_rgba(0,0,0,0.15)]" />
         <div
           className="absolute top-0 left-0 isolate -z-10 h-full w-full overflow-hidden rounded-md"
@@ -104,15 +113,35 @@ function GlassFilter() {
   return (
     <svg className="hidden">
       <defs>
-        <filter id="container-glass" x="0%" y="0%" width="100%" height="100%" colorInterpolationFilters="sRGB">
+        <filter
+          id="container-glass"
+          x="0%"
+          y="0%"
+          width="100%"
+          height="100%"
+          colorInterpolationFilters="sRGB"
+        >
           {/* Generate turbulent noise for distortion */}
-          <feTurbulence type="fractalNoise" baseFrequency="0.05 0.05" numOctaves="1" seed="1" result="turbulence" />
+          <feTurbulence
+            type="fractalNoise"
+            baseFrequency="0.05 0.05"
+            numOctaves="1"
+            seed="1"
+            result="turbulence"
+          />
 
           {/* Blur the turbulence pattern slightly */}
           <feGaussianBlur in="turbulence" stdDeviation="2" result="blurredNoise" />
 
           {/* Displace the source graphic with the noise */}
-          <feDisplacementMap in="SourceGraphic" in2="blurredNoise" scale="70" xChannelSelector="R" yChannelSelector="B" result="displaced" />
+          <feDisplacementMap
+            in="SourceGraphic"
+            in2="blurredNoise"
+            scale="70"
+            xChannelSelector="R"
+            yChannelSelector="B"
+            result="displaced"
+          />
 
           {/* Apply overall blur on the final result */}
           <feGaussianBlur in="displaced" stdDeviation="4" result="finalBlur" />
@@ -185,12 +214,20 @@ const colorVariants: Record<
   },
 }
 
-const metalButtonVariants = (variant: ColorVariant = 'default', isPressed: boolean, isHovered: boolean, isTouchDevice: boolean) => {
+const metalButtonVariants = (
+  variant: ColorVariant = 'default',
+  isPressed: boolean,
+  isHovered: boolean,
+  isTouchDevice: boolean,
+) => {
   const colors = colorVariants[variant]
   const transitionStyle = 'all 250ms cubic-bezier(0.1, 0.4, 0.2, 1)'
 
   return {
-    wrapper: cn('relative inline-flex transform-gpu rounded-md p-[1.25px] will-change-transform', colors.outer),
+    wrapper: cn(
+      'relative inline-flex transform-gpu rounded-md p-[1.25px] will-change-transform',
+      colors.outer,
+    ),
     wrapperStyle: {
       transform: isPressed ? 'translateY(2.5px) scale(0.99)' : 'translateY(0) scale(1)',
       boxShadow: isPressed
@@ -235,67 +272,69 @@ const ShineEffect = ({ isPressed }: { isPressed: boolean }) => {
   )
 }
 
-export const MetalButton = React.forwardRef<HTMLButtonElement, MetalButtonProps>(({ children, className, variant = 'default', ...props }, ref) => {
-  const [isPressed, setIsPressed] = React.useState(false)
-  const [isHovered, setIsHovered] = React.useState(false)
-  const [isTouchDevice, setIsTouchDevice] = React.useState(false)
+export const MetalButton = React.forwardRef<HTMLButtonElement, MetalButtonProps>(
+  ({ children, className, variant = 'default', ...props }, ref) => {
+    const [isPressed, setIsPressed] = React.useState(false)
+    const [isHovered, setIsHovered] = React.useState(false)
+    const [isTouchDevice, setIsTouchDevice] = React.useState(false)
 
-  React.useEffect(() => {
-    setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0)
-  }, [])
+    React.useEffect(() => {
+      setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0)
+    }, [])
 
-  const buttonText = children || 'Button'
-  const variants = metalButtonVariants(variant, isPressed, isHovered, isTouchDevice)
+    const buttonText = children || 'Button'
+    const variants = metalButtonVariants(variant, isPressed, isHovered, isTouchDevice)
 
-  const handleInternalMouseDown = () => {
-    setIsPressed(true)
-  }
-  const handleInternalMouseUp = () => {
-    setIsPressed(false)
-  }
-  const handleInternalMouseLeave = () => {
-    setIsPressed(false)
-    setIsHovered(false)
-  }
-  const handleInternalMouseEnter = () => {
-    if (!isTouchDevice) {
-      setIsHovered(true)
+    const handleInternalMouseDown = () => {
+      setIsPressed(true)
     }
-  }
-  const handleInternalTouchStart = () => {
-    setIsPressed(true)
-  }
-  const handleInternalTouchEnd = () => {
-    setIsPressed(false)
-  }
-  const handleInternalTouchCancel = () => {
-    setIsPressed(false)
-  }
+    const handleInternalMouseUp = () => {
+      setIsPressed(false)
+    }
+    const handleInternalMouseLeave = () => {
+      setIsPressed(false)
+      setIsHovered(false)
+    }
+    const handleInternalMouseEnter = () => {
+      if (!isTouchDevice) {
+        setIsHovered(true)
+      }
+    }
+    const handleInternalTouchStart = () => {
+      setIsPressed(true)
+    }
+    const handleInternalTouchEnd = () => {
+      setIsPressed(false)
+    }
+    const handleInternalTouchCancel = () => {
+      setIsPressed(false)
+    }
 
-  return (
-    <div className={variants.wrapper} style={variants.wrapperStyle}>
-      <div className={variants.inner} style={variants.innerStyle}></div>
-      <button
-        ref={ref}
-        className={cn(variants.button, className)}
-        style={variants.buttonStyle}
-        {...props}
-        onMouseDown={handleInternalMouseDown}
-        onMouseUp={handleInternalMouseUp}
-        onMouseLeave={handleInternalMouseLeave}
-        onMouseEnter={handleInternalMouseEnter}
-        onTouchStart={handleInternalTouchStart}
-        onTouchEnd={handleInternalTouchEnd}
-        onTouchCancel={handleInternalTouchCancel}
-      >
-        <ShineEffect isPressed={isPressed} />
-        {buttonText}
-        {isHovered && !isPressed && !isTouchDevice && (
-          <div className="pointer-events-none absolute inset-0 rounded-lg bg-gradient-to-t from-transparent to-white/5" />
-        )}
-      </button>
-    </div>
-  )
-})
+    return (
+      <div className={variants.wrapper} style={variants.wrapperStyle}>
+        <div className={variants.inner} style={variants.innerStyle}></div>
+        <button
+          ref={ref}
+          className={cn(variants.button, className)}
+          style={variants.buttonStyle}
+          {...props}
+          onMouseDown={handleInternalMouseDown}
+          onMouseUp={handleInternalMouseUp}
+          onMouseLeave={handleInternalMouseLeave}
+          onMouseEnter={handleInternalMouseEnter}
+          onTouchStart={handleInternalTouchStart}
+          onTouchEnd={handleInternalTouchEnd}
+          onTouchCancel={handleInternalTouchCancel}
+        >
+          <ShineEffect isPressed={isPressed} />
+          {buttonText}
+          {isHovered && !isPressed && !isTouchDevice && (
+            <div className="pointer-events-none absolute inset-0 rounded-lg bg-gradient-to-t from-transparent to-white/5" />
+          )}
+        </button>
+      </div>
+    )
+  },
+)
 
 MetalButton.displayName = 'MetalButton'

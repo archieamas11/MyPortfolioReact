@@ -5,7 +5,15 @@ import { z } from 'zod'
 import { useRef } from 'react'
 import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile'
 import { Button } from '@/components/ui/button'
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
@@ -116,7 +124,11 @@ export default function ContactForm() {
             <FormItem>
               <FormLabel>Message</FormLabel>
               <FormControl>
-                <Textarea placeholder="Tell me about your project, idea, or how we can work together..." className="h-30 resize-none" {...field} />
+                <Textarea
+                  placeholder="Tell me about your project, idea, or how we can work together..."
+                  className="h-30 resize-none"
+                  {...field}
+                />
               </FormControl>
               <FormDescription className="sr-only">message</FormDescription>
               <FormMessage />

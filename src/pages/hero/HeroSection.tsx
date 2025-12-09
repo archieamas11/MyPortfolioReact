@@ -20,7 +20,10 @@ export default function HeroSection() {
   }, [])
 
   return (
-    <section id="hero" className="relative flex min-h-screen w-full items-center justify-center overflow-hidden px-4 sm:px-6 lg:px-8">
+    <section
+      id="hero"
+      className="relative flex min-h-screen w-full items-center justify-center overflow-hidden px-4 sm:px-6 lg:px-8"
+    >
       <div className="relative z-10 flex min-h-screen w-full flex-col items-center justify-center text-center">
         {/* TODO: this is also part of the problem that causes overflow alongside with the header  */}
         <motion.div
@@ -66,7 +69,9 @@ export default function HeroSection() {
             transition={{ duration: isMobile ? 0 : 0.5, delay: isMobile ? 0 : 0.4 }}
             className="flex w-full flex-col items-center justify-between gap-4 sm:gap-6 lg:flex-row"
           >
-            <h2 className="text-muted-foreground font-base text-sm leading-none lg:text-[35px]">Full-Stack Developer</h2>
+            <h2 className="text-muted-foreground font-base text-sm leading-none lg:text-[35px]">
+              Full-Stack Developer
+            </h2>
             <div className="flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row sm:gap-4">
               <a href="#projects" aria-label="View Projects" className="w-full sm:w-auto">
                 <Button className="w-full sm:w-auto" variant={'glass'}>

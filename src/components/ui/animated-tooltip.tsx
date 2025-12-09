@@ -24,7 +24,11 @@ export function AnimatedTooltip({ label, value, children, className }: AnimatedT
   }
 
   return (
-    <div className="group relative cursor-pointer" onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
+    <div
+      className="group relative cursor-pointer"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       <AnimatePresence mode="popLayout">
         {isHovered && !isMobile && (
           <motion.div

@@ -2,7 +2,11 @@ import { useTheme } from 'next-themes'
 import React from 'react'
 import { SunIcon, MoonIcon } from 'lucide-react'
 
-import { type AnimationStart, type AnimationVariant, createAnimation } from '@/components/provider/theme-animations'
+import {
+  type AnimationStart,
+  type AnimationVariant,
+  createAnimation,
+} from '@/components/provider/theme-animations'
 import { Button } from '@/components/ui/button'
 
 interface ThemeToggleAnimationProps {
@@ -75,7 +79,7 @@ export function ThemeToggleButton({
       className={`group ${className}`}
     >
       <span className="sr-only">Theme Toggle </span>
-      <div className="relative flex h-full w-full items-center justify-center">
+      <div className="relative flex h-full w-5 items-center justify-center transition-all delay-75 duration-300 hover:scale-110 hover:rotate-10">
         {/* Avoid hydration mismatch: hide icons until mounted */}
         {mounted ? (
           <>
@@ -97,8 +101,12 @@ export function ThemeToggleButton({
       </div>
       {showLabel && (
         <>
-          <span className="absolute -top-10 hidden rounded-full border px-2 group-hover:block">variant = {variant}</span>
-          <span className="absolute -bottom-10 hidden rounded-full border px-2 group-hover:block">start = {start}</span>
+          <span className="absolute -top-10 hidden rounded-full px-2 group-hover:block">
+            variant = {variant}
+          </span>
+          <span className="absolute -bottom-10 hidden rounded-full px-2 group-hover:block">
+            start = {start}
+          </span>
         </>
       )}
     </Button>

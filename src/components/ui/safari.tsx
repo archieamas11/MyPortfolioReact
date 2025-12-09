@@ -22,7 +22,15 @@ export interface SafariProps extends HTMLAttributes<HTMLDivElement> {
   mode?: SafariMode
 }
 
-export function Safari({ imageSrc, videoSrc, url, mode = 'default', className, style, ...props }: SafariProps) {
+export function Safari({
+  imageSrc,
+  videoSrc,
+  url,
+  mode = 'default',
+  className,
+  style,
+  ...props
+}: SafariProps) {
   const hasVideo = !!videoSrc
   const hasMedia = hasVideo || !!imageSrc
 
@@ -45,7 +53,15 @@ export function Safari({ imageSrc, videoSrc, url, mode = 'default', className, s
             height: `${HEIGHT_PCT}%`,
           }}
         >
-          <video className="block size-full object-cover" src={videoSrc} autoPlay loop muted playsInline preload="metadata" />
+          <video
+            className="block size-full object-cover"
+            src={videoSrc}
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="metadata"
+          />
         </div>
       )}
 
@@ -74,7 +90,10 @@ export function Safari({ imageSrc, videoSrc, url, mode = 'default', className, s
         <defs>
           <mask id="safariPunch" maskUnits="userSpaceOnUse">
             <rect x="0" y="0" width={SAFARI_WIDTH} height={SAFARI_HEIGHT} fill="white" />
-            <path d="M1 52H1201V741C1201 747.075 1196.08 752 1190 752H12C5.92486 752 1 747.075 1 741V52Z" fill="black" />
+            <path
+              d="M1 52H1201V741C1201 747.075 1196.08 752 1190 752H12C5.92486 752 1 747.075 1 741V52Z"
+              fill="black"
+            />
           </mask>
 
           <clipPath id="path0">
@@ -82,7 +101,10 @@ export function Safari({ imageSrc, videoSrc, url, mode = 'default', className, s
           </clipPath>
 
           <clipPath id="roundedBottom">
-            <path d="M1 52H1201V741C1201 747.075 1196.08 752 1190 752H12C5.92486 752 1 747.075 1 741V52Z" fill="white" />
+            <path
+              d="M1 52H1201V741C1201 747.075 1196.08 752 1190 752H12C5.92486 752 1 747.075 1 741V52Z"
+              fill="white"
+            />
           </clipPath>
         </defs>
 

@@ -22,7 +22,9 @@ function SkillsItems() {
         transition={{ duration: 0.7 }}
         viewport={{ once: true }}
       >
-        <h1 className="font-oswald text-3xl font-bold tracking-widest sm:text-4xl md:text-5xl lg:text-6xl">SKILLS</h1>
+        <h1 className="font-oswald text-3xl font-bold tracking-widest sm:text-4xl md:text-5xl lg:text-6xl">
+          SKILLS
+        </h1>
         <p className="text-muted-foreground">My technical skills and proficiency levels</p>
       </motion.div>
 
@@ -79,7 +81,10 @@ function SkillsItems() {
                 {skill.level}
               </div>
 
-              <div ref={registerItem} className="mb-3 transition-transform duration-100 group-hover:scale-110">
+              <div
+                ref={registerItem}
+                className="mb-3 transition-transform duration-100 group-hover:scale-110"
+              >
                 <Icon size="40" />
               </div>
 

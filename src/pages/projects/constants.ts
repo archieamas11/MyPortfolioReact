@@ -12,7 +12,8 @@ export const projects: Project[] = [
   },
   {
     title: 'AskMeBot',
-    description: 'Chatbot that gives replies based on stored FAQs in a vector database. No made-up answers. Clear and direct info only.',
+    description:
+      'Chatbot that gives replies based on stored FAQs in a vector database. No made-up answers. Clear and direct info only.',
     tags: ['React', 'RAG', 'AI'],
     website: 'https://askmebot.example.com',
     link: '#',

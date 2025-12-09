@@ -214,8 +214,7 @@ html {
     inset -3px -3px 0.5px -3px rgba(0, 0, 0, 0.85),
     inset 1px 1px 1px -0.5px rgba(0, 0, 0, 0.6),
     inset -1px -1px 1px -0.5px rgba(0, 0, 0, 0.6),
-    /* inset 0 0 6px 6px rgba(0, 0, 0, 0.12), */
-    inset 0 0 2px 2px rgba(0, 0, 0, 0.06),
+    /* inset 0 0 6px 6px rgba(0, 0, 0, 0.12), */ inset 0 0 2px 2px rgba(0, 0, 0, 0.06),
     0 0 12px rgba(255, 255, 255, 0.15);
   transition: all 0.3s ease;
 }
@@ -226,8 +225,7 @@ html {
     inset -3px -3px 0.5px -3.5px rgba(255, 255, 255, 0.85),
     inset 1px 1px 1px -0.5px rgba(255, 255, 255, 0.6),
     inset -1px -1px 1px -0.5px rgba(255, 255, 255, 0.6),
-    /* inset 0 0 6px 6px rgba(255, 255, 255, 0.12), */
-    inset 0 0 2px 2px rgba(255, 255, 255, 0.06),
+    /* inset 0 0 6px 6px rgba(255, 255, 255, 0.12), */ inset 0 0 2px 2px rgba(255, 255, 255, 0.06),
     0 0 12px rgba(0, 0, 0, 0.15);
   transition: all 0.3s ease;
 }
@@ -237,8 +235,7 @@ html {
     inset 3px 3px 0.5px -3px rgba(0, 0, 0, 0.9),
     inset -3px -3px 0.5px -3px rgba(0, 0, 0, 0.85),
     inset 1px 1px 1px -0.5px rgba(0, 0, 0, 0.6),
-    /* inset 0 0 6px 6px rgba(0, 0, 0, 0.12), */
-    inset 0 0 2px 2px rgba(0, 0, 0, 0.06),
+    /* inset 0 0 6px 6px rgba(0, 0, 0, 0.12), */ inset 0 0 2px 2px rgba(0, 0, 0, 0.06),
     0 0 12px rgba(255, 255, 255, 0.15);
   transition: all 0.3s ease;
 }
@@ -248,8 +245,7 @@ html {
     inset 3px 3px 0.5px -3.5px rgba(255, 255, 255, 0.09),
     inset -3px -3px 0.5px -3.5px rgba(255, 255, 255, 0.85),
     inset 1px 1px 1px -0.5px rgba(255, 255, 255, 0.6),
-    /* inset 0 0 6px 6px rgba(255, 255, 255, 0.12), */
-    inset 0 0 2px 2px rgba(255, 255, 255, 0.06),
+    /* inset 0 0 6px 6px rgba(255, 255, 255, 0.12), */ inset 0 0 2px 2px rgba(255, 255, 255, 0.06),
     0 0 12px rgba(0, 0, 0, 0.15);
   transition: all 0.3s ease;
 }
@@ -305,7 +301,9 @@ html {
   opacity: 0;
   transform: scale(0.9);
   transform-origin: center;
-  transition: transform 0.5s ease-in-out 0.1s, opacity 0.5s ease-in-out 0.1s;
+  transition:
+    transform 0.5s ease-in-out 0.1s,
+    opacity 0.5s ease-in-out 0.1s;
   will-change: transform, opacity;
 }
 

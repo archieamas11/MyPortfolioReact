@@ -7,7 +7,12 @@ interface UseIntersectionObserverProps {
   threshold?: number | number[]
 }
 
-export function useIntersectionObserver({ target, root = null, rootMargin = '0%', threshold = 0 }: UseIntersectionObserverProps): boolean {
+export function useIntersectionObserver({
+  target,
+  root = null,
+  rootMargin = '0%',
+  threshold = 0,
+}: UseIntersectionObserverProps): boolean {
   const [isIntersecting, setIsIntersecting] = useState(false)
 
   useEffect(() => {

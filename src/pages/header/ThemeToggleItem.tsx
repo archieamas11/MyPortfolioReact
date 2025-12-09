@@ -7,9 +7,9 @@ const ThemeToggleItem = ({ isMini, isMobile }: { isMini: boolean; isMobile: bool
     <Tooltip open={!isMobile ? undefined : false}>
       <TooltipTrigger asChild>
         <div
-          className={cn('bouncy hover:bg-primary/5 flex h-17 items-center justify-center rounded-lg hover:scale-105', {
-            'scale-100': !isMini || isMobile,
-            'scale-80 p-1 hover:scale-85': isMini && !isMobile,
+          className={cn('bouncy flex h-17 items-center justify-center', {
+            'scale-100 pr-1.5': !isMini || isMobile,
+            'scale-80 hover:scale-85': isMini && !isMobile,
           })}
         >
           <ThemeToggleButton
@@ -17,8 +17,8 @@ const ThemeToggleItem = ({ isMini, isMobile }: { isMini: boolean; isMobile: bool
             start="right-middle"
             size={isMini && !isMobile ? 'sm' : 'md'}
             className={cn(
-              'hover:text-primary/50 text-primary/50 m-2 h-full w-full bg-transparent transition-all duration-200 hover:scale-110 hover:rotate-10 hover:cursor-pointer hover:bg-transparent dark:hover:bg-transparent',
-              isMobile ? 'm-0' : '',
+              'hover:text-primary/50 hover:bg-primary/5 dark:hover:bg-primary/5 text-primary/50 m-2 h-full w-full rounded-lg hover:scale-105 hover:cursor-pointer',
+              isMobile ? 'm-0 h-10 w-10' : '',
             )}
             showLabel={false}
           />

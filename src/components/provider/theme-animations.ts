@@ -1,5 +1,11 @@
 export type AnimationVariant = 'circle' | 'circle-blur' | 'polygon' | 'gif'
-export type AnimationStart = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' | 'center' | 'right-middle'
+export type AnimationStart =
+  | 'top-left'
+  | 'top-right'
+  | 'bottom-left'
+  | 'bottom-right'
+  | 'center'
+  | 'right-middle'
 
 interface Animation {
   name: string
@@ -62,7 +68,11 @@ const getTransformOrigin = (start: AnimationStart) => {
   }
 }
 
-export const createAnimation = (variant: AnimationVariant, start: AnimationStart, url?: string): Animation => {
+export const createAnimation = (
+  variant: AnimationVariant,
+  start: AnimationStart,
+  url?: string,
+): Animation => {
   const svg = generateSVG(variant, start)
   const transformOrigin = getTransformOrigin(start)
 

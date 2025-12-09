@@ -52,13 +52,28 @@ export const interests = [
 ]
 
 export const personalDetails = [
-  { icon: Facebook, label: 'Facebook', value: 'archie.albarico88', href: 'https://www.facebook.com/archie.albarico88' },
+  {
+    icon: Facebook,
+    label: 'Facebook',
+    value: 'archie.albarico88',
+    href: 'https://www.facebook.com/archie.albarico88',
+  },
   { icon: Instagram, label: 'Instagram', value: 'chielbrc', href: 'https://www.instagram.com/chielbrc' },
   { icon: FaTelegramPlane, label: 'Telegram', value: 'rico', href: 'https://t.me/rico' },
-  { icon: BsDiscord, label: 'Discord', value: 'archieamas11', href: 'https://discord.com/users/archieamas11' },
+  {
+    icon: BsDiscord,
+    label: 'Discord',
+    value: 'archieamas11',
+    href: 'https://discord.com/users/archieamas11',
+  },
   { icon: Phone, label: 'Phone', value: '+63 963 463 6306', href: 'tel:+639634636306' },
   { icon: Github, label: 'Github', value: 'archieamas11', href: 'https://github.com/archieamas11' },
-  { icon: Mail, label: 'Email', value: 'archiealbarico69@gmail.com', href: 'mailto:archiealbarico69@gmail.com' },
+  {
+    icon: Mail,
+    label: 'Email',
+    value: 'archiealbarico69@gmail.com',
+    href: 'mailto:archiealbarico69@gmail.com',
+  },
 ]
 
 export const skillsArr: Array<{
@@ -76,7 +91,13 @@ export const skillsArr: Array<{
   { icon: JavascriptOriginal, label: 'JavaScript', experience: 1, level: 'beginner', progressWidth: '30%' },
   { icon: ReactOriginal, label: 'React', experience: 1, level: 'beginner', progressWidth: '30%' },
   { icon: ReactOriginal, label: 'React Native', experience: 1, level: 'beginner', progressWidth: '30%' },
-  { icon: TailwindcssOriginal, label: 'Tailwind CSS', experience: 1, level: 'beginner', progressWidth: '30%' },
+  {
+    icon: TailwindcssOriginal,
+    label: 'Tailwind CSS',
+    experience: 1,
+    level: 'beginner',
+    progressWidth: '30%',
+  },
   { icon: TypescriptOriginal, label: 'Typescript', experience: 1, level: 'beginner', progressWidth: '30%' },
   { icon: CapacitorOriginal, label: 'Capacitor', experience: 1, level: 'beginner', progressWidth: '30%' },
   { icon: CplusplusOriginal, label: 'C++', experience: 1, level: 'beginner', progressWidth: '30%' },

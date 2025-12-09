@@ -102,7 +102,11 @@ export function Chatbot() {
 
   return (
     <div>
-      <Card className="border-none bg-transparent shadow-none" onWheel={(e) => e.stopPropagation()} style={{ overscrollBehavior: 'contain' }}>
+      <Card
+        className="border-none bg-transparent shadow-none"
+        onWheel={(e) => e.stopPropagation()}
+        style={{ overscrollBehavior: 'contain' }}
+      >
         <CardHeader>
           <CardTitle className="text-foreground text-base font-semibold">AI Assistant</CardTitle>
         </CardHeader>
@@ -110,7 +114,10 @@ export function Chatbot() {
           <ScrollArea ref={scrollAreaRef} className="h-80 overflow-y-auto pr-3">
             <div className="space-y-5">
               {messages.map((msg) => (
-                <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
+                <div
+                  key={msg.id}
+                  className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+                >
                   <div
                     className={`max-w-100 rounded-lg border p-2.5 text-sm leading-relaxed ${
                       msg.sender === 'user' ? 'bg-white text-gray-950' : 'bg-[#4e67b0] text-gray-200'
@@ -127,7 +134,13 @@ export function Chatbot() {
                         remarkPlugins={[remarkGfm]}
                         components={{
                           a: ({ ...props }) => (
-                            <a {...props} href={props.href} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline" />
+                            <a
+                              {...props}
+                              href={props.href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-blue-500 underline"
+                            />
                           ),
                         }}
                       >
