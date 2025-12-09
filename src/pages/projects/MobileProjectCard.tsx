@@ -15,7 +15,7 @@ export function MobileProjectCard({ project, registerItem }: MobileProjectCardPr
       <CardContent className="h-full p-0">
         <div className="grid h-full grid-cols-1 md:grid-cols-2">
           {/* Image Section */}
-          <div ref={registerItem} className="from-primary/10 relative flex items-center justify-center bg-gradient-to-br to-transparent p-8">
+          <div ref={registerItem} className="from-accent/10 relative flex items-center justify-center bg-gradient-to-br to-transparent p-8">
             <div className="relative w-full max-w-[200px] transition-transform duration-500 ease-out group-hover:scale-105 group-hover:rotate-[-2deg]">
               <Iphone src={project.image} />
             </div>

@@ -16,7 +16,7 @@ export default function Contact() {
                   rel={detail.href.startsWith('http') ? 'noopener noreferrer' : undefined}
                   className="flex w-full gap-4 py-2 lg:py-0"
                 >
-                  <div className="bg-primary/10 text-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-center transition-colors">
+                  <div className="glass-effect text-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-center transition-colors">
                     <Icon size={12} />
                   </div>
                   <div className="not-sr-only text-left lg:sr-only">

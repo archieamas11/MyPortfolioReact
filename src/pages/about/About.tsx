@@ -1,32 +1,39 @@
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Avatar } from '@/components/ui/avatar'
 import { Separator } from '@/components/ui/separator'
 import { InterestItem } from './components/interest'
 import AboutMe from './components/about-me'
 import Contact from './components/contact'
 import SkillsItems from './components/skills'
-import { useSequentialReveal } from '@/hooks/useSequentialReveal'
 import { useTheme } from 'next-themes'
+import { cn } from '@/lib/utils'
 
 export function AboutSection() {
   const { theme } = useTheme()
-  const { containerRef, registerItem } = useSequentialReveal({
-    delay: 0,
-    threshold: 0.25,
-    replay: true,
-  })
-
   return (
-    <section id="about-me" className="section-wrapper" ref={containerRef}>
+    <section id="about-me" className="section-wrapper">
       <div className="flex flex-col gap-8 lg:flex-row lg:gap-12">
         <div className="relative mx-auto p-2 lg:mx-0">
-          <Avatar className="h-full w-full rounded-lg shadow-lg lg:h-full lg:w-80" ref={registerItem}>
-            <AvatarImage
-              src={theme === 'dark' ? 'images/me-dark.png' : 'images/me-light.jpg'}
-              alt="Archie Albarico profile picture"
-              className="object-cover transition-colors duration-300"
-              loading="eager"
-            />
-            <AvatarFallback className="text-primary bg-transparent text-4xl font-bold">AA</AvatarFallback>
+          <Avatar className="h-full w-full rounded-lg shadow-lg lg:h-full lg:w-80">
+            <div className="relative h-full w-full">
+              <img
+                src="images/me-light.jpg"
+                alt="Archie Albarico profile picture"
+                className={cn(
+                  'absolute inset-0 h-full w-full rounded-lg object-cover transition-opacity duration-300',
+                  theme === 'dark' ? 'opacity-0' : 'opacity-100',
+                )}
+                loading="eager"
+              />
+              <img
+                src="images/me-dark.png"
+                alt="Archie Albarico profile picture"
+                className={cn(
+                  'absolute inset-0 h-full w-full rounded-lg object-cover transition-opacity duration-300',
+                  theme === 'dark' ? 'opacity-100' : 'opacity-0',
+                )}
+                loading="eager"
+              />
+            </div>
           </Avatar>
           <div className="glass absolute inset-0 rounded-xl bg-white/20 dark:bg-white/5"></div>
         </div>

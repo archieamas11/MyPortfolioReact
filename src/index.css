@@ -55,8 +55,8 @@
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  --accent: #4e67b0;
+  --accent-foreground: #e5e5e5;
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
@@ -93,8 +93,8 @@
   --secondary-foreground: oklch(0.985 0 0);
   --muted: oklch(0.269 0 0);
   --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
+  --accent: #4e67b0;
+  --accent-foreground: #e5e5e5;
   --destructive: oklch(0.704 0.191 22.216);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
@@ -315,5 +315,5 @@ html {
 }
 
 .bouncy {
-  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.1s;
+  transition: all 0.3s ease-in-out;
 }

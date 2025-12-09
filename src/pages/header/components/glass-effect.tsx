@@ -2,14 +2,16 @@ import { cn } from '@/lib/utils'
 
 interface GlassEffectLayersProps {
   isChatbotOpen?: boolean
+  isProjectsVisible?: boolean
 }
 
-const GlassEffectLayers = ({ isChatbotOpen = false }: GlassEffectLayersProps) => (
+const GlassEffectLayers = ({ isChatbotOpen = false, isProjectsVisible = false }: GlassEffectLayersProps) => (
   <>
     <div
       className={cn(
-        'glass-effect bg-secondary/70 bouncy absolute inset-0 z-10 overflow-hidden rounded-2xl backdrop-blur-sm',
+        'glass-effect absolute inset-0 z-10 overflow-hidden rounded-2xl backdrop-blur-xl transition-all duration-500',
         isChatbotOpen && 'bg-secondary/90 backdrop-blur-lg',
+        isProjectsVisible && !isChatbotOpen && 'bg-secondary/80',
       )}
     />
   </>

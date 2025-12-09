@@ -2,7 +2,7 @@ export default function AboutMe() {
   return (
     <div className="col-span-1 space-y-2 lg:col-span-2 lg:space-y-4">
       <h1 className="font-oswald text-3xl font-bold tracking-widest sm:text-4xl md:text-5xl lg:text-6xl">HELLO!</h1>
-      <div className="mt-3 hidden h-1 w-16 rounded-full bg-[#4e67b0] lg:block" />
+      <div className="bg-accent mt-3 hidden h-1 w-16 rounded-full lg:block" />
 
       <div className="text-muted-foreground space-y-4 text-justify text-sm leading-relaxed sm:text-base lg:text-lg">
         <p>

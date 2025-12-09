@@ -1,14 +1,14 @@
 import { Button } from '@/components/ui/button'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { useState, useEffect } from 'react'
-import { useTheme } from 'next-themes'
-import { ChevronDown } from 'lucide-react'
+import { Contact, FileUser } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { motion } from 'framer-motion'
 import { useIsMobile } from '@/hooks/use-mobile'
+import { AccentColorSelector } from '@/components/AccentColorSelector'
 
 export default function HeroSection() {
   const [isScrolled, setIsScrolled] = useState(false)
-  const { theme } = useTheme()
   const isMobile = useIsMobile()
 
   useEffect(() => {
@@ -36,10 +36,10 @@ export default function HeroSection() {
           <a href="#hero" aria-label="Go to homepage">
             <img
               id="logo"
-              src={theme === 'dark' ? 'images/aaa-white.png' : 'images/aaa-black.png'}
+              src={'images/aaa-white.png'}
               className={cn(
                 `home-logo glass-effect bg-secondary rounded-full object-contain ${isScrolled ? 'scrolled' : 'border-b-2'}`,
-                isMobile ? '' : 'border-background rounded-full border-15 bg-[#d1d1d1] dark:bg-[#4e67b0]',
+                isMobile ? '' : 'border-background dark:bg-accent bg-accent rounded-full border-15',
               )}
             />
           </a>
@@ -47,14 +47,17 @@ export default function HeroSection() {
 
         {/* Heading */}
         <div className="relative ml-[18px] flex flex-col items-center justify-center space-y-2 px-4 sm:-mt-16 sm:space-y-6 lg:-mt-[87px] lg:space-y-2">
+          <div className="absolute right-5 bottom-84">
+            <AccentColorSelector />
+          </div>
           <motion.div
             initial={isMobile ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: isMobile ? 0 : 0.7, delay: isMobile ? 0 : 0.2 }}
-            className="from-primary font-oswald relative mt-20 bg-gradient-to-b from-50% to-[#4e67b0] to-50% bg-clip-text text-5xl leading-tight font-bold tracking-widest text-transparent lg:mt-0 lg:text-7xl xl:text-[140px]"
+            className="from-primary font-oswald to-accent relative mt-20 bg-gradient-to-b from-50% to-50% bg-clip-text text-5xl leading-tight font-bold tracking-widest text-transparent lg:mt-0 lg:text-7xl xl:text-[140px]"
           >
             ARCHIE ALBARICO
-            <span className="from-primary/10 absolute inset-0 -z-10 bg-gradient-to-b to-[#4e67b0]/30 opacity-50 blur-xl" />
+            <span className="from-primary/10 to-accent/30 absolute inset-0 -z-10 bg-gradient-to-b opacity-50 blur-xl" />
           </motion.div>
 
           <motion.div
@@ -63,37 +66,27 @@ export default function HeroSection() {
             transition={{ duration: isMobile ? 0 : 0.5, delay: isMobile ? 0 : 0.4 }}
             className="flex w-full flex-col items-center justify-between gap-4 sm:gap-6 lg:flex-row"
           >
-            <h2 className="text-muted-foreground font-base text-sm leading-none lg:text-4xl">Full-Stack Developer</h2>
+            <h2 className="text-muted-foreground font-base text-sm leading-none lg:text-[35px]">Full-Stack Developer</h2>
             <div className="flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row sm:gap-4">
               <a href="#projects" aria-label="View Projects" className="w-full sm:w-auto">
-                <Button size="lg" className="w-full sm:w-auto">
-                  View Projects
+                <Button className="w-full sm:w-auto" variant={'glass'}>
+                  <FileUser />
+                  Resume
                 </Button>
               </a>
-              <a href="#contact" aria-label="Contact Me" className="w-full sm:w-auto">
-                <Button size="lg" className="w-full sm:w-auto" variant="glass">
-                  Contact Me
-                </Button>
-              </a>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <a href="#contact" aria-label="Contact Me" className="w-full sm:w-auto">
+                    <Button size="icon" className="rounded-full" variant="glass">
+                      <Contact />
+                    </Button>
+                  </a>
+                </TooltipTrigger>
+                <TooltipContent>Contact Me</TooltipContent>
+              </Tooltip>
             </div>
           </motion.div>
         </div>
-        {/* scroll indicator */}
-        <motion.div
-          initial={isMobile ? { opacity: 1 } : { opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: isMobile ? 0 : 1, duration: isMobile ? 0 : 1 }}
-          className="hidden lg:block"
-        >
-          <a
-            href="#about-me"
-            className="group text-muted-foreground hover:text-foreground absolute bottom-20 inline-flex flex-col items-center gap-1 transition-colors"
-            aria-label="Scroll to projects"
-          >
-            <span className="text-xs">Scroll</span>
-            <ChevronDown className="size-5 animate-bounce" aria-hidden />
-          </a>
-        </motion.div>
       </div>
     </section>
   )

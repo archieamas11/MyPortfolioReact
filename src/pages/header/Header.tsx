@@ -2,12 +2,12 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import { useIsMobile } from '@/hooks/use-mobile'
+import { useIntersectionObserver } from '@/hooks/useIntersectionObserver'
 import type { SectionId } from './types'
-import { SCROLL_OFFSET, MINI_MODE_THRESHOLD, CHATBOT_CLOSE_DELAY, SCROLL_TOP_OFFSET, CHATBOT_TRANSITION_DURATION } from './constants'
+import { SCROLL_OFFSET, MINI_MODE_THRESHOLD, CHATBOT_CLOSE_DELAY, SCROLL_TOP_OFFSET } from './constants'
 import ChatbotContainer from './ChatbotContainer'
 import NavigationList from './NavigationList'
 import GlassEffectLayers from './components/glass-effect'
-import { SpotLightItem, Spotlight } from '@/components/spotlight'
 
 // Helper Functions
 const getSectionElements = () => ({
@@ -119,7 +119,6 @@ const useClickOutside = (ref: React.RefObject<HTMLElement | null>, isOpen: boole
 
 export function HeaderSection() {
   const [isChatbotOpen, setIsChatbotOpen] = useState(false)
-  const [isSpotlightDisabled, setIsSpotlightDisabled] = useState(false)
   const isMobile = useIsMobile()
   const navRef = useRef<HTMLElement>(null)
 
@@ -128,6 +127,18 @@ export function HeaderSection() {
 
   const navListRef = useRef<HTMLDivElement>(null)
   const [navListWidth, setNavListWidth] = useState(0)
+
+  const [projectsElement, setProjectsElement] = useState<Element | null>(null)
+
+  useEffect(() => {
+    setProjectsElement(document.getElementById('projects'))
+  }, [])
+
+  const isProjectsVisible = useIntersectionObserver({
+    target: projectsElement,
+    threshold: 0,
+    rootMargin: '0px 0px -90% 0px',
+  })
 
   useEffect(() => {
     const updateWidth = () => {
@@ -140,21 +151,6 @@ export function HeaderSection() {
     window.addEventListener('resize', updateWidth)
     return () => window.removeEventListener('resize', updateWidth)
   }, [isMobile, isMini, activeSection])
-
-  useEffect(() => {
-    if (isChatbotOpen) {
-      setIsSpotlightDisabled(true)
-      return
-    }
-
-    const timeoutId = window.setTimeout(() => {
-      setIsSpotlightDisabled(false)
-    }, CHATBOT_TRANSITION_DURATION)
-
-    return () => {
-      window.clearTimeout(timeoutId)
-    }
-  }, [isChatbotOpen])
 
   const handleChatbotClose = useCallback(() => {
     setIsChatbotOpen(false)
@@ -225,30 +221,26 @@ export function HeaderSection() {
         filter: 'blur(0px)',
         transitionEnd: { filter: 'none' },
       }}
-      transition={{ duration: isMobile ? 0 : 0.8, ease: 'easeOut' }}
+      transition={{ duration: isMobile ? 0 : 0.5, ease: 'easeOut' }}
     >
-      <Spotlight ProximitySpotlight={true} CursorFlowGradient={true} HoverFocusSpotlight={false} disabled={isSpotlightDisabled}>
-        <SpotLightItem className="bg-transparent">
-          {/* Glass effect layers */}
-          <GlassEffectLayers isChatbotOpen={isChatbotOpen} />
+      {/* Glass effect layers */}
+      <GlassEffectLayers isChatbotOpen={isChatbotOpen} isProjectsVisible={isProjectsVisible} />
 
-          {/* Content layer */}
-          <div className="relative z-999 flex w-full flex-col overflow-hidden">
-            {/* Navigation - ensure it wraps on small screens */}
-            <div ref={navListRef} className={cn('max-w-full overflow-x-auto', isMobile ? 'w-fit' : 'w-full')}>
-              <NavigationList activeSection={activeSection} isMini={isMini} isMobile={isMobile} onNavClick={handleNavClick} />
-            </div>
+      {/* Content layer */}
+      <div className="relative z-999 flex w-full flex-col overflow-hidden">
+        {/* Navigation - ensure it wraps on small screens */}
+        <div ref={navListRef} className={cn('max-w-full overflow-x-auto', isMobile ? 'w-fit' : 'w-full')}>
+          <NavigationList activeSection={activeSection} isMini={isMini} isMobile={isMobile} onNavClick={handleNavClick} />
+        </div>
 
-            {/* Chatbot Container */}
-            <div
-              className={cn('w-full', isMini && !isMobile && 'w-[400px]', isMobile && 'max-h-screen p-0')}
-              style={isMobile && navListWidth ? { width: navListWidth } : undefined}
-            >
-              <ChatbotContainer isOpen={isChatbotOpen} isMini={isMini} isMobile={isMobile} />
-            </div>
-          </div>
-        </SpotLightItem>
-      </Spotlight>
+        {/* Chatbot Container */}
+        <div
+          className={cn('w-full', isMini && !isMobile && 'w-[400px]', isMobile && 'max-h-screen p-0')}
+          style={isMobile && navListWidth ? { width: navListWidth } : undefined}
+        >
+          <ChatbotContainer isOpen={isChatbotOpen} isMini={isMini} isMobile={isMobile} />
+        </div>
+      </div>
     </motion.nav>
   )
 }
