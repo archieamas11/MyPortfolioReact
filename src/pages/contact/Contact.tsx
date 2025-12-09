@@ -7,7 +7,7 @@ export function ContactSection() {
     <section id="contact" className="section-wrapper">
       <div className="grid w-full grid-cols-1 justify-between gap-20 lg:grid-cols-2 lg:gap-0">
         {/* Left content*/}
-        <div className="p-0 lg:p-25">
+        <div className="p-0">
           <h2 className="mb-4 text-3xl font-bold sm:text-4xl md:text-5xl lg:text-6xl">Get In Touch</h2>
           <p className="text-muted-foreground font-base max-w-md text-justify text-lg md:text-xl">
             I'm always interested in new opportunities. Whether you want to collaborate, discuss a project, or
