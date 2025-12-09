@@ -50,20 +50,16 @@ export function AboutSection() {
       <div className="mt-20 flex w-full flex-col gap-6">
         <Tabs defaultValue="experience">
           <div className="border-b">
-            <TabsList variant="underline" className={'w-full'}>
+            <TabsList variant="underline" className="w-full *:data-[slot=tabs-trigger]:h-12">
               <TabsTab value="experience">Experience</TabsTab>
               <TabsTab value="education">Education</TabsTab>
             </TabsList>
           </div>
-          <TabsPanel value="experience">
-            <p className="text-muted-foreground p-4 text-xs">
-              <ExperiencePage />
-            </p>
+          <TabsPanel value="experience" className="p-2">
+            <ExperiencePage />
           </TabsPanel>
-          <TabsPanel value="education">
-            <p className="text-muted-foreground p-4 text-xs">
-              <EducationPage />
-            </p>
+          <TabsPanel value="education" className="p-2">
+            <EducationPage />
           </TabsPanel>
         </Tabs>
       </div>

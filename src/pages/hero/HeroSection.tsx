@@ -72,17 +72,17 @@ export default function HeroSection() {
             <h2 className="text-muted-foreground font-base text-sm leading-none lg:text-[35px]">
               Full-Stack Developer
             </h2>
-            <div className="flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row sm:gap-4">
-              <a href="#projects" aria-label="View Projects" className="w-full sm:w-auto">
+            <div className="flex w-full flex-row gap-2 sm:w-auto">
+              <a href="#projects" aria-label="View Projects" className="w-[70%] sm:w-auto">
                 <Button className="w-full sm:w-auto" variant={'glass'}>
-                  <FileUser />
                   Resume
+                  <FileUser />
                 </Button>
               </a>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <a href="#contact" aria-label="Contact Me" className="w-full sm:w-auto">
-                    <Button size="icon" className="rounded-full" variant="glass">
+                  <a href="#contact" aria-label="Contact Me" className="flex-1 sm:w-auto">
+                    <Button size="icon" className="w-full rounded-full sm:w-10" variant="glass">
                       <Contact />
                     </Button>
                   </a>
