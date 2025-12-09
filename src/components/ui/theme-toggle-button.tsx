@@ -80,7 +80,6 @@ export function ThemeToggleButton({
     >
       <span className="sr-only">Theme Toggle </span>
       <div className="relative flex h-full w-5 items-center justify-center transition-all delay-75 duration-300 hover:scale-110 hover:rotate-10">
-        {/* Avoid hydration mismatch: hide icons until mounted */}
         {mounted ? (
           <>
             <SunIcon
@@ -95,7 +94,6 @@ export function ThemeToggleButton({
             />
           </>
         ) : (
-          // Placeholder ensures consistent sizing pre-mount
           <div style={{ width: iconSize, height: iconSize }} />
         )}
       </div>
