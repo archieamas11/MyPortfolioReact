@@ -16,7 +16,7 @@ export function AboutSection() {
     <section id="about-me" className="section-wrapper">
       <div className="flex flex-col gap-8 lg:flex-row lg:gap-12">
         <div className="relative mx-auto p-2 lg:mx-0">
-          <Avatar className="h-full w-full rounded-lg shadow-lg lg:h-full lg:w-80">
+          <Avatar className="h-80 w-80 rounded-lg shadow-lg lg:h-full lg:w-80">
             <div className="relative h-full w-full">
               <img
                 src="images/me-light.jpg"
