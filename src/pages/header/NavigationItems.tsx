@@ -34,7 +34,7 @@ const NavigationItem = ({
               'hover:scale-105 active:scale-95',
               'ease-in-out',
               {
-                'text-primary glass-effect scale-105': isActive,
+                'text-accent glass-effect bg-primary/20 scale-105': isActive,
                 'h-17 w-17 scale-100 p-1': !isMini && !isMobile,
                 'h-14 w-14 scale-95': isMini && !isMobile,
                 'h-10 w-10': isMobile,

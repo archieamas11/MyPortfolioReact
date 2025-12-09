@@ -1,5 +1,5 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
-import { Paintbrush } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { cn } from '@/lib/utils'
 
 const PRESET_COLORS = [
   { name: 'Default Blue', value: '#4e67b0' },
@@ -12,18 +12,6 @@ const PRESET_COLORS = [
 
 export function AccentColorSelector() {
   const [accentColor, setAccentColor] = useState('#4e67b0')
-  const [inputColor, setInputColor] = useState('#4e67b0')
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
-
-  useEffect(() => {
-    // Load from local storage
-    const savedColor = localStorage.getItem('accent-color')
-    if (savedColor) {
-      setAccentColor(savedColor)
-      setInputColor(savedColor)
-      updateAccentColor(savedColor)
-    }
-  }, [])
 
   const updateAccentColor = (color: string) => {
     const root = document.documentElement
@@ -32,11 +20,12 @@ export function AccentColorSelector() {
     setAccentColor(color)
   }
 
-  const debouncedUpdate = useCallback((color: string) => {
-    if (timeoutRef.current) clearTimeout(timeoutRef.current)
-    timeoutRef.current = setTimeout(() => {
-      updateAccentColor(color)
-    }, 150)
+  useEffect(() => {
+    // Load from local storage
+    const savedColor = localStorage.getItem('accent-color')
+    if (savedColor) {
+      updateAccentColor(savedColor)
+    }
   }, [])
 
   return (
@@ -44,29 +33,17 @@ export function AccentColorSelector() {
       {PRESET_COLORS.map((color) => (
         <button
           key={color.value}
-          className="border-border ring-offset-background focus:ring-ring h-6 w-6 rounded-full border transition-transform hover:scale-110 focus:ring-2 focus:outline-none"
+          className={cn(
+            'border-border ring-offset-background focus:ring-ring h-6 w-6 rounded-full border transition-transform hover:scale-110 focus:ring-2 focus:outline-none',
+            accentColor === color.value && 'ring-ring ring-2 ring-offset-2',
+          )}
           style={{ backgroundColor: color.value }}
           onClick={() => {
             updateAccentColor(color.value)
-            setInputColor(color.value)
           }}
           title={color.name}
         />
       ))}
-      <div className="bg-border mx-1 h-6 w-px" />
-      <label className="relative flex h-6 w-6 cursor-pointer items-center justify-center transition-transform hover:scale-110">
-        <Paintbrush className="h-4 w-4" style={{ color: accentColor }} />
-        <input
-          type="color"
-          value={inputColor}
-          onInput={(e) => {
-            setInputColor(e.currentTarget.value)
-            debouncedUpdate(e.currentTarget.value)
-          }}
-          className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
-          title="Custom Color"
-        />
-      </label>
     </div>
   )
 }
