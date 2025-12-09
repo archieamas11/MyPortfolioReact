@@ -25,6 +25,7 @@
     "@kibo": "https://www.kibo-ui.com/r/{name}.json",
     "@reui": "https://reui.io/r/{name}.json",
     "@magicui": "https://magicui.design/r/{name}.json",
-    "@kokonutui": "https://kokonutui.com/r/{name}.json"
+    "@kokonutui": "https://kokonutui.com/r/{name}.json",
+    "@coss": "https://coss.com/ui/r/{name}.json"
   }
 }

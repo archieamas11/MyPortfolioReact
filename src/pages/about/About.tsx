@@ -6,6 +6,9 @@ import Contact from './components/contact'
 import SkillsItems from './components/skills'
 import { useTheme } from 'next-themes'
 import { cn } from '@/lib/utils'
+import { Tabs, TabsList, TabsPanel, TabsTab } from '@/components/ui/tabs'
+import ExperiencePage from './experience'
+import EducationPage from './education'
 
 export function AboutSection() {
   const { theme } = useTheme()
@@ -43,6 +46,26 @@ export function AboutSection() {
           <InterestItem />
           <Contact />
         </div>
+      </div>
+      <div className="mt-20 flex w-full flex-col gap-6">
+        <Tabs defaultValue="experience">
+          <div className="border-b">
+            <TabsList variant="underline" className={'w-full'}>
+              <TabsTab value="experience">Experience</TabsTab>
+              <TabsTab value="education">Education</TabsTab>
+            </TabsList>
+          </div>
+          <TabsPanel value="experience">
+            <p className="text-muted-foreground p-4 text-xs">
+              <ExperiencePage />
+            </p>
+          </TabsPanel>
+          <TabsPanel value="education">
+            <p className="text-muted-foreground p-4 text-xs">
+              <EducationPage />
+            </p>
+          </TabsPanel>
+        </Tabs>
       </div>
 
       <Separator className="my-10 sm:my-12" />

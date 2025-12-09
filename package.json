@@ -13,6 +13,7 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@base-ui-components/react": "1.0.0-rc.0",
     "@hookform/resolvers": "^5.2.2",
     "@marsidev/react-turnstile": "^1.3.1",
     "@radix-ui/react-avatar": "^1.1.10",
@@ -22,6 +23,7 @@
     "@radix-ui/react-select": "^2.2.6",
     "@radix-ui/react-separator": "^1.1.7",
     "@radix-ui/react-slot": "^1.2.3",
+    "@radix-ui/react-tabs": "^1.1.13",
     "@radix-ui/react-tooltip": "^1.2.8",
     "@tabler/icons-react": "^3.34.1",
     "@tailwindcss/vite": "^4.1.13",
