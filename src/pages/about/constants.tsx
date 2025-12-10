@@ -33,8 +33,23 @@ import CplusplusOriginal from 'devicons-react/icons/CplusplusOriginal'
 import GitOriginal from 'devicons-react/icons/GitOriginal'
 import { QgisIcon } from '@/components/icons/QgisIcon'
 import type { ComponentType } from 'react'
+import React from 'react'
 
 type SkillLevel = 'advanced' | 'intermediate' | 'beginner'
+
+interface ExperienceItem {
+  date: string
+  role: string
+  company: string
+  points: React.ReactNode
+}
+
+interface EducationItem {
+  level: string
+  logo: string
+  school: string
+  degree: string
+}
 
 export const interests = [
   { icon: Music, label: 'Music', id: 'music' },
@@ -103,4 +118,71 @@ export const skillsArr: Array<{
   { icon: CplusplusOriginal, label: 'C++', experience: 1, level: 'beginner', progressWidth: '30%' },
   { icon: GitOriginal, label: 'Git', experience: 1, level: 'beginner', progressWidth: '30%' },
   { icon: QgisIcon, label: 'QGIS', experience: 1, level: 'beginner', progressWidth: '30%' },
+]
+
+export const experienceData: ExperienceItem[] = [
+  {
+    date: 'November 27-29, 2025',
+    role: 'Software Researcher & Developer',
+    company: "St. Cecilia's College–Cebu, Inc.",
+    points: (
+      <>
+        Presented a research paper and application demo titled "
+        <a
+          href="https://doi.org/10.5281/zenodo.17815901"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline"
+        >
+          Cemeterease: A GIS-Based Cross-Platform Plot Inventory & Navigation System
+        </a>
+        " at the{' '}
+        <a
+          href="https://www.facebook.com/share/p/1BvVv7mneW/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline"
+        >
+          International Conference on Information Technology Education (ICITE 2025)
+        </a>{' '}
+        in Vietnam as one of the representatives of St. Cecilia's College–Cebu, Inc.
+        <img className="mt-5" src="https://zenodo.org/badge/DOI/10.5281/zenodo.17815901.svg" alt="DOI" />
+        <div className="mt-4">
+          <h4 className="mb-2 font-semibold">Key Achievements</h4>
+          <ul className="list-disc space-y-1 pl-5">
+            <li>Developed a full-stack cross-platform application.</li>
+            <li>Integrated GIS mapping for cemetery plot management.</li>
+            <li>Achieved 95% positive feedback from initial demo users.</li>
+          </ul>
+        </div>
+      </>
+    ),
+  },
+]
+
+export const EducationData: EducationItem[] = [
+  {
+    level: 'College',
+    logo: '/images/schools/scc.avif',
+    school: "St. Cecilia's College – Cebu, Inc.",
+    degree: 'Bachelor of Science in Information Technology',
+  },
+  {
+    level: 'Senior High School',
+    logo: '/images/schools/scc.avif',
+    school: "St. Cecilia's College – Cebu, Inc.",
+    degree: 'ICT Strand',
+  },
+  {
+    level: 'Junior High School',
+    logo: '/images/schools/vito.avif',
+    school: 'Vito National High School – Minglanilla',
+    degree: 'Junior High School',
+  },
+  {
+    level: 'Elementary',
+    logo: '/images/schools/mch.avif',
+    school: 'Minglanilla Central School',
+    degree: 'Elementary Education',
+  },
 ]
