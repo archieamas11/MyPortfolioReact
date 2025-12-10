@@ -54,10 +54,10 @@ export default function AboutMe() {
         </h1>
         <div className="space-y-1">
           <p className="text-muted-foreground text-sm leading-relaxed font-bold sm:text-base">
-            2022 - 2026: St. Cecilia's College - Cebu, Inc.
+            2022 - Present: St. Cecilia's College - Cebu, Inc.
           </p>
           <p className="text-muted-foreground text-sm leading-relaxed sm:text-base">
-            Graduated with a Bachelor of Science in Information Technology
+            Bachelor of Science in Information Technology (In Progress)
           </p>
         </div>
       </motion.div>
