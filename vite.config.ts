@@ -14,7 +14,7 @@ const getLastCommitDate = () => {
       .replace(/"/g, '')
     return timestamp
   } catch {
-    return 'December 2025' // Fallback if git is not available
+    return 'December 2025'
   }
 }
 
