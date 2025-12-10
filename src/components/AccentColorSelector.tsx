@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react'
 import { cn } from '@/lib/utils'
 
 const PRESET_COLORS = [
-  { name: 'Default Blue', value: '#4e67b0' },
+  { name: 'Default Rose', value: '#f43f5e' },
+  { name: 'Blue', value: '#4e67b0' },
   { name: 'Emerald', value: '#10b981' },
   { name: 'Amber', value: '#f59e0b' },
-  { name: 'Rose', value: '#f43f5e' },
   { name: 'Cyan', value: '#06b6d4' },
 ]
 
