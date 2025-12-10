@@ -14,7 +14,7 @@ export default function ExperiencePage() {
             transition={{ duration: 0.5, delay: index * 0.1 }}
             className="relative"
           >
-            <div className="bg-background ring-accent absolute top-1.5 -left-[42px] z-10 flex h-4 w-4 items-center justify-center rounded-full ring-2">
+            <div className="bg-background ring-accent absolute -left-[40px] z-10 flex h-4 w-4 items-center justify-center rounded-full ring-2">
               <div className="bg-accent h-2 w-2 rounded-full" />
             </div>
 
