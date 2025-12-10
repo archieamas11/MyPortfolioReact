@@ -8,10 +8,12 @@ export default function AboutMe() {
 
       <div className="text-muted-foreground space-y-4 text-justify text-sm leading-relaxed sm:text-base lg:text-lg">
         <p>
-          I’m Archie Albarico from Philippines 🇵🇭 — a developer obsessed with turning ideas into fast, clean,
-          reliable web apps. I learn by diving in, breaking things, fixing them, and pushing until everything
-          feels clean, smooth, solid, and still built the “right” way. If it can be faster, more responsive,
-          look better or smarter, I don’t stop until it is.
+          I'm Archie Albarico from Philippines{' '}
+          <span className="fi fi-ph inline-flex items-center justify-center align-middle text-sm" /> — a
+          developer obsessed with turning ideas into fast, clean, reliable web apps. I learn by diving in,
+          breaking things, fixing them, and pushing until everything feels clean, smooth, solid, and still
+          built the "right" way. If it can be faster, more responsive, look better or smarter, I don't stop
+          until it is.
         </p>
       </div>
       <div className="mt-8 space-y-5 lg:mt-12">
