@@ -9,13 +9,20 @@ import { cn } from '@/lib/utils'
 import { Tabs, TabsList, TabsPanel, TabsTab } from '@/components/ui/tabs'
 import ExperiencePage from './experience'
 import EducationPage from './education'
+import { motion } from 'framer-motion'
 
 export function AboutSection() {
   const { theme } = useTheme()
   return (
     <section id="about-me" className="section-wrapper">
       <div className="flex flex-col gap-8 lg:flex-row lg:gap-12">
-        <div className="relative mx-auto p-2 lg:mx-0">
+        <motion.div
+          className="relative mx-auto p-2 lg:mx-0"
+          initial={{ opacity: 0, scale: 0.5, rotate: -5 }}
+          whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, type: 'spring', bounce: 0.4 }}
+        >
           <Avatar className="h-80 w-60 rounded-lg shadow-lg lg:h-full lg:w-80">
             <div className="relative h-full w-full">
               <img
@@ -39,7 +46,7 @@ export function AboutSection() {
             </div>
           </Avatar>
           <div className="glass absolute inset-0 rounded-xl bg-white/20 dark:bg-white/5"></div>
-        </div>
+        </motion.div>
 
         <div className="grid w-full grid-cols-1 gap-8 lg:grid-cols-3 lg:gap-12">
           <AboutMe />
@@ -47,7 +54,13 @@ export function AboutSection() {
           <Contact />
         </div>
       </div>
-      <div className="mt-20 flex w-full flex-col gap-6">
+      <motion.div
+        className="mt-20 flex w-full flex-col gap-6"
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.2, duration: 0.6 }}
+      >
         <Tabs defaultValue="experience">
           <div className="border-b">
             <TabsList variant="underline" className="w-full *:data-[slot=tabs-trigger]:h-12">
@@ -62,7 +75,7 @@ export function AboutSection() {
             <EducationPage />
           </TabsPanel>
         </Tabs>
-      </div>
+      </motion.div>
 
       <Separator className="my-10 sm:my-12" />
       <SkillsItems />

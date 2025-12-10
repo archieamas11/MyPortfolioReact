@@ -1,22 +1,49 @@
 import { interests } from '@/pages/about/constants'
-import { useSequentialReveal } from '@/hooks/useSequentialReveal'
 import { AnimatedTooltip } from '@/components/ui/animated-tooltip'
+import { motion } from 'framer-motion'
+
+const container = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.2,
+    },
+  },
+}
+
+const item = {
+  hidden: { opacity: 0, scale: 0.8 },
+  show: { opacity: 1, scale: 1 },
+}
 
 export function InterestItem() {
-  const { containerRef, registerItem } = useSequentialReveal({
-    delay: 10,
-    threshold: 0.25,
-    replay: true,
-  })
-
   return (
-    <div className="col-span-1 w-full space-y-6 lg:space-y-9 lg:text-center" ref={containerRef}>
-      <h1 className="font-oswald text-3xl font-bold tracking-widest sm:text-4xl md:text-5xl lg:text-6xl">
+    <motion.div
+      className="col-span-1 w-full space-y-6 lg:space-y-9 lg:text-center"
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true }}
+    >
+      <motion.h1
+        className="font-oswald text-3xl font-bold tracking-widest sm:text-4xl md:text-5xl lg:text-6xl"
+        initial={{ opacity: 0, y: -20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+      >
         INTEREST
-      </h1>
-      <div className="grid grid-cols-3 gap-3">
+      </motion.h1>
+      <motion.div
+        className="grid grid-cols-3 gap-3"
+        variants={container}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true }}
+      >
         {interests.map((interest) => (
-          <div key={interest.id} ref={registerItem}>
+          <motion.div key={interest.id} variants={item}>
             <AnimatedTooltip
               label={interest.label}
               className="hover:border-primary/20 glass-effect overflow-hidden rounded-lg p-2 text-center shadow-sm transition-all duration-200 hover:bg-white/10 hover:shadow-md sm:p-3"
@@ -30,9 +57,9 @@ export function InterestItem() {
                 </span>
               </div>
             </AnimatedTooltip>
-          </div>
+          </motion.div>
         ))}
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   )
 }

@@ -146,7 +146,9 @@ export const experienceData: ExperienceItem[] = [
           International Conference on Information Technology Education (ICITE 2025)
         </a>{' '}
         in Vietnam as one of the representatives of St. Cecilia's College–Cebu, Inc.
-        <img className="mt-5" src="https://zenodo.org/badge/DOI/10.5281/zenodo.17815901.svg" alt="DOI" />
+        <a href="https://doi.org/10.5281/zenodo.17815901" target="_blank" rel="noopener noreferrer">
+          <img className="mt-5" src="https://zenodo.org/badge/DOI/10.5281/zenodo.17815901.svg" alt="DOI" />
+        </a>
         <div className="mt-4">
           <h4 className="mb-2 font-semibold">Key Achievements</h4>
           <ul className="list-disc space-y-1 pl-5">

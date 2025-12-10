@@ -1,23 +1,31 @@
 import { cn } from '@/lib/utils'
 import { skillsArr } from '../constants'
 import { motion } from 'framer-motion'
-import { useSequentialReveal } from '@/hooks/useSequentialReveal'
 import { useIsMobile } from '@/hooks/use-mobile'
 
-function SkillsItems() {
-  const { containerRef, registerItem } = useSequentialReveal({
-    delay: 0,
-    threshold: 0.25,
-    replay: true,
-  })
+const container = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.05,
+    },
+  },
+}
 
+const item = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0 },
+}
+
+function SkillsItems() {
   const isMobile = useIsMobile()
 
   return (
     <div className="space-y-8">
       <motion.div
         className="space-y-2"
-        initial={{ x: isMobile ? 0 : 800, opacity: 0, filter: 'blur(8px)' }}
+        initial={{ x: isMobile ? 0 : -50, opacity: 0, filter: 'blur(8px)' }}
         whileInView={{ x: 0, opacity: 1, filter: 'blur(0px)' }}
         transition={{ duration: 0.7 }}
         viewport={{ once: true }}
@@ -28,7 +36,13 @@ function SkillsItems() {
         <p className="text-muted-foreground">My technical skills and proficiency levels</p>
       </motion.div>
 
-      <div ref={containerRef} className="grid grid-cols-2 gap-4 py-2 lg:grid-cols-7 lg:gap-6">
+      <motion.div
+        className="grid grid-cols-2 gap-4 py-2 lg:grid-cols-7 lg:gap-6"
+        variants={container}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true }}
+      >
         {skillsArr.map((skill) => {
           const Icon = skill.icon
           const levelVariants = {
@@ -56,11 +70,13 @@ function SkillsItems() {
           }[skill.level]
 
           return (
-            <div
+            <motion.div
               key={skill.label}
+              variants={item}
+              whileHover={{ scale: 1.05, y: -5 }}
               className={cn(
                 'group glass-effect relative flex min-h-[180px] cursor-pointer flex-col items-center overflow-hidden rounded-lg border p-6 transition-all duration-300',
-                'hover:scale-105 hover:bg-gradient-to-b',
+                'hover:bg-gradient-to-b',
                 levelVariants.border,
                 levelVariants.shadow,
                 levelVariants.gradient,
@@ -81,10 +97,7 @@ function SkillsItems() {
                 {skill.level}
               </div>
 
-              <div
-                ref={registerItem}
-                className="mb-3 transition-transform duration-100 group-hover:scale-110"
-              >
+              <div className="mb-3 transition-transform duration-100 group-hover:scale-110">
                 <Icon size="40" />
               </div>
 
@@ -111,10 +124,10 @@ function SkillsItems() {
                   )}
                 />
               </div>
-            </div>
+            </motion.div>
           )
         })}
-      </div>
+      </motion.div>
     </div>
   )
 }
