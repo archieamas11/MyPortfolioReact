@@ -9,9 +9,9 @@ const GlassEffectLayers = ({ isChatbotOpen = false, isProjectsVisible = false }:
   <>
     <div
       className={cn(
-        'glass-effect absolute inset-0 z-10 overflow-hidden rounded-2xl backdrop-blur-xl transition-all duration-500',
+        'glass-effect absolute inset-0 z-10 overflow-hidden rounded-2xl backdrop-blur-3xl transition-all duration-500',
         isChatbotOpen && 'bg-secondary/90 backdrop-blur-lg',
-        isProjectsVisible && !isChatbotOpen && 'bg-secondary/80',
+        isProjectsVisible && !isChatbotOpen && 'bg-secondary',
       )}
     />
   </>

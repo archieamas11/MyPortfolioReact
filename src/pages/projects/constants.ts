@@ -34,7 +34,7 @@ export const projects: Project[] = [
     description:
       'Finisterre Gardenz Mobile is a React Native app that lets users locate graves, check their owned plots, stay updated with news, offers, and announcements, and view plot availability even without internet.',
     tags: ['React Native', 'PHP'],
-    link: 'https://github.com/archieamas11/self-thoughts',
+    website: 'https://www.finisterre.site',
     image: '/images/projects/finisterre-mobile.avif',
     platform: 'mobile',
   },
