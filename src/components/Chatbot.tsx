@@ -120,7 +120,9 @@ export function Chatbot() {
                 >
                   <div
                     className={`max-w-100 rounded-lg border p-2.5 text-sm leading-relaxed ${
-                      msg.sender === 'user' ? 'bg-white text-gray-950' : 'bg-accent text-accent-foreground'
+                      msg.sender === 'user'
+                        ? 'bg-white text-gray-950'
+                        : 'bg-accent/50 text-accent-foreground border font-normal'
                     }`}
                   >
                     {msg.text === 'typing' ? (
