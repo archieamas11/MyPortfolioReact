@@ -10,23 +10,32 @@ export const projects: Project[] = [
     image: '/images/projects/finisterre.avif',
     platform: 'web',
   },
-  {
-    title: 'AskMeBot',
-    description:
-      'Chatbot that gives replies based on stored FAQs in a vector database. No made-up answers. Clear and direct info only.',
-    tags: ['React', 'RAG', 'AI'],
-    website: 'https://askmebot.example.com',
-    link: '#',
-    image: '/images/projects/cemeterease.avif',
-    platform: 'web',
-  },
+  // {
+  //   title: 'AskMeBot',
+  //   description:
+  //     'Chatbot that gives replies based on stored FAQs in a vector database. No made-up answers. Clear and direct info only.',
+  //   tags: ['React', 'RAG', 'AI'],
+  //   website: 'https://askmebot.example.com',
+  //   link: '#',
+  //   image: '/images/projects/cemeterease.avif',
+  //   platform: 'web',
+  // },
   {
     title: 'Shoptify',
     description:
       'Desktop shopping app in Java with Swing and MySQL. Role-based access for customers (browse, cart, checkout, rate) and admins (inventory, reviews). Showcases OOP, GUI, and DB skills.',
-    tags: ['JAVA', 'MySQL'],
+    tags: ['Java', 'MySQL', 'Swing'],
     link: '#',
     image: '/images/projects/shoptify.avif',
+    platform: 'web',
+  },
+  {
+    title: 'Queen’z Retail POS',
+    description:
+      'A desktop POS and inventory system for Queen’z that streamlines sales, tracks stock in real time, shows monthly reports, and supports Excel import.',
+    tags: ['Java', 'MySQL', 'Swing'],
+    link: 'https://github.com/archieamas11/queenz_inventory_system',
+    image: '/images/projects/queenz.avif',
     platform: 'web',
   },
   {
