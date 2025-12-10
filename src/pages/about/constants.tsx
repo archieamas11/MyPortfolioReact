@@ -74,7 +74,7 @@ export const personalDetails = [
     href: 'https://www.facebook.com/archie.albarico88',
   },
   { icon: Instagram, label: 'Instagram', value: 'chielbrc', href: 'https://www.instagram.com/chielbrc' },
-  { icon: FaTelegramPlane, label: 'Telegram', value: 'rico', href: 'https://t.me/rico' },
+  { icon: FaTelegramPlane, label: 'Telegram', value: 'rico', href: 'https://t.me/ricosixnine' },
   {
     icon: BsDiscord,
     label: 'Discord',
