@@ -116,7 +116,7 @@ export const skillsArr: Array<{
   { icon: TypescriptOriginal, label: 'Typescript', experience: 1, level: 'beginner', progressWidth: '30%' },
   { icon: CapacitorOriginal, label: 'Capacitor', experience: 1, level: 'beginner', progressWidth: '30%' },
   { icon: CplusplusOriginal, label: 'C++', experience: 1, level: 'beginner', progressWidth: '30%' },
-  { icon: GitOriginal, label: 'Git', experience: 1, level: 'beginner', progressWidth: '30%' },
+  { icon: GitOriginal, label: 'Git', experience: 2, level: 'beginner', progressWidth: '30%' },
   { icon: QgisIcon, label: 'QGIS', experience: 1, level: 'beginner', progressWidth: '30%' },
 ]
 
