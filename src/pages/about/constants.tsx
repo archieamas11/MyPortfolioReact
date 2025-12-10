@@ -48,7 +48,7 @@ interface EducationItem {
   level: string
   logo: string
   school: string
-  degree: string
+  degree?: string
 }
 
 export const interests = [
@@ -174,15 +174,15 @@ export const EducationData: EducationItem[] = [
     degree: 'ICT Strand',
   },
   {
-    level: 'Junior High School',
+    level: 'Secondary Education',
     logo: '/images/schools/vito.avif',
-    school: 'Vito National High School – Minglanilla',
-    degree: 'Junior High School',
+    school: 'Vito National High School',
+    degree: 'High School',
   },
   {
-    level: 'Elementary',
+    level: 'Primary Education',
     logo: '/images/schools/mch.avif',
     school: 'Minglanilla Central School',
-    degree: 'Elementary Education',
+    degree: 'Elementary School',
   },
 ]

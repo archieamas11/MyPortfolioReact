@@ -31,7 +31,7 @@ export default function EducationPage() {
               <div className="flex flex-col gap-3 pt-1 md:pt-8">
                 <div className="flex items-center gap-2">
                   <Badge variant="outline" className="w-fit gap-2 px-3 py-1 text-sm font-medium">
-                    <span className="text-muted-foreground">0{index + 1}</span>
+                    <span className="text-muted-foreground">0{EducationData.length - index}</span>
                     <span>{item.level}</span>
                   </Badge>
                 </div>
