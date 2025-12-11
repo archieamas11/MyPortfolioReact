@@ -10,7 +10,7 @@ interface WebProjectCardProps {
 
 export function WebProjectCard({ project, registerItem }: WebProjectCardProps) {
   return (
-    <Card className="glass-effect from-accent/5 flex h-full flex-col bg-gradient-to-t to-transparent transition-all hover:scale-[1.02]">
+    <Card className="glass-effect from-accent/4 flex h-full flex-col bg-gradient-to-t to-transparent transition-all hover:scale-[1.02]">
       <CardHeader>
         <CardTitle className="flex flex-col-reverse justify-between gap-4 xl:flex-row">
           <span className="text-foreground text-2xl font-bold tracking-tight lg:text-xl">
