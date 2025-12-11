@@ -1,10 +1,10 @@
 import { toast } from 'sonner'
 import { useForm } from 'react-hook-form'
+import { useFormspark } from '@formspark/use-formspark'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile'
-import { useFormspark } from '@formspark/use-formspark'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -19,13 +19,11 @@ import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 import { contactSchema } from './schema'
-
-const FORMSPARK_FORM_ID = import.meta.env.VITE_FORMSPARK_FORM_ID
-
 export default function ContactForm() {
   const turnstileRef = useRef<TurnstileInstance>(null)
-  const [submit, submitting] = useFormspark({ formId: FORMSPARK_FORM_ID })
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submit, submitting] = useFormspark({
+    formId: import.meta.env.VITE_FORMSPARK_FORM_ID,
+  })
 
   const form = useForm<z.infer<typeof contactSchema>>({
     resolver: zodResolver(contactSchema),
@@ -42,39 +40,31 @@ export default function ContactForm() {
 
   async function onSubmit(values: z.infer<typeof contactSchema>) {
     try {
-      // Honeypot check
       if (values.website || values.phone) {
         toast.error('Bot detected. Submission blocked.')
         return
       }
 
-      // Turnstile verification check
       if (!values.turnstileToken) {
         toast.error('Please complete the verification.')
         return
       }
 
-      setIsSubmitting(true)
-
-      // Submit to Formspark
       await submit({
         full_name: values.full_name,
         email: values.email,
         subject: values.subject,
         message: values.message,
-        turnstileToken: values.turnstileToken,
+        'cf-turnstile-response': values.turnstileToken,
       })
 
-      toast.success("Message sent successfully! I'll get back to you soon.")
+      toast.success('Form submitted successfully!')
 
-      // Reset form and captcha
       turnstileRef.current?.reset()
       form.reset()
     } catch (error) {
       console.error('Form submission error', error)
-      toast.error('Failed to send message. Please try again.')
-    } finally {
-      setIsSubmitting(false)
+      toast.error('Failed to submit the form. Please try again.')
     }
   }
 
@@ -222,14 +212,8 @@ export default function ContactForm() {
           )}
         />
 
-        <Button
-          type="submit"
-          className="w-full"
-          variant={'glass'}
-          size={'xl'}
-          disabled={isSubmitting || submitting}
-        >
-          {isSubmitting || submitting ? 'Sending...' : 'Send Message'}
+        <Button type="submit" className="w-full" variant={'glass'} size={'xl'} disabled={submitting}>
+          {submitting ? 'Sending...' : 'Send Message'}
         </Button>
       </form>
     </Form>
