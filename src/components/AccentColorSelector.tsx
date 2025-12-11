@@ -10,7 +10,7 @@ const PRESET_COLORS = [
 ]
 
 export function AccentColorSelector() {
-  const [accentColor, setAccentColor] = useState('#4e67b0')
+  const [accentColor, setAccentColor] = useState('#f43f5e')
 
   const updateAccentColor = (color: string) => {
     const root = document.documentElement

@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 
 export function ContactSection() {
   return (
-    <section id="contact" className="section-wrapper">
+    <section id="contact" className="section-wrapper overflow-hidden">
       <div className="grid w-full grid-cols-1 justify-between gap-20 lg:grid-cols-2 lg:gap-0">
         {/* Left content*/}
         <motion.div
