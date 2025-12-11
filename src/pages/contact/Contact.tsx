@@ -22,7 +22,7 @@ export function ContactSection() {
           </p>
           <div className="mt-10 flex flex-col gap-2">
             {personalDetails
-              .filter((detail) => ['Facebook', 'Phone', 'Email'].includes(detail.label))
+              .filter((detail) => ['Phone', 'Email'].includes(detail.label))
               .map((detail, index) => (
                 <motion.a
                   key={detail.label}
@@ -56,7 +56,9 @@ export function ContactSection() {
             <div className="text-foreground text-xl font-bold tracking-tight">Follow Me</div>
             <div className="flex gap-2">
               {personalDetails
-                .filter((detail) => ['Telegram', 'Discord', 'Github', 'Instagram'].includes(detail.label))
+                .filter((detail) =>
+                  ['Facebook', 'Telegram', 'Discord', 'Github', 'Instagram'].includes(detail.label),
+                )
                 .map((detail, index) => (
                   <motion.a
                     key={detail.label}
@@ -85,7 +87,7 @@ export function ContactSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <Card className="glass-effect bg-black/[0.025]">
+          <Card className="glass-effect from-accent/3 bg-gradient-to-t to-transparent">
             <CardHeader>
               <CardTitle className="text-primary text-xl md:text-2xl">Drop Me a Line</CardTitle>
               <CardTitle className="text-muted-foreground font-base text-sm">

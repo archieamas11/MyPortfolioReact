@@ -212,7 +212,7 @@ export default function ContactForm() {
           )}
         />
 
-        <Button type="submit" className="w-full" variant={'glass'} size={'xl'} disabled={submitting}>
+        <Button type="submit" className="mt-5 w-full" variant={'glass'} size={'xl'} disabled={submitting}>
           {submitting ? 'Sending...' : 'Send Message'}
         </Button>
       </form>
