@@ -29,7 +29,7 @@ export default function HeroSection() {
           className="relative top-10 flex w-full justify-center lg:top-40"
         >
           {/* Hero section logo background */}
-          <div className="bg-primary/15 bg-effect hidden h-65 w-full rounded-t-3xl sm:block" />
+          <div className="bg-primary/15 bg-effect from-accent/15 hidden h-65 w-full rounded-t-3xl bg-gradient-to-t to-transparent sm:block" />
           <div className="absolute top-45 sm:top-2 sm:right-2">
             <AccentColorSelector />
           </div>
