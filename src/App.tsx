@@ -4,8 +4,12 @@ import { ProjectsSection } from '@/pages/projects/ProjectsSection'
 import { ContactSection } from '@/pages/contact'
 import { Footer } from '@/components/Footer'
 import { HeaderSection } from '@/pages/header'
+import { Toaster } from '@/components/ui/sonner'
+import { useIsMobile } from '@/hooks/use-mobile'
 
 function App() {
+  const isMobile = useIsMobile()
+
   return (
     <div className="relative min-h-screen w-full">
       <HeaderSection />
@@ -16,6 +20,7 @@ function App() {
         <ContactSection />
       </div>
       <Footer />
+      <Toaster richColors position={isMobile ? 'top-center' : 'bottom-right'} />
     </div>
   )
 }
