@@ -26,7 +26,7 @@ export default function HeroSection() {
           initial={isMobile ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: isMobile ? 0 : 0.5 }}
-          className="relative top-30 flex w-full justify-center lg:top-40"
+          className="relative top-20 flex w-full justify-center lg:top-40"
         >
           {/* Hero section logo background */}
           <div className="bg-primary/15 bg-effect hidden h-65 w-full rounded-t-3xl sm:block" />
@@ -82,11 +82,7 @@ export default function HeroSection() {
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <a href="#contact" aria-label="Contact Me" className="flex-1 sm:w-auto">
-                      <Button
-                        size={isMobile ? 'default' : 'icon'}
-                        className={cn('rounded-full', isMobile ? 'bg-accent/30' : '')}
-                        variant="glass"
-                      >
+                      <Button size={isMobile ? 'default' : 'icon'} className="bg-accent/30" variant="glass">
                         <Contact />
                         <span className="block sm:hidden">Contact</span>
                       </Button>
