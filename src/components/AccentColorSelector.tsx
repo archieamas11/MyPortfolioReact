@@ -20,7 +20,6 @@ export function AccentColorSelector() {
   }
 
   useEffect(() => {
-    // Load from local storage
     const savedColor = localStorage.getItem('accent-color')
     if (savedColor) {
       updateAccentColor(savedColor)

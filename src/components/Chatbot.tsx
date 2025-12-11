@@ -177,12 +177,12 @@ export function Chatbot() {
               disabled={isLoading || !input.trim()}
               aria-label="Send message"
               size="icon"
-              className="bg-primary absolute right-2 bottom-2 h-8 w-8 rounded-full"
+              className="bg-accent absolute right-2 bottom-2 h-8 w-8 rounded-full"
             >
               {isLoading ? (
-                <LoaderIcon className="text-primary-foreground h-4 w-4 animate-spin" />
+                <LoaderIcon className="text-accent-foreground h-4 w-4 animate-spin" />
               ) : (
-                <ArrowRightIcon className="text-primary-foreground h-4 w-4" />
+                <ArrowRightIcon className="text-accent-foreground h-4 w-4 shadow-lg" />
               )}
             </Button>
           </div>
