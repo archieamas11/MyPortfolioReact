@@ -266,7 +266,7 @@ html {
 }
 
 .section-wrapper {
-  @apply min-h-[100dvh] w-full px-8 py-25 lg:px-0;
+  @apply min-h-[100dvh] w-full px-8 py-25 lg:px-10 md:px-10 sm:px-10 xl:px-0;
 }
 
 /* Shimmer animation for skill progress bars */

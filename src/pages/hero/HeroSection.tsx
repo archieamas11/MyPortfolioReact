@@ -51,7 +51,7 @@ export default function HeroSection() {
               initial={isMobile ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: isMobile ? 0 : 0.7, delay: isMobile ? 0 : 0.2 }}
-              className="from-primary font-oswald to-accent relative bg-gradient-to-b from-50% to-50% bg-clip-text text-center text-[60px] leading-tight font-bold tracking-widest text-transparent sm:text-[60px] md:text-[70px] lg:text-[100px] xl:text-[140px]"
+              className="from-primary font-oswald to-accent relative ml-0 bg-gradient-to-b from-50% to-50% bg-clip-text text-center text-[60px] leading-tight font-bold tracking-widest text-transparent sm:text-[60px] md:text-[70px] lg:text-[105px] xl:ml-3 xl:text-[140px]"
             >
               ARCHIE ALBARICO
               <span className="from-primary/10 to-accent/30 absolute inset-0 -z-10 bg-gradient-to-b opacity-50 blur-xl" />
@@ -66,7 +66,7 @@ export default function HeroSection() {
               <h2 className="text-muted-foreground font-base text-2xl leading-none lg:text-[35px]">
                 Full-Stack Developer
               </h2>
-              <div className="flex w-full flex-row gap-2 sm:w-auto">
+              <div className="flex w-full max-w-80 flex-row gap-2 border sm:w-auto">
                 <a
                   href="http://localhost:5173/#projects"
                   target="_blank"
