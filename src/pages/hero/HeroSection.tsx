@@ -74,7 +74,7 @@ export default function HeroSection() {
                   aria-label="Download Resume"
                   className="w-[70%] sm:w-auto"
                 >
-                  <Button className="w-full sm:w-auto" variant={'glass'}>
+                  <Button className="bg-accent/30 w-full sm:w-auto" variant={'glass'}>
                     <FileUser />
                     Resume
                   </Button>
@@ -82,7 +82,7 @@ export default function HeroSection() {
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <a href="#contact" aria-label="Contact Me" className="flex-1 sm:w-auto">
-                      <Button size={isMobile ? 'default' : 'icon'} className="bg-accent/30" variant="glass">
+                      <Button size={isMobile ? 'default' : 'icon'} variant="glass">
                         <Contact />
                         <span className="block sm:hidden">Contact</span>
                       </Button>
