@@ -66,7 +66,7 @@ export default function HeroSection() {
               <h2 className="text-muted-foreground font-base text-2xl leading-none lg:text-[35px]">
                 Full-Stack Developer
               </h2>
-              <div className="flex w-full max-w-80 flex-row gap-2 border sm:w-auto">
+              <div className="flex w-full max-w-80 flex-row gap-2 sm:w-auto">
                 <a
                   href="http://localhost:5173/#projects"
                   target="_blank"
