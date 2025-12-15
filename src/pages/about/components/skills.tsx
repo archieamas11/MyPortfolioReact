@@ -2,23 +2,15 @@ import { cn } from '@/lib/utils'
 import { skillsArr } from '../constants'
 import { motion } from 'framer-motion'
 import { useIsMobile } from '@/hooks/use-mobile'
-
-const container = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.05,
-    },
-  },
-}
-
-const item = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0 },
-}
+import { useSequentialReveal } from '@/hooks/useSequentialReveal'
+import { Badge } from '@/components/ui/badge'
 
 function SkillsItems() {
+  const { containerRef, registerItem } = useSequentialReveal({
+    delay: 0,
+    threshold: 0.25,
+    replay: true,
+  })
   const isMobile = useIsMobile()
 
   return (
@@ -36,13 +28,7 @@ function SkillsItems() {
         <p className="text-muted-foreground">My technical skills and proficiency levels</p>
       </motion.div>
 
-      <motion.div
-        className="grid grid-cols-2 gap-4 py-2 lg:grid-cols-7 lg:gap-6"
-        variants={container}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true }}
-      >
+      <motion.div className="grid grid-cols-2 gap-4 py-2 lg:grid-cols-7 lg:gap-6" ref={containerRef}>
         {skillsArr.map((skill) => {
           const Icon = skill.icon
           const levelVariants = {
@@ -70,12 +56,11 @@ function SkillsItems() {
           }[skill.level]
 
           return (
-            <motion.div
+            <div
               key={skill.label}
-              variants={item}
-              whileHover={{ scale: 1.05, y: -5 }}
+              ref={registerItem}
               className={cn(
-                'group glass-effect relative flex min-h-[180px] cursor-pointer flex-col items-center overflow-hidden rounded-lg border p-6 transition-all duration-300',
+                'group glass-effect relative flex cursor-pointer flex-col items-center overflow-hidden rounded-lg border py-8 transition-all duration-300',
                 'hover:bg-gradient-to-b',
                 levelVariants.border,
                 levelVariants.shadow,
@@ -97,8 +82,8 @@ function SkillsItems() {
                 {skill.level}
               </div>
 
-              <div className="mb-3 transition-transform duration-100 group-hover:scale-110">
-                <Icon size="40" />
+              <div className="mb-3 transition-transform duration-600 group-hover:scale-110 group-hover:rotate-6">
+                <Icon size="50" />
               </div>
 
               <div className="flex w-full flex-col items-center gap-1 text-center">
@@ -106,25 +91,31 @@ function SkillsItems() {
                   {skill.label}
                 </h6>
                 {skill.experience && (
-                  <span className="bg-primary/10 rounded-full border px-3 py-1 text-xs font-medium whitespace-nowrap">
+                  <Badge
+                    className={cn('text-primary', {
+                      'border-green-500 bg-green-500/20': skill.level === 'advanced',
+                      'border-yellow-500 bg-yellow-500/20': skill.level === 'intermediate',
+                      'border-red-500 bg-red-500/20': skill.level === 'beginner',
+                    })}
+                  >
                     {skill.experience}+ {skill.experience < 2 ? 'Year' : 'Years'}
-                  </span>
+                  </Badge>
                 )}
               </div>
 
-              <div className="bg-primary/10 mt-4 h-1 w-full overflow-hidden rounded-full">
-                <div
-                  style={{ width: skill.progressWidth }}
-                  className={cn(
-                    'relative h-full overflow-hidden rounded-full transition-[width] duration-1000',
-                    levelVariants.progress,
-                    // Shimmer always visible, animation ONLY on hover
-                    'after:absolute after:inset-0 after:w-full after:bg-gradient-to-r after:from-transparent after:via-white/40 after:to-transparent after:opacity-100',
-                    'group-hover:after:animate-shimmer',
-                  )}
-                />
-              </div>
-            </motion.div>
+              {/* <div className="bg-primary/10 mt-4 h-1 w-full overflow-hidden rounded-full">
+                    <div
+                      style={{ width: skill.progressWidth }}
+                      className={cn(
+                        'relative h-full overflow-hidden rounded-full transition-[width] duration-1000',
+                        levelVariants.progress,
+                        // Shimmer always visible, animation ONLY on hover
+                        'after:absolute after:inset-0 after:w-full after:bg-gradient-to-r after:from-transparent after:via-white/40 after:to-transparent after:opacity-100',
+                        'group-hover:after:animate-shimmer',
+                      )}
+                    />
+                  </div> */}
+            </div>
           )
         })}
       </motion.div>
