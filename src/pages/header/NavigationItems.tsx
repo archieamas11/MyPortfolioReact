@@ -28,7 +28,7 @@ const NavigationItem = ({
             aria-label={item.ariaLabel}
             onClick={(e) => onClick(e, item.href, item.id)}
             className={cn(
-              'text-primary/50 flex flex-col items-center justify-center rounded-lg text-center text-xs no-underline',
+              'group text-primary/50 flex flex-col items-center justify-center rounded-lg text-center text-xs no-underline',
               'hover:bg-primary/5 bg-transparent',
               'transform-gpu transition-all duration-300 will-change-[width,height,transform,background-color]',
               'hover:scale-105 active:scale-95',
@@ -44,7 +44,7 @@ const NavigationItem = ({
             <Icon
               className={cn(
                 'transform-gpu will-change-[width,height,transform]',
-                'transition-all delay-75 duration-300 hover:scale-110 hover:rotate-10',
+                'transition-all delay-75 duration-300 group-hover:scale-110 group-hover:rotate-10',
                 'ease-in-out',
                 {
                   'h-6 w-6 scale-100': !isMini,
