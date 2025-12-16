@@ -68,7 +68,7 @@ export default function HeroSection() {
               </h2>
               <div className="flex w-full max-w-80 flex-row gap-2 sm:w-auto">
                 <a
-                  href="http://localhost:5173/#projects"
+                  href="Resume.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Download Resume"
