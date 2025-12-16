@@ -202,7 +202,8 @@ export default function ContactForm() {
                     }}
                     onExpire={() => {
                       field.onChange('')
-                      toast.warning('Verification expired. Please verify again.')
+                      // toast.warning('Verification expired. Please verify again.')
+                      console.log('Turnstile token expired')
                     }}
                   />
                 </div>
