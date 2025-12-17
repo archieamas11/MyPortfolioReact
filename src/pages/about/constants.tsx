@@ -133,24 +133,31 @@ export const experienceData: ExperienceItem[] = [
     company: "St. Cecilia's College–Cebu, Inc.",
     points: (
       <>
-        Presented a research paper and application demo titled "
-        <a
-          href="https://doi.org/10.5281/zenodo.17815901"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="underline"
-        >
-          Cemeterease: A GIS-Based Cross-Platform Plot Inventory & Navigation System
-        </a>
-        " at the{' '}
-        <a
-          href="https://www.facebook.com/share/p/1BvVv7mneW/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="underline"
-        >
-          International Conference on Information Technology Education (ICITE 2025)
-        </a>{' '}
+        Presented a research paper and application demo titled{' '}
+        <b>
+          "
+          <a
+            href="https://doi.org/10.5281/zenodo.17815901"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline"
+          >
+            Cemeterease: A GIS-Based Cross-Platform Plot Inventory & Navigation System
+          </a>
+          "{' '}
+        </b>
+        at the{' '}
+        <b>
+          {' '}
+          <a
+            href="https://www.facebook.com/share/p/1BvVv7mneW/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline"
+          >
+            International Conference on Information Technology Education (ICITE 2025)
+          </a>{' '}
+        </b>
         in Vietnam as one of the representatives of St. Cecilia's College–Cebu, Inc.
         <a href="https://doi.org/10.5281/zenodo.17815901" target="_blank" rel="noopener noreferrer">
           <img className="mt-5" src="https://zenodo.org/badge/DOI/10.5281/zenodo.17815901.svg" alt="DOI" />
