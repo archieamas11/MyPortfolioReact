@@ -158,9 +158,23 @@ export const experienceData: ExperienceItem[] = [
         <div className="mt-4">
           <h4 className="mb-2 font-semibold">Key Achievements</h4>
           <ul className="list-disc space-y-1 pl-5">
-            <li>Developed a full-stack cross-platform application.</li>
-            <li>Integrated GIS mapping for cemetery plot management.</li>
-            <li>Achieved 95% positive feedback from initial demo users.</li>
+            <li>
+              Developed a <b>full-stack cross-platform web application</b> integrating GIS mapping for
+              cemetery plot management using Agile iterative-driven development.
+            </li>
+            <li>
+              Developed <b>turn-by-turn navigation with voice guidance</b>, enhancing user navigation
+              efficiency by
+              <b> 50%</b>.
+            </li>
+            <li>
+              Implemented real-time inventory tracking, reducing manual errors by <b> 35%</b>.
+            </li>
+            <li>
+              Optimized admin and staff workflow of Finisterre Gardenz, transitioning from{' '}
+              <b>paper-based inventory → Excel → manual map editing → printed maps</b> to a fully digital
+              system, improving operational efficiency by <b>70%</b>.
+            </li>
           </ul>
         </div>
       </>
