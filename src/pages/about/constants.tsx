@@ -29,7 +29,7 @@ import ReactOriginal from 'devicons-react/icons/ReactOriginal'
 import TailwindcssOriginal from 'devicons-react/icons/TailwindcssOriginal'
 import TypescriptOriginal from 'devicons-react/icons/TypescriptOriginal'
 import CapacitorOriginal from 'devicons-react/icons/CapacitorOriginal'
-import CplusplusOriginal from 'devicons-react/icons/CplusplusOriginal'
+import JavaOriginal from 'devicons-react/icons/JavaOriginal'
 import GitOriginal from 'devicons-react/icons/GitOriginal'
 import { QgisIcon } from '@/components/icons/QgisIcon'
 import type { ComponentType } from 'react'
@@ -121,7 +121,7 @@ export const skillsArr: Array<{
   },
   { icon: TypescriptOriginal, label: 'Typescript', experience: 1, level: 'beginner', progressWidth: '100%' },
   { icon: CapacitorOriginal, label: 'Capacitor', experience: 1, level: 'beginner', progressWidth: '100%' },
-  { icon: CplusplusOriginal, label: 'C++', experience: 1, level: 'beginner', progressWidth: '100%' },
+  { icon: JavaOriginal, label: 'Java', experience: 1, level: 'beginner', progressWidth: '100%' },
   { icon: GitOriginal, label: 'Git', experience: 2, level: 'beginner', progressWidth: '100%' },
   { icon: QgisIcon, label: 'QGIS', experience: 1, level: 'beginner', progressWidth: '100%' },
 ]
