@@ -1,7 +1,8 @@
 import { Textarea } from '@/components/ui/textarea'
+import { TypingIndicator } from '@/components/ui/typing-indicator'
 
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
+import { CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { ArrowRightIcon, TrashIcon, StopCircleIcon, AlertCircleIcon } from 'lucide-react'
@@ -10,16 +11,7 @@ import { sendChatMessageStreaming } from '@/api/api.chatbot'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { cn } from '@/lib/utils'
-
-interface Message {
-  id: number
-  text: string
-  sender: 'user' | 'bot'
-  sources?: string[]
-  confidence?: number
-  status?: 'sending' | 'streaming' | 'complete' | 'error'
-  timestamp: number
-}
+import type { Message } from '@/types/types'
 
 const STORAGE_KEY = 'chatbot-messages'
 const MAX_STORED_MESSAGES = 50
@@ -55,17 +47,6 @@ const getInitialMessages = (): Message[] => {
   ]
 }
 
-// Typing indicator component
-function TypingIndicator() {
-  return (
-    <div className="flex items-center gap-1" role="status" aria-label="Bot is typing">
-      <span className="h-2 w-2 animate-bounce rounded-full bg-current [animation-delay:-0.3s]" />
-      <span className="h-2 w-2 animate-bounce rounded-full bg-current [animation-delay:-0.15s]" />
-      <span className="h-2 w-2 animate-bounce rounded-full bg-current" />
-    </div>
-  )
-}
-
 // Message bubble component
 function MessageBubble({ message }: { message: Message }) {
   const isUser = message.sender === 'user'
@@ -81,18 +62,27 @@ function MessageBubble({ message }: { message: Message }) {
       role="listitem"
     >
       <div
-        className={cn('max-w-[85%] rounded-lg border p-2.5 text-sm leading-relaxed', {
-          'bg-white text-gray-950': isUser,
-          'bg-accent/50 text-accent-foreground font-normal': !isUser,
-          'border-destructive/50 bg-destructive/10': isError,
-        })}
+        className={cn(
+          'relative max-w-[78%] rounded-2xl px-3 py-2 text-sm leading-[1.45] break-words shadow-sm',
+          'transition-all',
+          {
+            // User (right)
+            'mr-3 ml-auto rounded-br-md bg-white text-gray-950': isUser,
+
+            // Bot (left)
+            'bg-accent/40 text-primary mr-auto ml-3 rounded-bl-md font-normal': !isUser,
+
+            // Error
+            'border-destructive/50 bg-destructive/10 border': isError,
+          },
+        )}
       >
         {isStreaming && !message.text ? (
           <TypingIndicator />
         ) : isError ? (
           <div className="flex items-start gap-2">
             <AlertCircleIcon className="text-destructive mt-0.5 h-4 w-4 shrink-0" />
-            <span>{message.text}</span>
+            <span className="text-destructive">{message.text}</span>
           </div>
         ) : (
           <ReactMarkdown
@@ -107,12 +97,12 @@ function MessageBubble({ message }: { message: Message }) {
                   className="text-blue-500 underline hover:text-blue-600"
                 />
               ),
-              p: ({ ...props }) => <p {...props} className="mb-2 last:mb-0" />,
-              ul: ({ ...props }) => <ul {...props} className="mb-2 ml-4 list-disc last:mb-0" />,
-              ol: ({ ...props }) => <ol {...props} className="mb-2 ml-4 list-decimal last:mb-0" />,
-              code: ({ ...props }) => (
-                <code {...props} className="bg-muted rounded px-1 py-0.5 font-mono text-xs" />
-              ),
+              p: ({ ...props }) => <p {...props} className="last:mb-0" />,
+              ul: ({ ...props }) => <ul {...props} className="ml-4 list-disc last:mb-0" />,
+              ol: ({ ...props }) => <ol {...props} className="ml-4 list-decimal last:mb-0" />,
+              // code: ({ ...props }) => (
+              //   <code {...props} className="bg-muted rounded px-1 py-0.5 font-mono text-xs" />
+              // ),
             }}
           >
             {message.text}
@@ -126,7 +116,7 @@ function MessageBubble({ message }: { message: Message }) {
   )
 }
 
-export function Chatbot() {
+export function Chatbot({ isMini = false }: { isMini?: boolean }) {
   const [messages, setMessages] = useState<Message[]>(getInitialMessages)
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -373,28 +363,27 @@ export function Chatbot() {
 
   return (
     <div>
-      <Card
-        className="border-none bg-transparent shadow-none"
+      <div
+        className="w-full border-none bg-transparent shadow-none"
         onWheel={(e) => e.stopPropagation()}
         style={{ overscrollBehavior: 'contain' }}
       >
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
+        <CardHeader className="mb-2 flex flex-row items-center justify-between">
           <CardTitle className="text-foreground text-base font-semibold">AI Assistant</CardTitle>
           <Button
             onClick={clearChat}
             disabled={isLoading}
             variant="ghost"
             size="icon"
-            className="h-8 w-8"
             aria-label="Clear chat history"
           >
             <TrashIcon className="h-4 w-4" />
           </Button>
         </CardHeader>
-        <CardContent className="space-y-8">
+        <CardContent className={cn('space-y-8', isMini ? 'pr-2.5' : 'px-6')}>
           <ScrollArea
             ref={scrollAreaRef}
-            className="h-80 max-w-105 overflow-y-auto pr-3"
+            className="h-80 overflow-y-auto lg:h-90"
             role="log"
             aria-label="Chat messages"
             aria-live="polite"
@@ -405,13 +394,13 @@ export function Chatbot() {
               ))}
             </div>
           </ScrollArea>
-          <div className="relative w-full max-w-105 space-y-5">
+          <div className="relative mb-6 w-full max-w-full">
             <Textarea
               ref={textareaRef}
               value={input}
               placeholder={isRateLimited ? 'Please wait before sending another message...' : 'Ask anything'}
               onChange={handleInputChange}
-              className={cn('glass-effect min-h-[40px] w-full resize-none rounded-lg py-3 pr-12', {
+              className={cn('glass-effect min-h-10 w-full resize-none rounded-lg py-3 pr-12', {
                 'opacity-50': isRateLimited,
               })}
               onKeyDown={handleKeyPress}
@@ -425,7 +414,7 @@ export function Chatbot() {
               aria-label={isLoading ? 'Cancel message' : 'Send message'}
               size="icon"
               className={cn(
-                'bg-accent hover:bg-accent/80 absolute right-2 bottom-[7px] h-8 w-8 rounded-full',
+                'bg-accent hover:bg-accent/80 absolute right-2 bottom-1.75 h-8 w-8 rounded-full',
                 isLoading && 'bg-muted-foreground hover:bg-muted-foreground/80',
               )}
             >
@@ -442,7 +431,7 @@ export function Chatbot() {
             </p>
           )}
         </CardContent>
-      </Card>
+      </div>
     </div>
   )
 }
