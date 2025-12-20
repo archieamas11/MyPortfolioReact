@@ -3,38 +3,14 @@ import { motion } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import { useIsMobile } from '@/hooks/use-mobile'
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver'
+import { useScrollDirection } from '@/hooks/useScrollDirection'
+import { useActiveSection, calculateActiveSection } from '@/hooks/useActiveSection'
+import { useClickOutside } from '@/hooks/useClickOutside'
 import type { SectionId } from './types'
-import { SCROLL_OFFSET, MINI_MODE_THRESHOLD, CHATBOT_CLOSE_DELAY, SCROLL_TOP_OFFSET } from './constants'
+import { CHATBOT_CLOSE_DELAY, SCROLL_TOP_OFFSET } from './constants'
 import ChatbotContainer from './ChatbotContainer'
 import NavigationList from './NavigationList'
 import GlassEffectLayers from './components/glass-effect'
-
-// Helper Functions
-const getSectionElements = () => ({
-  hero: document.getElementById('hero'),
-  about: document.getElementById('about-me'),
-  projects: document.getElementById('projects'),
-  contact: document.getElementById('contact'),
-})
-
-const calculateActiveSection = (scrollY: number): SectionId => {
-  const sections = getSectionElements()
-
-  if (!sections.hero || !sections.about || !sections.projects || !sections.contact) {
-    return 'home-nav'
-  }
-
-  if (scrollY < sections.about.offsetTop - SCROLL_OFFSET) {
-    return 'home-nav'
-  }
-  if (scrollY < sections.projects.offsetTop - SCROLL_OFFSET) {
-    return 'about-nav'
-  }
-  if (scrollY < sections.contact.offsetTop - SCROLL_OFFSET) {
-    return 'projects-nav'
-  }
-  return 'contact-nav'
-}
 
 const scrollToElement = (href: string) => {
   if (href === '#hero') {
@@ -49,90 +25,74 @@ const scrollToElement = (href: string) => {
   }
 }
 
-// Custom Hooks
-const useScrollDirection = (isMobile: boolean, isChatbotOpen: boolean) => {
-  const [isMini, setIsMini] = useState(false)
-  const [lastScrollTop, setLastScrollTop] = useState(0)
-
-  useEffect(() => {
-    if (isMobile) {
-      setIsMini(false)
-    }
-  }, [isMobile])
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScroll = window.pageYOffset || document.documentElement.scrollTop
-
-      if (!isMobile && !isChatbotOpen) {
-        if (currentScroll > lastScrollTop && currentScroll > MINI_MODE_THRESHOLD) {
-          setIsMini(true)
-        } else if (currentScroll < lastScrollTop) {
-          setIsMini(false)
-        }
-      }
-
-      setLastScrollTop(currentScroll <= 0 ? 0 : currentScroll)
-    }
-
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [lastScrollTop, isMobile, isChatbotOpen])
-
-  return isMini
-}
-
-const useActiveSection = (isChatbotOpen: boolean) => {
-  const [activeSection, setActiveSection] = useState<SectionId>('home-nav')
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (isChatbotOpen) return
-
-      try {
-        const newSection = calculateActiveSection(window.scrollY)
-        setActiveSection(newSection)
-      } catch (error) {
-        console.error('Error updating active section:', error)
-      }
-    }
-
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [isChatbotOpen])
-
-  return [activeSection, setActiveSection] as const
-}
-
-const useClickOutside = (ref: React.RefObject<HTMLElement | null>, isOpen: boolean, onClose: () => void) => {
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (isOpen && ref.current && !ref.current.contains(event.target as Node)) {
-        onClose()
-      }
-    }
-
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [isOpen, ref, onClose])
+const hashToSectionId = (hash: string): SectionId => {
+  const hashMap: Record<string, SectionId> = {
+    '#hero': 'home-nav',
+    '#about-me': 'about-nav',
+    '#projects': 'projects-nav',
+    '#contact': 'contact-nav',
+  }
+  return hashMap[hash] || 'home-nav'
 }
 
 export function HeaderSection() {
   const [isChatbotOpen, setIsChatbotOpen] = useState(false)
   const isMobile = useIsMobile()
   const navRef = useRef<HTMLElement>(null)
-
   const isMini = useScrollDirection(isMobile, isChatbotOpen)
   const [activeSection, setActiveSection] = useActiveSection(isChatbotOpen)
-
   const navListRef = useRef<HTMLDivElement>(null)
   const [navListWidth, setNavListWidth] = useState(0)
-
   const [projectsElement, setProjectsElement] = useState<Element | null>(null)
 
   useEffect(() => {
     setProjectsElement(document.getElementById('projects'))
   }, [])
+
+  useEffect(() => {
+    const handleInitialHash = () => {
+      const hash = window.location.hash
+      if (!hash) return
+
+      const attemptScroll = (attempts = 0) => {
+        const maxAttempts = 10
+        const targetElement = document.querySelector(hash)
+
+        if (targetElement) {
+          // Element found, scroll to it
+          scrollToElement(hash)
+          // Update active section based on hash
+          const sectionId = hashToSectionId(hash)
+          setActiveSection(sectionId)
+        } else if (attempts < maxAttempts) {
+          // Element not found yet, retry after a short delay
+          setTimeout(() => attemptScroll(attempts + 1), 100)
+        }
+      }
+
+      setTimeout(() => attemptScroll(), 100)
+    }
+
+    handleInitialHash()
+  }, [setActiveSection])
+
+  // Handle browser back/forward navigation
+  useEffect(() => {
+    const handlePopState = () => {
+      const hash = window.location.hash
+      if (hash) {
+        scrollToElement(hash)
+        const sectionId = hashToSectionId(hash)
+        setActiveSection(sectionId)
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+        setActiveSection('home-nav')
+      }
+    }
+
+    window.addEventListener('popstate', handlePopState)
+    return () => window.removeEventListener('popstate', handlePopState)
+  }, [setActiveSection])
 
   const isProjectsVisible = useIntersectionObserver({
     target: projectsElement,
@@ -188,6 +148,11 @@ export function HeaderSection() {
       // Update active section
       setActiveSection(itemId as SectionId)
 
+      // Update URL hash without triggering a scroll
+      if (href && href !== window.location.hash) {
+        window.history.pushState(null, '', href)
+      }
+
       // Close chatbot if open
       const shouldCloseChatbot = isChatbotOpen
       if (shouldCloseChatbot) {
@@ -229,12 +194,8 @@ export function HeaderSection() {
       }}
       transition={{ duration: isMobile ? 0 : 0.5, ease: 'easeOut' }}
     >
-      {/* Glass effect layers */}
       <GlassEffectLayers isChatbotOpen={isChatbotOpen} isProjectsVisible={isProjectsVisible} />
-
-      {/* Content layer */}
       <div className="relative z-999 flex w-full flex-col overflow-hidden">
-        {/* Navigation - ensure it wraps on small screens */}
         <div ref={navListRef} className={cn('max-w-full overflow-x-auto', isMobile ? 'w-fit' : 'w-full')}>
           <NavigationList
             activeSection={activeSection}
@@ -243,8 +204,6 @@ export function HeaderSection() {
             onNavClick={handleNavClick}
           />
         </div>
-
-        {/* Chatbot Container */}
         <div
           className={cn('w-full', isMini && !isMobile && 'w-[400px]', isMobile && 'max-h-screen p-0')}
           style={isMobile && navListWidth ? { width: navListWidth } : undefined}
