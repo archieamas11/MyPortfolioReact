@@ -2,7 +2,7 @@ import { HomeIcon } from '@/components/icons/home'
 import { SmileIcon } from '@/components/icons/smile'
 import { GitForkIcon } from '@/components/icons/git-fork'
 import { MessageCircleIcon } from '@/components/icons/message-circle'
-import { BotIcon } from '@/components/icons/bot'
+import { BotMessageSquareIcon } from '@/components/icons/bot'
 import type { NavItem } from './types'
 
 export const navigationItems: NavItem[] = [
@@ -37,7 +37,7 @@ export const navigationItems: NavItem[] = [
   {
     id: 'chatbot-nav',
     label: 'Chatbot',
-    icon: BotIcon,
+    icon: BotMessageSquareIcon,
     href: '#chatbot',
     ariaLabel: 'Chatbot - Navigation bar',
   },
