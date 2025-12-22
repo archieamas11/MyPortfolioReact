@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { MINI_MODE_THRESHOLD } from '@/pages/header/constants'
 
 export const useScrollDirection = (isMobile: boolean, isChatbotOpen: boolean) => {
   const [isMini, setIsMini] = useState(false)
-  const [lastScrollTop, setLastScrollTop] = useState(0)
+  const lastScrollTop = useRef(0)
 
   useEffect(() => {
     if (isMobile) {
@@ -16,19 +16,19 @@ export const useScrollDirection = (isMobile: boolean, isChatbotOpen: boolean) =>
       const currentScroll = window.pageYOffset || document.documentElement.scrollTop
 
       if (!isMobile && !isChatbotOpen) {
-        if (currentScroll > lastScrollTop && currentScroll > MINI_MODE_THRESHOLD) {
+        if (currentScroll > lastScrollTop.current && currentScroll > MINI_MODE_THRESHOLD) {
           setIsMini(true)
-        } else if (currentScroll < lastScrollTop) {
+        } else if (currentScroll < lastScrollTop.current) {
           setIsMini(false)
         }
       }
 
-      setLastScrollTop(currentScroll <= 0 ? 0 : currentScroll)
+      lastScrollTop.current = currentScroll <= 0 ? 0 : currentScroll
     }
 
-    window.addEventListener('scroll', handleScroll)
+    window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [lastScrollTop, isMobile, isChatbotOpen])
+  }, [isMobile, isChatbotOpen])
 
   return isMini
 }

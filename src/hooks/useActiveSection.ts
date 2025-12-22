@@ -1,28 +1,30 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import type { SectionId } from '@/pages/header/types'
 import { SCROLL_OFFSET } from '@/pages/header/constants'
 
-const getSectionElements = () => ({
-  hero: document.getElementById('hero'),
-  about: document.getElementById('about-me'),
-  projects: document.getElementById('projects'),
-  contact: document.getElementById('contact'),
-})
+const calculateActiveSection = (
+  scrollY: number,
+  elements?: Record<string, HTMLElement | null>,
+): SectionId => {
+  const targetElements = elements || {
+    hero: document.getElementById('hero'),
+    about: document.getElementById('about-me'),
+    projects: document.getElementById('projects'),
+    contact: document.getElementById('contact'),
+  }
+  const { hero, about, projects, contact } = targetElements
 
-const calculateActiveSection = (scrollY: number): SectionId => {
-  const sections = getSectionElements()
-
-  if (!sections.hero || !sections.about || !sections.projects || !sections.contact) {
+  if (!hero || !about || !projects || !contact) {
     return 'home-nav'
   }
 
-  if (scrollY < sections.about.offsetTop - SCROLL_OFFSET) {
+  if (scrollY < about.offsetTop - SCROLL_OFFSET) {
     return 'home-nav'
   }
-  if (scrollY < sections.projects.offsetTop - SCROLL_OFFSET) {
+  if (scrollY < projects.offsetTop - SCROLL_OFFSET) {
     return 'about-nav'
   }
-  if (scrollY < sections.contact.offsetTop - SCROLL_OFFSET) {
+  if (scrollY < contact.offsetTop - SCROLL_OFFSET) {
     return 'projects-nav'
   }
   return 'contact-nav'
@@ -30,20 +32,26 @@ const calculateActiveSection = (scrollY: number): SectionId => {
 
 export const useActiveSection = (isChatbotOpen: boolean) => {
   const [activeSection, setActiveSection] = useState<SectionId>('home-nav')
+  const elementsRef = useRef<Record<string, HTMLElement | null>>({})
+
+  useEffect(() => {
+    elementsRef.current = {
+      hero: document.getElementById('hero'),
+      about: document.getElementById('about-me'),
+      projects: document.getElementById('projects'),
+      contact: document.getElementById('contact'),
+    }
+  }, [])
 
   useEffect(() => {
     const handleScroll = () => {
       if (isChatbotOpen) return
 
-      try {
-        const newSection = calculateActiveSection(window.scrollY)
-        setActiveSection(newSection)
-      } catch (error) {
-        console.error('Error updating active section:', error)
-      }
+      const newSection = calculateActiveSection(window.scrollY, elementsRef.current)
+      setActiveSection((prev) => (prev !== newSection ? newSection : prev))
     }
 
-    window.addEventListener('scroll', handleScroll)
+    window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [isChatbotOpen])
 
@@ -51,4 +59,3 @@ export const useActiveSection = (isChatbotOpen: boolean) => {
 }
 
 export { calculateActiveSection }
-

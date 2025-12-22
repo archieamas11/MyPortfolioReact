@@ -108,9 +108,17 @@ export function HeaderSection() {
     }
 
     updateWidth()
+    const observer = new ResizeObserver(updateWidth)
+    if (navListRef.current) {
+      observer.observe(navListRef.current)
+    }
+
     window.addEventListener('resize', updateWidth)
-    return () => window.removeEventListener('resize', updateWidth)
-  }, [isMobile, isMini, activeSection])
+    return () => {
+      window.removeEventListener('resize', updateWidth)
+      observer.disconnect()
+    }
+  }, []) // Only run once and let ResizeObserver handle changes
 
   const handleChatbotClose = useCallback(() => {
     setIsChatbotOpen(false)
@@ -182,15 +190,13 @@ export function HeaderSection() {
       )}
       initial={
         isMobile
-          ? { y: 0, x: 0, opacity: 1, filter: 'none' }
-          : { y: -100, x: '-50%', opacity: 0, filter: 'blur(10px)' }
+          ? { y: 0, x: 0, opacity: 1 }
+          : { y: -100, x: '-50%', opacity: 0 }
       }
       animate={{
         y: 0,
         x: isMobile ? 0 : '-50%',
         opacity: 1,
-        filter: 'blur(0px)',
-        transitionEnd: { filter: 'none' },
       }}
       transition={{ duration: isMobile ? 0 : 0.5, ease: 'easeOut' }}
     >

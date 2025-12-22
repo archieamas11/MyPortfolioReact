@@ -1,39 +1,43 @@
-import { Home, Smile, CodeXml, MessageCircle, Bot } from 'lucide-react'
+import { HomeIcon } from '@/components/icons/home'
+import { SmileIcon } from '@/components/icons/smile'
+import { GitForkIcon } from '@/components/icons/git-fork'
+import { MessageCircleIcon } from '@/components/icons/message-circle'
+import { BotIcon } from '@/components/icons/bot'
 import type { NavItem } from './types'
 
 export const navigationItems: NavItem[] = [
   {
     id: 'home-nav',
     label: 'Home',
-    icon: Home,
+    icon: HomeIcon,
     href: '#hero',
     ariaLabel: 'Home - navigation bar',
   },
   {
     id: 'about-nav',
     label: 'About',
-    icon: Smile,
+    icon: SmileIcon,
     href: '#about-me',
     ariaLabel: 'About me - Navigation bar',
   },
   {
     id: 'projects-nav',
     label: 'Projects',
-    icon: CodeXml,
+    icon: GitForkIcon,
     href: '#projects',
     ariaLabel: 'Projects - Navigation bar',
   },
   {
     id: 'contact-nav',
     label: 'Contact',
-    icon: MessageCircle,
+    icon: MessageCircleIcon,
     href: '#contact',
     ariaLabel: 'Contact me - Navigation bar',
   },
   {
     id: 'chatbot-nav',
     label: 'Chatbot',
-    icon: Bot,
+    icon: BotIcon,
     href: '#chatbot',
     ariaLabel: 'Chatbot - Navigation bar',
   },
