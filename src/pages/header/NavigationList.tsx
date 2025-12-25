@@ -1,5 +1,5 @@
 import Separator from './components/seperator'
-import NavigationItem from './NavigationItems'
+import NavigationItem from './NavigationItem'
 import ThemeToggleItem from './ThemeToggleItem'
 import type { SectionId } from './types'
 import { navigationItems } from './constants'

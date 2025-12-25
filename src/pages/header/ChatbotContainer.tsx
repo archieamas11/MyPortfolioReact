@@ -9,7 +9,7 @@ const ChatbotContainer = ({ isOpen, isMini }: { isOpen: boolean; isMini: boolean
         animate={{ height: 'auto', opacity: 1 }}
         exit={{ height: 0, opacity: 0 }}
         transition={{ duration: 0.3, ease: 'easeInOut' }}
-        className="max-w-80 lg:max-w-118"
+        className="max-w-77 lg:max-w-118"
       >
         <Chatbot isMini={isMini} />
       </motion.div>
