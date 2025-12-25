@@ -1,7 +1,7 @@
 import { Textarea } from '@/components/ui/textarea'
 import { TypingIndicator } from '@/components/ui/typing-indicator'
 
-import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
@@ -100,9 +100,6 @@ function MessageBubble({ message }: { message: Message }) {
               p: ({ ...props }) => <p {...props} className="last:mb-0" />,
               ul: ({ ...props }) => <ul {...props} className="ml-4 list-disc last:mb-0" />,
               ol: ({ ...props }) => <ol {...props} className="ml-4 list-decimal last:mb-0" />,
-              // code: ({ ...props }) => (
-              //   <code {...props} className="bg-muted rounded px-1 py-0.5 font-mono text-xs" />
-              // ),
             }}
           >
             {message.text}
@@ -125,11 +122,7 @@ export function Chatbot({ isMini = false }: { isMini?: boolean }) {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const abortControllerRef = useRef<AbortController | null>(null)
 
-  // Check if rate limited
-  const isRateLimited = useMemo(() => {
-    if (!rateLimitedUntil) return false
-    return Date.now() < rateLimitedUntil
-  }, [rateLimitedUntil])
+  const isRateLimited = rateLimitedUntil ? Date.now() < rateLimitedUntil : false
 
   // Save messages to localStorage whenever they change (debounced)
   useEffect(() => {
@@ -163,14 +156,7 @@ export function Chatbot({ isMini = false }: { isMini?: boolean }) {
     if (!rateLimitedUntil) return
 
     const remaining = rateLimitedUntil - Date.now()
-    if (remaining <= 0) {
-      setRateLimitedUntil(null)
-      return
-    }
-
-    const timeoutId = setTimeout(() => {
-      setRateLimitedUntil(null)
-    }, remaining)
+    const timeoutId = setTimeout(() => setRateLimitedUntil(null), Math.max(0, remaining))
 
     return () => clearTimeout(timeoutId)
   }, [rateLimitedUntil])
@@ -187,9 +173,7 @@ export function Chatbot({ isMini = false }: { isMini?: boolean }) {
     abortControllerRef.current = null
     setIsLoading(false)
 
-    // Update the last bot message to show cancellation
     setMessages((prev) => {
-      // Find last bot message index (compatible with older ES versions)
       let lastBotIndex = -1
       for (let i = prev.length - 1; i >= 0; i--) {
         if (prev[i].sender === 'bot') {
@@ -197,18 +181,11 @@ export function Chatbot({ isMini = false }: { isMini?: boolean }) {
           break
         }
       }
-      if (lastBotIndex === -1) return prev
-
-      const lastBot = prev[lastBotIndex]
-      if (lastBot.status !== 'streaming') return prev
+      if (lastBotIndex === -1 || prev[lastBotIndex].status !== 'streaming') return prev
 
       return prev.map((msg, i) =>
         i === lastBotIndex
-          ? {
-              ...msg,
-              text: msg.text || 'Request cancelled.',
-              status: 'complete' as const,
-            }
+          ? { ...msg, text: msg.text || 'Request cancelled.', status: 'complete' as const }
           : msg,
       )
     })
@@ -359,79 +336,75 @@ export function Chatbot({ isMini = false }: { isMini?: boolean }) {
     toast.success('Chat history cleared')
   }, [])
 
-  const inputDisabled = isLoading || isRateLimited || !input.trim()
-
   return (
-    <div>
-      <div
-        className="w-full border-none bg-transparent shadow-none"
-        onWheel={(e) => e.stopPropagation()}
-        style={{ overscrollBehavior: 'contain' }}
-      >
-        <CardHeader className="mb-2 flex flex-row items-center justify-between">
-          <CardTitle className="text-foreground text-base font-semibold">AI Assistant</CardTitle>
-          <Button
-            onClick={clearChat}
-            disabled={isLoading}
-            variant="ghost"
-            size="icon"
-            aria-label="Clear chat history"
-          >
-            <TrashIcon className="h-4 w-4" />
-          </Button>
-        </CardHeader>
-        <CardContent className={cn('space-y-8', isMini ? 'pr-2.5' : 'px-6')}>
-          <ScrollArea
-            ref={scrollAreaRef}
-            className="h-80 overflow-y-auto lg:h-90"
-            role="log"
-            aria-label="Chat messages"
-            aria-live="polite"
-          >
-            <div className="space-y-5" role="list">
-              {messages.map((msg) => (
-                <MessageBubble key={msg.id} message={msg} />
-              ))}
-            </div>
-          </ScrollArea>
-          <div className="relative mb-6 w-full max-w-full">
-            <Textarea
-              ref={textareaRef}
-              value={input}
-              placeholder={isRateLimited ? 'Please wait before sending another message...' : 'Ask anything'}
-              onChange={handleInputChange}
-              className={cn('glass-effect min-h-10 w-full resize-none rounded-lg py-3 pr-12', {
-                'opacity-50': isRateLimited,
-              })}
-              onKeyDown={handleKeyPress}
-              disabled={isRateLimited}
-              aria-label="Chat message input"
-              maxLength={2000}
-            />
-            <Button
-              onClick={isLoading ? cancelRequest : sendMessage}
-              disabled={inputDisabled && !isLoading}
-              aria-label={isLoading ? 'Cancel message' : 'Send message'}
-              size="icon"
-              className={cn(
-                'bg-accent hover:bg-accent/80 absolute right-2 bottom-1.75 h-8 w-8 rounded-full',
-                isLoading && 'bg-muted-foreground hover:bg-muted-foreground/80',
-              )}
-            >
-              {isLoading ? (
-                <StopCircleIcon className="text-accent-foreground h-4 w-4" />
-              ) : (
-                <ArrowRightIcon className="text-accent-foreground h-4 w-4" />
-              )}
-            </Button>
+    <div
+      className="w-full border-none bg-transparent shadow-none"
+      onWheel={(e) => e.stopPropagation()}
+      style={{ overscrollBehavior: 'contain' }}
+    >
+      <CardHeader className="mb-2 flex flex-row items-center justify-between">
+        <CardTitle className="text-foreground text-base font-semibold">AI Assistant</CardTitle>
+        <Button
+          onClick={clearChat}
+          disabled={isLoading}
+          variant="ghost"
+          size="icon"
+          aria-label="Clear chat history"
+        >
+          <TrashIcon className="h-4 w-4" />
+        </Button>
+      </CardHeader>
+      <CardContent className={cn('space-y-8', isMini ? 'pr-2.5' : 'px-6')}>
+        <ScrollArea
+          ref={scrollAreaRef}
+          className="h-80 overflow-y-auto lg:h-90"
+          role="log"
+          aria-label="Chat messages"
+          aria-live="polite"
+        >
+          <div className="space-y-5" role="list">
+            {messages.map((msg) => (
+              <MessageBubble key={msg.id} message={msg} />
+            ))}
           </div>
-          {isRateLimited && (
-            <p className="text-muted-foreground text-center text-xs" role="alert">
-              Rate limited. Please wait before sending another message.
-            </p>
-          )}
-        </CardContent>
-      </div>
+        </ScrollArea>
+        <div className="relative mb-6 w-full max-w-full">
+          <Textarea
+            ref={textareaRef}
+            value={input}
+            placeholder={isRateLimited ? 'Please wait before sending another message...' : 'Ask anything'}
+            onChange={handleInputChange}
+            className={cn('glass-effect min-h-10 w-full resize-none rounded-lg py-3 pr-12', {
+              'opacity-50': isRateLimited,
+            })}
+            onKeyDown={handleKeyPress}
+            disabled={isRateLimited}
+            aria-label="Chat message input"
+            maxLength={2000}
+          />
+          <Button
+            onClick={isLoading ? cancelRequest : sendMessage}
+            disabled={!isLoading && (isRateLimited || !input.trim())}
+            aria-label={isLoading ? 'Cancel message' : 'Send message'}
+            size="icon"
+            className={cn(
+              'bg-accent hover:bg-accent/80 absolute right-2 bottom-1.75 h-8 w-8 rounded-full',
+              isLoading && 'bg-muted-foreground hover:bg-muted-foreground/80',
+            )}
+          >
+            {isLoading ? (
+              <StopCircleIcon className="text-accent-foreground h-4 w-4" />
+            ) : (
+              <ArrowRightIcon className="text-accent-foreground h-4 w-4" />
+            )}
+          </Button>
+        </div>
+        {isRateLimited && (
+          <p className="text-muted-foreground text-center text-xs" role="alert">
+            Rate limited. Please wait before sending another message.
+          </p>
+        )}
+      </CardContent>
     </div>
   )
 }
