@@ -87,9 +87,9 @@ function SkillsItems() {
               </div>
 
               <div className="flex w-full flex-col items-center gap-1 text-center">
-                <h6 className="group-hover:text-primary mb-2.5 text-base leading-tight font-semibold transition-colors duration-300">
+                <h5 className="group-hover:text-primary mb-2.5 text-base leading-tight font-semibold transition-colors duration-300">
                   {skill.label}
-                </h6>
+                </h5>
                 {skill.experience && (
                   <Badge
                     className={cn('text-primary', {
