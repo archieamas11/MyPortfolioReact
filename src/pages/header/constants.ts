@@ -15,7 +15,7 @@ export const navigationItems: NavItem[] = [
   },
   {
     id: 'about-nav',
-    label: 'About Me',
+    label: 'About',
     icon: UserIcon,
     href: '#about-me',
     ariaLabel: 'About me - Navigation bar',
