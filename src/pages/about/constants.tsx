@@ -99,7 +99,7 @@ export const skillsArr: Array<{
   progressWidth: string
 }> = [
   { icon: Html5Original, label: 'HTML5', experience: 3, level: 'advanced', progressWidth: '100%' },
-  { icon: Css3Original, label: 'CSS3', experience: 3, level: 'beginner', progressWidth: '100%' },
+  { icon: Css3Original, label: 'CSS3', experience: 3, level: 'advanced', progressWidth: '100%' },
   {
     icon: BootstrapOriginal,
     label: 'Bootstrap',
