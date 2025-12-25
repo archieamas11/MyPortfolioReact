@@ -28,7 +28,7 @@ export function MessageBubble({ message }: MessageBubbleProps) {
           'transition-all',
           {
             'mr-3 ml-auto rounded-br-md bg-white text-gray-950': isUser,
-            'bg-accent/40 text-primary mr-auto ml-3 rounded-bl-md font-normal': !isUser,
+            'bg-accent/40 text-primary mr-auto ml-3 rounded-bl-md font-normal shadow-md': !isUser,
             'border-destructive/50 bg-destructive/10 border': isError,
           },
         )}
@@ -50,7 +50,7 @@ export function MessageBubble({ message }: MessageBubbleProps) {
                   href={props.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-500 underline hover:text-blue-600"
+                  className="text-blue-300 underline hover:text-blue-400"
                 />
               ),
               p: ({ ...props }) => <p {...props} className="last:mb-0" />,
