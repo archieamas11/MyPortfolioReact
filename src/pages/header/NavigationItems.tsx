@@ -62,7 +62,7 @@ const NavigationItem = memo(
                   'glass-effect bg-primary/20 text-accent scale-105': isActive,
                   'h-17 w-17 p-1': !isMini && !isMobile,
                   'h-14 w-14': isMini && !isMobile,
-                  'h-12 w-12': isMobile,
+                  'h-10 w-10': isMobile,
                 },
               )}
             >
