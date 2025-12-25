@@ -28,7 +28,7 @@ export function MessageBubble({ message }: MessageBubbleProps) {
           'transition-all',
           {
             'mr-3 ml-auto rounded-br-md bg-white text-gray-950': isUser,
-            'bg-accent/40 text-primary mr-auto ml-3 rounded-bl-md font-normal shadow-md': !isUser,
+            'bg-accent/40 text-primary mr-auto ml-3 rounded-bl-md font-normal': !isUser,
             'border-destructive/50 bg-destructive/10 border': isError,
           },
         )}
