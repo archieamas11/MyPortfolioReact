@@ -97,7 +97,7 @@ const UserIcon = forwardRef<UserIconHandle, UserIconProps>(
             d="M20 21a8 8 0 0 0-16 0"
             variants={PATH_VARIANT}
             transition={{
-              delay: 0.2,
+              delay: 0.1,
               duration: 0.3,
             }}
             animate={controls}

@@ -35,6 +35,17 @@ const hashToSectionId = (hash: string): SectionId => {
   return hashMap[hash] || 'home-nav'
 }
 
+const sectionIdToHash = (sectionId: SectionId): string => {
+  const sectionMap: Record<SectionId, string> = {
+    'home-nav': '#hero',
+    'about-nav': '#about-me',
+    'projects-nav': '#projects',
+    'contact-nav': '#contact',
+    'chatbot-nav': '#chatbot',
+  }
+  return sectionMap[sectionId] || '#hero'
+}
+
 export function HeaderSection() {
   const [isChatbotOpen, setIsChatbotOpen] = useState(false)
   const isMobile = useIsMobile()
@@ -94,6 +105,20 @@ export function HeaderSection() {
     return () => window.removeEventListener('popstate', handlePopState)
   }, [setActiveSection])
 
+  // Update URL hash when active section changes (from scrolling)
+  useEffect(() => {
+    // Skip if chatbot is open or if it's the chatbot section
+    if (isChatbotOpen || activeSection === 'chatbot-nav') return
+
+    const expectedHash = sectionIdToHash(activeSection)
+    const currentHash = window.location.hash
+
+    // Only update if hash doesn't match (to avoid unnecessary updates)
+    if (currentHash !== expectedHash) {
+      window.history.replaceState(null, '', expectedHash)
+    }
+  }, [activeSection, isChatbotOpen])
+
   const isProjectsVisible = useIntersectionObserver({
     target: projectsElement,
     threshold: 0,
@@ -118,7 +143,7 @@ export function HeaderSection() {
       window.removeEventListener('resize', updateWidth)
       observer.disconnect()
     }
-  }, []) // Only run once and let ResizeObserver handle changes
+  }, [])
 
   const handleChatbotClose = useCallback(() => {
     setIsChatbotOpen(false)
@@ -147,13 +172,11 @@ export function HeaderSection() {
     (e: React.MouseEvent<HTMLAnchorElement>, href: string, itemId: string) => {
       e.preventDefault()
 
-      // Handle chatbot toggle
       if (itemId === 'chatbot-nav') {
         handleChatbotToggle()
         return
       }
 
-      // Update active section
       setActiveSection(itemId as SectionId)
 
       // Update URL hash without triggering a scroll
@@ -167,7 +190,6 @@ export function HeaderSection() {
         setIsChatbotOpen(false)
       }
 
-      // Scroll to section
       const performScroll = () => scrollToElement(href)
 
       if (shouldCloseChatbot) {
@@ -188,11 +210,7 @@ export function HeaderSection() {
           ? 'max-full right-0 bottom-4 left-0 mx-auto flex w-fit justify-center overflow-hidden'
           : 'top-4 left-1/2',
       )}
-      initial={
-        isMobile
-          ? { y: 0, x: 0, opacity: 1 }
-          : { y: -100, x: '-50%', opacity: 0 }
-      }
+      initial={isMobile ? { y: 0, x: 0, opacity: 1 } : { y: -100, x: '-50%', opacity: 0 }}
       animate={{
         y: 0,
         x: isMobile ? 0 : '-50%',

@@ -14,20 +14,26 @@ const calculateActiveSection = (
   }
   const { hero, about, projects, contact } = targetElements
 
-  if (!hero || !about || !projects || !contact) {
+  if (!hero) {
     return 'home-nav'
   }
 
-  if (scrollY < about.offsetTop - SCROLL_OFFSET) {
+  if (about && scrollY < about.offsetTop - SCROLL_OFFSET) {
     return 'home-nav'
   }
-  if (scrollY < projects.offsetTop - SCROLL_OFFSET) {
+  if (projects && scrollY < projects.offsetTop - SCROLL_OFFSET) {
     return 'about-nav'
   }
-  if (scrollY < contact.offsetTop - SCROLL_OFFSET) {
+  if (contact && scrollY < contact.offsetTop - SCROLL_OFFSET) {
     return 'projects-nav'
   }
-  return 'contact-nav'
+
+  // Fallback for the last section
+  if (contact) return 'contact-nav'
+  if (projects) return 'projects-nav'
+  if (about) return 'about-nav'
+
+  return 'home-nav'
 }
 
 export const useActiveSection = (isChatbotOpen: boolean) => {
@@ -35,23 +41,34 @@ export const useActiveSection = (isChatbotOpen: boolean) => {
   const elementsRef = useRef<Record<string, HTMLElement | null>>({})
 
   useEffect(() => {
-    elementsRef.current = {
+    const getElements = () => ({
       hero: document.getElementById('hero'),
       about: document.getElementById('about-me'),
       projects: document.getElementById('projects'),
       contact: document.getElementById('contact'),
-    }
-  }, [])
+    })
 
-  useEffect(() => {
     const handleScroll = () => {
       if (isChatbotOpen) return
+
+      // Refresh refs if they are empty (lazy load)
+      if (
+        !elementsRef.current.hero ||
+        !elementsRef.current.about ||
+        !elementsRef.current.projects ||
+        !elementsRef.current.contact
+      ) {
+        elementsRef.current = getElements()
+      }
 
       const newSection = calculateActiveSection(window.scrollY, elementsRef.current)
       setActiveSection((prev) => (prev !== newSection ? newSection : prev))
     }
 
     window.addEventListener('scroll', handleScroll, { passive: true })
+
+    handleScroll()
+
     return () => window.removeEventListener('scroll', handleScroll)
   }, [isChatbotOpen])
 
