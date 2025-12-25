@@ -9,15 +9,15 @@ export default function AboutMe() {
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
     >
-      <motion.h1
+      <motion.h2
         className="font-oswald text-3xl font-bold tracking-widest sm:text-4xl md:text-5xl lg:text-6xl"
         initial={{ opacity: 0, x: -20 }}
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true }}
         transition={{ delay: 0.2, duration: 0.5 }}
       >
-        HELLO!<span className="wave-emoji inline-block origin-[70%_70%]">👋</span>
-      </motion.h1>
+        HELLO!<span className="wave-emoji inline-block origin-[70%_70%]" role="img" aria-label="waving hand">👋</span>
+      </motion.h2>
       <motion.div
         className="bg-accent mt-3 hidden h-1 w-25 rounded-full lg:block"
         initial={{ width: 0 }}
@@ -49,9 +49,9 @@ export default function AboutMe() {
         viewport={{ once: true }}
         transition={{ delay: 0.6, duration: 0.5 }}
       >
-        <h1 className="font-oswald text-3xl font-bold tracking-widest sm:text-4xl md:text-5xl lg:text-6xl">
+        <h2 className="font-oswald text-3xl font-bold tracking-widest sm:text-4xl md:text-5xl lg:text-6xl">
           EDUCATION
-        </h1>
+        </h2>
         <div className="space-y-1">
           <p className="text-muted-foreground text-sm leading-relaxed font-bold sm:text-base">
             2022 - Present: St. Cecilia's College - Cebu, Inc.

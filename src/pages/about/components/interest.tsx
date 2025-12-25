@@ -26,7 +26,7 @@ export function InterestItem() {
       whileInView="show"
       viewport={{ once: true }}
     >
-      <motion.h1
+      <motion.h2
         className="font-oswald text-3xl font-bold tracking-widest sm:text-4xl md:text-5xl lg:text-6xl"
         initial={{ opacity: 0, y: -20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -34,7 +34,7 @@ export function InterestItem() {
         transition={{ duration: 0.5 }}
       >
         INTEREST
-      </motion.h1>
+      </motion.h2>
       <motion.div
         className="grid grid-cols-3 gap-3"
         variants={container}

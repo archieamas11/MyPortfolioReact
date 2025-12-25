@@ -10,7 +10,7 @@ export function Footer() {
       <div className="text-muted-foreground container mx-auto flex flex-col items-center justify-center px-6 py-8 text-center text-sm">
         <p className="text-center sm:text-left">Built with ❤️ React JS</p>
         <div className="flex items-center gap-4">
-          <i>Last updated in {__LAST_UPDATED__}</i>
+          <small className="text-xs">Last updated in {__LAST_UPDATED__}</small>
         </div>
       </div>
     </footer>

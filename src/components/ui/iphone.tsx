@@ -18,10 +18,11 @@ const RADIUS_V = (SCREEN_RADIUS / SCREEN_HEIGHT) * 100
 
 export interface IphoneProps extends HTMLAttributes<HTMLDivElement> {
   src?: string
+  alt?: string
   videoSrc?: string
 }
 
-export function Iphone({ src, videoSrc, className, style, ...props }: IphoneProps) {
+export function Iphone({ src, alt = '', videoSrc, className, style, ...props }: IphoneProps) {
   const hasVideo = !!videoSrc
   const hasMedia = hasVideo || !!src
 
@@ -68,7 +69,7 @@ export function Iphone({ src, videoSrc, className, style, ...props }: IphoneProp
             borderRadius: `${RADIUS_H}% / ${RADIUS_V}%`,
           }}
         >
-          <img src={src} alt="" className="block size-full object-cover object-top" />
+          <img src={src} alt={alt} className="block size-full object-cover object-top" />
         </div>
       )}
 

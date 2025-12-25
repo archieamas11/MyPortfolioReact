@@ -33,6 +33,7 @@ export function AboutSection() {
                   theme === 'dark' ? 'opacity-0' : 'opacity-100',
                 )}
                 loading="eager"
+                aria-hidden={theme === 'dark'}
               />
               <img
                 src="images/me-dark.png"
@@ -42,6 +43,7 @@ export function AboutSection() {
                   theme === 'dark' ? 'opacity-100' : 'opacity-0',
                 )}
                 loading="eager"
+                aria-hidden={theme !== 'dark'}
               />
             </div>
           </Avatar>

@@ -38,6 +38,7 @@ export default function HeroSection() {
             <img
               id="logo"
               src={'images/aaa-white.png'}
+              alt="Archie Albarico Logo"
               className={cn(
                 `home-logo glass-effect bg-accent border-background rounded-full border-15 object-contain ${isScrolled ? 'scrolled' : ''}`,
                 isMobile ? 'border-0' : '',
@@ -47,7 +48,7 @@ export default function HeroSection() {
 
           {/* Heading */}
           <div className="absolute top-60 flex flex-col items-center justify-center sm:top-56 md:top-54 lg:top-49 xl:top-43">
-            <motion.div
+            <motion.h1
               initial={isMobile ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: isMobile ? 0 : 0.7, delay: isMobile ? 0 : 0.2 }}
@@ -55,7 +56,7 @@ export default function HeroSection() {
             >
               ARCHIE ALBARICO
               <span className="from-primary/10 to-accent/30 absolute inset-0 -z-10 bg-gradient-to-b opacity-50 blur-xl" />
-            </motion.div>
+            </motion.h1>
 
             <motion.div
               initial={isMobile ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}

@@ -26,9 +26,9 @@ export function ProjectsSection() {
         transition={{ duration: 0.7 }}
         viewport={{ once: true }}
       >
-        <h1 className="font-oswald text-right text-3xl font-bold tracking-widest sm:text-4xl md:text-5xl lg:text-6xl">
+        <h2 className="font-oswald text-right text-3xl font-bold tracking-widest sm:text-4xl md:text-5xl lg:text-6xl">
           FEATURED WORK
-        </h1>
+        </h2>
         <p className="text-muted-foreground mt-2 text-right">Some things I’ve built lately.</p>
       </motion.div>
 

@@ -85,12 +85,14 @@ export function ThemeToggleButton({
             <SunIcon
               className={`transition-transform duration-300 ease-in-out ${resolvedTheme === 'dark' ? 'scale-0 -rotate-90' : 'scale-120 rotate-0'}`}
               size={iconSize}
+              aria-hidden="true"
             />
             <MoonIcon
               className={`absolute transition-transform duration-300 ease-in-out ${
                 resolvedTheme === 'dark' ? 'scale-120 rotate-0' : 'scale-0 -rotate-90'
               }`}
               size={iconSize}
+              aria-hidden="true"
             />
           </>
         ) : (

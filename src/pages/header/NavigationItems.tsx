@@ -48,6 +48,7 @@ const NavigationItem = memo(
             <a
               href={item.href}
               aria-label={item.ariaLabel}
+              aria-current={isActive ? 'page' : undefined}
               onClick={(e) => onClick(e, item.href, item.id)}
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}

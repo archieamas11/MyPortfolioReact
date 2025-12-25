@@ -65,6 +65,7 @@ export function ContactSection() {
                     href={detail.href}
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-label={`Follow me on ${detail.label}`}
                     className="group flex gap-2 space-y-2 text-sm transition-colors"
                     initial={{ opacity: 0, scale: 0 }}
                     whileInView={{ opacity: 1, scale: 1 }}
