@@ -60,14 +60,14 @@ function SkillsItems() {
               key={skill.label}
               ref={registerItem}
               className={cn(
-                'group glass-effect relative flex cursor-pointer flex-col items-center overflow-hidden rounded-lg border py-8 transition-all duration-300',
+                'group glass-effect relative flex cursor-auto flex-col items-center overflow-hidden rounded-lg border py-8 transition-all duration-300',
                 'hover:bg-gradient-to-b',
                 levelVariants.border,
                 levelVariants.shadow,
                 levelVariants.gradient,
               )}
             >
-              <div className="via-primary/10 absolute inset-0 -left-full -z-10 bg-gradient-to-r from-transparent to-transparent transition-[left] duration-500 group-hover:left-full" />
+              {/* <div className="via-primary/10 absolute inset-0 -left-full -z-10 bg-gradient-to-r from-transparent to-transparent transition-[left] duration-500 group-hover:left-full" /> */}
 
               <div
                 className={cn(
@@ -104,17 +104,17 @@ function SkillsItems() {
               </div>
 
               {/* <div className="bg-primary/10 mt-4 h-1 w-full overflow-hidden rounded-full">
-                    <div
-                      style={{ width: skill.progressWidth }}
-                      className={cn(
-                        'relative h-full overflow-hidden rounded-full transition-[width] duration-1000',
-                        levelVariants.progress,
-                        // Shimmer always visible, animation ONLY on hover
-                        'after:absolute after:inset-0 after:w-full after:bg-gradient-to-r after:from-transparent after:via-white/40 after:to-transparent after:opacity-100',
-                        'group-hover:after:animate-shimmer',
-                      )}
-                    />
-                  </div> */}
+                <div
+                  style={{ width: skill.progressWidth }}
+                  className={cn(
+                    'relative h-full overflow-hidden rounded-full transition-[width] duration-1000',
+                    levelVariants.progress,
+                    // Shimmer always visible, animation ONLY on hover
+                    'after:absolute after:inset-0 after:w-full after:bg-gradient-to-r after:from-transparent after:via-white/40 after:to-transparent after:opacity-100',
+                    'group-hover:after:animate-shimmer',
+                  )}
+                />
+              </div> */}
             </div>
           )
         })}

@@ -57,7 +57,7 @@ export function AnimatedTooltip({ label, value, children, className }: AnimatedT
           </motion.div>
         )}
       </AnimatePresence>
-      <div onMouseMove={handleMouseMove} className={cn(isHovered && 'z-30 scale-105', className)}>
+      <div onMouseMove={handleMouseMove} className={cn(isHovered && 'z-30', className)}>
         {children}
       </div>
     </div>
