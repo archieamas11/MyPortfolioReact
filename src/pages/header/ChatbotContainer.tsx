@@ -1,4 +1,4 @@
-import { Chatbot } from '@/components/Chatbot'
+import { Chatbot } from '@/pages/chatbot/Chatbot'
 import { AnimatePresence, motion } from 'motion/react'
 
 const ChatbotContainer = ({ isOpen, isMini }: { isOpen: boolean; isMini: boolean }) => (
