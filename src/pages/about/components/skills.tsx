@@ -60,7 +60,7 @@ function SkillsItems() {
               key={skill.label}
               ref={registerItem}
               className={cn(
-                'group glass-effect relative flex cursor-auto flex-col items-center overflow-hidden rounded-lg border py-8 transition-all duration-300',
+                'group glass-effect relative flex flex-col items-center overflow-hidden rounded-lg border py-8 transition-all duration-300',
                 'hover:bg-linear-to-b',
                 levelVariants.border,
                 levelVariants.shadow,
@@ -82,7 +82,7 @@ function SkillsItems() {
                 {skill.level}
               </div>
 
-              <div className="mb-3 transition-transform duration-600 group-hover:scale-110 group-hover:rotate-6">
+              <div className="mb-3">
                 <Icon size="50" />
               </div>
 
