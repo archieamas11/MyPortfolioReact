@@ -86,8 +86,8 @@ export const personalDetails = [
   {
     icon: Mail,
     label: 'Email',
-    value: 'archiealbarico69@gmail.com',
-    href: 'mailto:archiealbarico69@gmail.com',
+    value: 'albarico@stcecilia.edu.ph',
+    href: 'mailto:albarico@stcecilia.edu.ph',
   },
 ]
 

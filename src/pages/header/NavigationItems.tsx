@@ -52,19 +52,19 @@ const NavigationItem = memo(
               onClick={(e) => onClick(e, item.href, item.id)}
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
-          className={cn(
-            'group text-muted-foreground flex flex-col items-center justify-center rounded-lg text-center text-xs no-underline',
-            'hover:bg-primary/5 hover:text-primary bg-transparent',
-            'transform-gpu transition-all duration-300',
-            'hover:scale-105 active:scale-95',
-            'ease-in-out',
-            {
-              'glass-effect bg-primary/20 text-accent scale-105': isActive,
-              'h-17 w-17 p-1': !isMini && !isMobile,
-              'h-14 w-14': isMini && !isMobile,
-              'h-12 w-12': isMobile,
-            },
-          )}
+              className={cn(
+                'group text-muted-foreground flex flex-col items-center justify-center rounded-lg text-center text-xs no-underline',
+                'hover:bg-primary/5 hover:text-primary bg-transparent',
+                'transform-gpu transition-all duration-300',
+                'hover:scale-105 active:scale-95',
+                'ease-in-out',
+                {
+                  'glass-effect bg-primary/20 text-accent scale-105': isActive,
+                  'h-17 w-17 p-1': !isMini && !isMobile,
+                  'h-14 w-14': isMini && !isMobile,
+                  'h-12 w-12': isMobile,
+                },
+              )}
             >
               <div
                 className={cn(
@@ -83,7 +83,7 @@ const NavigationItem = memo(
 
               <span
                 className={cn(
-                  'transform-gpu transition-all delay-100 duration-300 ease-in-out',
+                  'transform-gpu text-[12px] font-semibold transition-all delay-100 duration-300 ease-in-out',
                   'max-[480px]:hidden max-md:hidden',
                   {
                     'h-0 translate-y-2 scale-0 opacity-0': !isActive || isMini,
