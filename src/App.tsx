@@ -34,7 +34,7 @@ function App() {
 
   const snowfallConfig = useMemo(
     () => ({
-      snowflakeCount: isMobile ? 15 : 50,
+      snowflakeCount: isMobile ? 5 : 10,
       color: resolvedTheme === 'light' ? '#87CEEB' : '#fff',
     }),
     [isMobile, resolvedTheme],
