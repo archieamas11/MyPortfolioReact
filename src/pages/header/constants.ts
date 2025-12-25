@@ -29,7 +29,7 @@ export const navigationItems: NavItem[] = [
   },
   {
     id: 'contact-nav',
-    label: 'Contacts',
+    label: 'Contact',
     icon: MessageCircleIcon,
     href: '#contact',
     ariaLabel: 'Contact me - Navigation bar',
