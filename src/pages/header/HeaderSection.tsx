@@ -25,26 +25,23 @@ const scrollToElement = (href: string) => {
   }
 }
 
-const hashToSectionId = (hash: string): SectionId => {
-  const hashMap: Record<string, SectionId> = {
-    '#hero': 'home-nav',
-    '#about-me': 'about-nav',
-    '#projects': 'projects-nav',
-    '#contact': 'contact-nav',
-  }
-  return hashMap[hash] || 'home-nav'
+const HASH_TO_SECTION: Record<string, SectionId> = {
+  '#hero': 'home-nav',
+  '#about-me': 'about-nav',
+  '#projects': 'projects-nav',
+  '#contact': 'contact-nav',
 }
 
-const sectionIdToHash = (sectionId: SectionId): string => {
-  const sectionMap: Record<SectionId, string> = {
-    'home-nav': '#hero',
-    'about-nav': '#about-me',
-    'projects-nav': '#projects',
-    'contact-nav': '#contact',
-    'chatbot-nav': '#chatbot',
-  }
-  return sectionMap[sectionId] || '#hero'
+const SECTION_TO_HASH: Record<SectionId, string> = {
+  'home-nav': '#hero',
+  'about-nav': '#about-me',
+  'projects-nav': '#projects',
+  'contact-nav': '#contact',
+  'chatbot-nav': '#chatbot',
 }
+
+const hashToSectionId = (hash: string): SectionId => HASH_TO_SECTION[hash] || 'home-nav'
+const sectionIdToHash = (sectionId: SectionId): string => SECTION_TO_HASH[sectionId] || '#hero'
 
 export function HeaderSection() {
   const [isChatbotOpen, setIsChatbotOpen] = useState(false)
@@ -52,8 +49,6 @@ export function HeaderSection() {
   const navRef = useRef<HTMLElement>(null)
   const isMini = useScrollDirection(isMobile, isChatbotOpen)
   const [activeSection, setActiveSection] = useActiveSection(isChatbotOpen)
-  const navListRef = useRef<HTMLDivElement>(null)
-  const [navListWidth, setNavListWidth] = useState(0)
   const [projectsElement, setProjectsElement] = useState<Element | null>(null)
 
   useEffect(() => {
@@ -61,30 +56,24 @@ export function HeaderSection() {
   }, [])
 
   useEffect(() => {
-    const handleInitialHash = () => {
-      const hash = window.location.hash
-      if (!hash) return
+    const hash = window.location.hash
+    if (!hash) return
 
-      const attemptScroll = (attempts = 0) => {
-        const maxAttempts = 10
-        const targetElement = document.querySelector(hash)
+    let attempts = 0
+    const maxAttempts = 10
 
-        if (targetElement) {
-          // Element found, scroll to it
-          scrollToElement(hash)
-          // Update active section based on hash
-          const sectionId = hashToSectionId(hash)
-          setActiveSection(sectionId)
-        } else if (attempts < maxAttempts) {
-          // Element not found yet, retry after a short delay
-          setTimeout(() => attemptScroll(attempts + 1), 100)
-        }
+    const attemptScroll = () => {
+      const targetElement = document.querySelector(hash)
+      if (targetElement) {
+        scrollToElement(hash)
+        setActiveSection(hashToSectionId(hash))
+      } else if (attempts < maxAttempts) {
+        attempts++
+        setTimeout(attemptScroll, 100)
       }
-
-      setTimeout(() => attemptScroll(), 100)
     }
 
-    handleInitialHash()
+    setTimeout(attemptScroll, 100)
   }, [setActiveSection])
 
   // Handle browser back/forward navigation
@@ -125,30 +114,9 @@ export function HeaderSection() {
     rootMargin: '0px 0px -90% 0px',
   })
 
-  useEffect(() => {
-    const updateWidth = () => {
-      if (navListRef.current) {
-        setNavListWidth(navListRef.current.offsetWidth)
-      }
-    }
-
-    updateWidth()
-    const observer = new ResizeObserver(updateWidth)
-    if (navListRef.current) {
-      observer.observe(navListRef.current)
-    }
-
-    window.addEventListener('resize', updateWidth)
-    return () => {
-      window.removeEventListener('resize', updateWidth)
-      observer.disconnect()
-    }
-  }, [])
-
   const handleChatbotClose = useCallback(() => {
     setIsChatbotOpen(false)
-    const newSection = calculateActiveSection(window.scrollY)
-    setActiveSection(newSection)
+    setActiveSection(calculateActiveSection(window.scrollY))
   }, [setActiveSection])
 
   useClickOutside(navRef, isChatbotOpen, handleChatbotClose)
@@ -160,8 +128,7 @@ export function HeaderSection() {
       if (willBeOpen) {
         setActiveSection('chatbot-nav')
       } else {
-        const newSection = calculateActiveSection(window.scrollY)
-        setActiveSection(newSection)
+        setActiveSection(calculateActiveSection(window.scrollY))
       }
 
       return willBeOpen
@@ -184,18 +151,11 @@ export function HeaderSection() {
         window.history.pushState(null, '', href)
       }
 
-      // Close chatbot if open
-      const shouldCloseChatbot = isChatbotOpen
-      if (shouldCloseChatbot) {
+      if (isChatbotOpen) {
         setIsChatbotOpen(false)
-      }
-
-      const performScroll = () => scrollToElement(href)
-
-      if (shouldCloseChatbot) {
-        setTimeout(performScroll, CHATBOT_CLOSE_DELAY)
+        setTimeout(() => scrollToElement(href), CHATBOT_CLOSE_DELAY)
       } else {
-        performScroll()
+        scrollToElement(href)
       }
     },
     [isChatbotOpen, handleChatbotToggle, setActiveSection],
@@ -220,7 +180,7 @@ export function HeaderSection() {
     >
       <GlassEffectLayers isChatbotOpen={isChatbotOpen} isProjectsVisible={isProjectsVisible} />
       <div className="relative z-999 flex w-full flex-col overflow-hidden">
-        <div ref={navListRef} className={cn('max-w-full overflow-x-auto', isMobile ? 'w-fit' : 'w-full')}>
+        <div className={cn('max-w-full overflow-x-auto', isMobile ? 'w-fit' : 'w-full')}>
           <NavigationList
             activeSection={activeSection}
             isMini={isMini}
@@ -228,11 +188,8 @@ export function HeaderSection() {
             onNavClick={handleNavClick}
           />
         </div>
-        <div
-          className={cn('w-full', isMini && !isMobile && 'w-[400px]', isMobile && 'max-h-screen p-0')}
-          style={isMobile && navListWidth ? { width: navListWidth } : undefined}
-        >
-          <ChatbotContainer isOpen={isChatbotOpen} isMini={isMini} isMobile={isMobile} />
+        <div className={cn('w-full', isMini && !isMobile && 'w-[400px]', isMobile && 'max-h-screen p-0')}>
+          <ChatbotContainer isOpen={isChatbotOpen} isMini={isMini} />
         </div>
       </div>
     </motion.nav>

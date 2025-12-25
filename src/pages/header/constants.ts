@@ -46,5 +46,4 @@ export const navigationItems: NavItem[] = [
 export const SCROLL_OFFSET = 400
 export const MINI_MODE_THRESHOLD = 50
 export const CHATBOT_CLOSE_DELAY = 50
-export const CHATBOT_TRANSITION_DURATION = 250
 export const SCROLL_TOP_OFFSET = 80

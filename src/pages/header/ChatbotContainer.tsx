@@ -1,7 +1,7 @@
 import { Chatbot } from '@/components/Chatbot'
 import { AnimatePresence, motion } from 'motion/react'
 
-const ChatbotContainer = ({ isOpen, isMini }: { isOpen: boolean; isMini: boolean; isMobile: boolean }) => (
+const ChatbotContainer = ({ isOpen, isMini }: { isOpen: boolean; isMini: boolean }) => (
   <AnimatePresence>
     {isOpen && (
       <motion.div
@@ -9,7 +9,7 @@ const ChatbotContainer = ({ isOpen, isMini }: { isOpen: boolean; isMini: boolean
         animate={{ height: 'auto', opacity: 1 }}
         exit={{ height: 0, opacity: 0 }}
         transition={{ duration: 0.3, ease: 'easeInOut' }}
-        className="max-w-118"
+        className="max-w-89 lg:max-w-118"
       >
         <Chatbot isMini={isMini} />
       </motion.div>
