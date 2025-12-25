@@ -15,7 +15,7 @@ export const navigationItems: NavItem[] = [
   },
   {
     id: 'about-nav',
-    label: 'About',
+    label: 'About Me',
     icon: UserIcon,
     href: '#about-me',
     ariaLabel: 'About me - Navigation bar',
@@ -29,7 +29,7 @@ export const navigationItems: NavItem[] = [
   },
   {
     id: 'contact-nav',
-    label: 'Contact',
+    label: 'Contacts',
     icon: MessageCircleIcon,
     href: '#contact',
     ariaLabel: 'Contact me - Navigation bar',
