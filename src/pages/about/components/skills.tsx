@@ -36,22 +36,22 @@ function SkillsItems() {
               border: 'border-green-500/30 hover:border-green-500/60',
               shadow: 'hover:shadow-lg hover:shadow-green-500/20 hover:ring-1 hover:ring-green-500/30',
               gradient: 'hover:from-green-500/10 hover:to-green-500/5',
-              badge: 'bg-green-500/80 text-white',
-              progress: 'bg-green-500',
+              badge: 'bg-green-600 text-white',
+              progress: 'bg-green-600',
             },
             intermediate: {
               border: 'border-yellow-500/30 hover:border-yellow-500/60',
               shadow: 'hover:shadow-lg hover:shadow-yellow-500/20 hover:ring-1 hover:ring-yellow-500/30',
               gradient: 'hover:from-yellow-500/10 hover:to-yellow-500/5',
-              badge: 'bg-yellow-500/80 text-gray-900',
+              badge: 'bg-yellow-500 text-gray-950',
               progress: 'bg-yellow-500',
             },
             beginner: {
               border: 'border-red-500/30 hover:border-red-500/60',
               shadow: 'hover:shadow-lg hover:shadow-red-500/20 hover:ring-1 hover:ring-red-500/30',
               gradient: 'hover:from-red-500/10 hover:to-red-500/5',
-              badge: 'bg-red-500/80 text-white',
-              progress: 'bg-red-500',
+              badge: 'bg-red-600 text-white',
+              progress: 'bg-red-600',
             },
           }[skill.level]
 
@@ -61,7 +61,7 @@ function SkillsItems() {
               ref={registerItem}
               className={cn(
                 'group glass-effect relative flex cursor-auto flex-col items-center overflow-hidden rounded-lg border py-8 transition-all duration-300',
-                'hover:bg-gradient-to-b',
+                'hover:bg-linear-to-b',
                 levelVariants.border,
                 levelVariants.shadow,
                 levelVariants.gradient,
@@ -73,9 +73,9 @@ function SkillsItems() {
                 className={cn(
                   'absolute top-2 right-2 z-10 rounded-sm px-2 py-1 text-[0.6rem] font-bold uppercase opacity-0 transition-opacity duration-300 group-hover:opacity-100',
                   {
-                    'bg-green-500/80 text-white': skill.level === 'advanced',
-                    'bg-yellow-500/80 text-gray-900': skill.level === 'intermediate',
-                    'bg-red-500/80 text-white': skill.level === 'beginner',
+                    'bg-green-600 text-white': skill.level === 'advanced',
+                    'bg-yellow-500 text-gray-950': skill.level === 'intermediate',
+                    'bg-red-600 text-white': skill.level === 'beginner',
                   },
                 )}
               >
@@ -93,9 +93,9 @@ function SkillsItems() {
                 {skill.experience && (
                   <Badge
                     className={cn('text-primary', {
-                      'border-green-500 bg-green-500/20': skill.level === 'advanced',
+                      'border-green-600 bg-green-500/20': skill.level === 'advanced',
                       'border-yellow-500 bg-yellow-500/20': skill.level === 'intermediate',
-                      'border-red-500 bg-red-500/20': skill.level === 'beginner',
+                      'border-red-600 bg-red-500/20': skill.level === 'beginner',
                     })}
                   >
                     {skill.experience}+ {skill.experience < 2 ? 'Year' : 'Years'}
