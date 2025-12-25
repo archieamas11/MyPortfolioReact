@@ -4,6 +4,7 @@ import path from 'path'
 import tailwindcss from '@tailwindcss/vite'
 import { reactGrab } from 'react-grab/plugins/vite'
 import { execSync } from 'child_process'
+import removeConsole from 'vite-plugin-remove-console'
 
 // Get last git commit date
 const getLastCommitDate = () => {
@@ -20,7 +21,7 @@ const getLastCommitDate = () => {
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), tailwindcss(), reactGrab()],
+  plugins: [react(), tailwindcss(), reactGrab(), removeConsole()],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
