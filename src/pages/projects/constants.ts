@@ -32,7 +32,7 @@ export const projects: Project[] = [
     detailedDescription:
       'Finisterre Gardenz is a comprehensive cemetery management system that leverages GIS technology to provide real-time plot inventory and navigation solutions. The system includes both web and Android applications, allowing users to easily locate and manage cemetery plots. Key features include turn-by-turn navigation with text-to-speech (TTS) capabilities, ensuring a seamless experience for visitors. The platform is designed to streamline cemetery operations, enhance user experience, and provide accurate, up-to-date information on plot availability and locations.',
     tags: ['Java', 'MySQL', 'Swing'],
-    link: '#',
+    link: 'https://github.com/archieamas11/shoptify',
     image: '/images/projects/shoptify.avif',
     platform: 'web',
   },
@@ -50,7 +50,7 @@ export const projects: Project[] = [
     description:
       'Finisterre Gardenz Mobile is a React Native app that lets users locate graves, check their owned plots, stay updated with news, offers, and announcements, and view plot availability even without internet.',
     tags: ['Capacitor', 'PHP'],
-    website: 'https://www.finisterre.site',
+    link: 'https://github.com/archieamas11/finisterre',
     image: '/images/projects/finisterre-mobile.avif',
     platform: 'mobile',
   },

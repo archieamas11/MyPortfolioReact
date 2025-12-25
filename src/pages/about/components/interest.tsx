@@ -2,22 +2,6 @@ import { interests } from '@/pages/about/constants'
 import { AnimatedTooltip } from '@/components/ui/animated-tooltip'
 import { motion } from 'framer-motion'
 
-const container = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.2,
-    },
-  },
-}
-
-const item = {
-  hidden: { opacity: 0, scale: 0.8 },
-  show: { opacity: 1, scale: 1 },
-}
-
 export function InterestItem() {
   return (
     <motion.div
@@ -37,13 +21,12 @@ export function InterestItem() {
       </motion.h2>
       <motion.div
         className="grid grid-cols-3 gap-3"
-        variants={container}
         initial="hidden"
         whileInView="show"
         viewport={{ once: true }}
       >
         {interests.map((interest) => (
-          <motion.div key={interest.id} variants={item}>
+          <motion.div key={interest.id}>
             <AnimatedTooltip
               label={interest.label}
               className="hover:border-primary/20 glass-effect cursor-auto overflow-hidden rounded-lg p-2 text-center shadow-sm transition-all duration-200 hover:bg-white/10 hover:shadow-md sm:p-3"

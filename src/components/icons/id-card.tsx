@@ -7,35 +7,45 @@ import { motion, useAnimation } from 'motion/react'
 
 import { cn } from '@/lib/utils'
 
-export interface FolderCodeIconHandle {
+export interface UserIconHandle {
   startAnimation: () => void
   stopAnimation: () => void
 }
 
-interface FolderCodeIconProps extends HTMLAttributes<HTMLDivElement> {
+interface UserIconProps extends HTMLAttributes<HTMLDivElement> {
   size?: number
 }
 
-const CODE_VARIANTS: Variants = {
-  normal: { x: 0, rotate: 0, opacity: 1 },
-  animate: (direction: number) => ({
-    x: [0, direction * 2, 0],
-    rotate: [0, direction * -8, 0],
-    opacity: 1,
-    transition: {
-      duration: 0.5,
-      ease: 'easeInOut',
-    },
-  }),
+const PATH_VARIANT: Variants = {
+  normal: { pathLength: 1, opacity: 1, pathOffset: 0 },
+  animate: {
+    pathLength: [0, 1],
+    opacity: [0, 1],
+    pathOffset: [1, 0],
+  },
 }
 
-const FolderCodeIcon = forwardRef<FolderCodeIconHandle, FolderCodeIconProps>(
+const CIRCLE_VARIANT: Variants = {
+  normal: {
+    pathLength: 1,
+    pathOffset: 0,
+    scale: 1,
+  },
+  animate: {
+    pathLength: [0, 1],
+    pathOffset: [1, 0],
+    scale: [0.5, 1],
+  },
+}
+
+const UserIcon = forwardRef<UserIconHandle, UserIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
     const controls = useAnimation()
     const isControlledRef = useRef(false)
 
     useImperativeHandle(ref, () => {
       isControlledRef.current = true
+
       return {
         startAnimation: () => controls.start('animate'),
         stopAnimation: () => controls.start('normal'),
@@ -63,7 +73,6 @@ const FolderCodeIcon = forwardRef<FolderCodeIconHandle, FolderCodeIconProps>(
       },
       [controls, onMouseLeave],
     )
-
     return (
       <div
         className={cn(className)}
@@ -82,20 +91,16 @@ const FolderCodeIcon = forwardRef<FolderCodeIconHandle, FolderCodeIconProps>(
           strokeLinecap="round"
           strokeLinejoin="round"
         >
-          <path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2z" />
+          <motion.circle cx="12" cy="8" r="5" animate={controls} variants={CIRCLE_VARIANT} />
+
           <motion.path
-            d="M10 10.5 8 13l2 2.5"
-            variants={CODE_VARIANTS}
+            d="M20 21a8 8 0 0 0-16 0"
+            variants={PATH_VARIANT}
+            transition={{
+              delay: 0.2,
+              duration: 0.3,
+            }}
             animate={controls}
-            initial="normal"
-            custom={-1}
-          />
-          <motion.path
-            d="m14 10.5 2 2.5-2 2.5"
-            variants={CODE_VARIANTS}
-            animate={controls}
-            initial="normal"
-            custom={1}
           />
         </svg>
       </div>
@@ -103,6 +108,6 @@ const FolderCodeIcon = forwardRef<FolderCodeIconHandle, FolderCodeIconProps>(
   },
 )
 
-FolderCodeIcon.displayName = 'FolderCodeIcon'
+UserIcon.displayName = 'UserIcon'
 
-export { FolderCodeIcon }
+export { UserIcon }

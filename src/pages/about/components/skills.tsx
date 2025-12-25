@@ -1,7 +1,6 @@
 import { cn } from '@/lib/utils'
 import { skillsArr } from '../constants'
 import { motion } from 'framer-motion'
-import { useIsMobile } from '@/hooks/use-mobile'
 import { useSequentialReveal } from '@/hooks/useSequentialReveal'
 // import { Badge } from '@/components/ui/badge'
 
@@ -11,22 +10,15 @@ function SkillsItems() {
     threshold: 0.25,
     replay: true,
   })
-  const isMobile = useIsMobile()
 
   return (
     <div className="space-y-8">
-      <motion.div
-        className="space-y-2"
-        initial={{ x: isMobile ? 0 : -50, opacity: 0, filter: 'blur(8px)' }}
-        whileInView={{ x: 0, opacity: 1, filter: 'blur(0px)' }}
-        transition={{ duration: 0.7 }}
-        viewport={{ once: true }}
-      >
+      <div className="space-y-2">
         <h2 className="font-oswald text-3xl font-bold tracking-widest sm:text-4xl md:text-5xl lg:text-6xl">
           SKILLS
         </h2>
-        <p className="text-muted-foreground">My technical skills and proficiency levels</p>
-      </motion.div>
+        <p className="text-muted-foreground">Tools and technologies I work with</p>
+      </div>
 
       <motion.div className="grid grid-cols-2 gap-4 py-2 lg:grid-cols-7 lg:gap-6" ref={containerRef}>
         {skillsArr.map((skill) => {

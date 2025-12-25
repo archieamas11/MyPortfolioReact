@@ -1,6 +1,6 @@
 import { HomeIcon } from '@/components/icons/home'
-import { SmileIcon } from '@/components/icons/smile'
-import { GitForkIcon } from '@/components/icons/git-fork'
+import { UserIcon } from '@/components/icons/id-card'
+import { FolderCodeIcon } from '@/components/icons/git-fork'
 import { MessageCircleIcon } from '@/components/icons/message-circle'
 import { BotMessageSquareIcon } from '@/components/icons/bot'
 import type { NavItem } from './types'
@@ -16,14 +16,14 @@ export const navigationItems: NavItem[] = [
   {
     id: 'about-nav',
     label: 'About',
-    icon: SmileIcon,
+    icon: UserIcon,
     href: '#about-me',
     ariaLabel: 'About me - Navigation bar',
   },
   {
     id: 'projects-nav',
     label: 'Projects',
-    icon: GitForkIcon,
+    icon: FolderCodeIcon,
     href: '#projects',
     ariaLabel: 'Projects - Navigation bar',
   },
