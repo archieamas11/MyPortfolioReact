@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback, useEffect } from 'react'
+import { useState, useRef, useCallback } from 'react'
 import { toast } from 'sonner'
 import { sendChatMessageStreaming } from '@/api/api.chatbot'
 import type { Message } from '@/types/types'
@@ -18,12 +18,6 @@ export function useChatbotApi({
 }: UseChatbotApiParams) {
   const [isLoading, setIsLoading] = useState(false)
   const abortControllerRef = useRef<AbortController | null>(null)
-
-  useEffect(() => {
-    return () => {
-      abortControllerRef.current?.abort()
-    }
-  }, [])
 
   const cancelRequest = useCallback(() => {
     abortControllerRef.current?.abort()

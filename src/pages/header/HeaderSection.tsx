@@ -27,7 +27,6 @@ export function HeaderSection() {
   const [activeSection, setActiveSection] = useActiveSection(isChatbotOpen)
   const isMini = useScrollDirection(isMobile, isChatbotOpen)
 
-  // Handle chatbot toggle with active section updates
   const handleChatbotToggle = useCallback(() => {
     toggleChatbot()
     if (!isChatbotOpen) {
@@ -37,7 +36,6 @@ export function HeaderSection() {
     }
   }, [isChatbotOpen, toggleChatbot, setActiveSection])
 
-  // Handle chatbot close with active section update
   const handleChatbotClose = useCallback(() => {
     closeChatbot()
     setActiveSection(calculateActiveSection(window.scrollY))
@@ -50,6 +48,7 @@ export function HeaderSection() {
     setActiveSection,
   })
 
+  // This is for enabling the header background in the projects section when it is in the viewport to improve visibility
   useEffect(() => {
     setProjectsElement(document.getElementById('projects'))
   }, [])
