@@ -60,7 +60,7 @@ const NavigationItem = memo(
                 'ease-in-out',
                 {
                   'glass-effect bg-primary/20 text-accent scale-105': isActive,
-                  'h-17 w-17 p-1': !isMini && !isMobile,
+                  'h-17 w-17': !isMini && !isMobile,
                   'h-14 w-14': isMini && !isMobile,
                   'h-10 w-10': isMobile,
                 },
