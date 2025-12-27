@@ -3,6 +3,7 @@ import { UserIcon } from '@/components/icons/id-card'
 import { FolderCodeIcon } from '@/components/icons/git-fork'
 import { MessageCircleIcon } from '@/components/icons/message-circle'
 import { BotMessageSquareIcon } from '@/components/icons/bot'
+import { CHATBOT_ANIMATION_DURATION } from './ChatbotContainer'
 import type { NavItem } from './types'
 
 export const navigationItems: NavItem[] = [
@@ -46,4 +47,4 @@ export const navigationItems: NavItem[] = [
 export const SCROLL_OFFSET = 400
 export const SCROLL_TOP_OFFSET = 80
 export const MINI_MODE_THRESHOLD = 50
-export const CHATBOT_CLOSE_DELAY = 50
+export const CHATBOT_CLOSE_DELAY = CHATBOT_ANIMATION_DURATION
