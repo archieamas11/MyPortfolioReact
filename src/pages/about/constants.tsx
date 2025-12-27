@@ -166,7 +166,6 @@ export const experienceData: ExperienceItem[] = [
             alt="DOI"
             loading="lazy"
             referrerPolicy="no-referrer"
-            crossOrigin="anonymous"
           />
         </a>
         <div className="mt-4">
