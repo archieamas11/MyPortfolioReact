@@ -18,10 +18,9 @@ export const projects: Project[] = [
     description:
       'Chatbot that gives replies based on stored FAQs in a vector database. No made-up answers. Clear and direct info only.',
     detailedDescription:
-      'Finisterre Gardenz is a comprehensive cemetery management system that leverages GIS technology to provide real-time plot inventory and navigation solutions. The system includes both web and Android applications, allowing users to easily locate and manage cemetery plots. Key features include turn-by-turn navigation with text-to-speech (TTS) capabilities, ensuring a seamless experience for visitors. The platform is designed to streamline cemetery operations, enhance user experience, and provide accurate, up-to-date information on plot availability and locations.',
+      'AskMeBot is an intelligent chatbot application that leverages Retrieval-Augmented Generation (RAG) technology to provide accurate, context-aware responses. The system uses a vector database to store and retrieve FAQs, ensuring that all answers are based on verified information rather than generated content. This approach eliminates hallucinations and provides users with reliable, direct information. Built with React and modern AI technologies, AskMeBot demonstrates advanced natural language processing capabilities while maintaining accuracy and trustworthiness.',
     tags: ['React', 'RAG', 'AI'],
     website: 'https://rag-ten-green.vercel.app',
-    // link: 'https://github.com/archieamas11/RAG',
     image: '/images/projects/askme.avif',
     platform: 'web',
   },
@@ -30,21 +29,12 @@ export const projects: Project[] = [
     description:
       'Desktop shopping app in Java with Swing and MySQL. Role-based access for customers (browse, cart, checkout, rate) and admins (inventory, reviews). Showcases OOP, GUI, and DB skills.',
     detailedDescription:
-      'Finisterre Gardenz is a comprehensive cemetery management system that leverages GIS technology to provide real-time plot inventory and navigation solutions. The system includes both web and Android applications, allowing users to easily locate and manage cemetery plots. Key features include turn-by-turn navigation with text-to-speech (TTS) capabilities, ensuring a seamless experience for visitors. The platform is designed to streamline cemetery operations, enhance user experience, and provide accurate, up-to-date information on plot availability and locations.',
+      'Shoptify is a comprehensive desktop shopping application built with Java Swing and MySQL, demonstrating strong object-oriented programming principles and database management skills. The application features a dual-role system: customers can browse products, manage shopping carts, complete checkouts, and rate products, while administrators have access to inventory management and review moderation tools. The system showcases advanced GUI design, efficient database operations, and robust user authentication and authorization mechanisms.',
     tags: ['Java', 'MySQL', 'Swing'],
     link: 'https://github.com/archieamas11/shoptify',
     image: '/images/projects/shoptify.avif',
     platform: 'web',
   },
-  // {
-  //   title: 'Queen’z Retail POS',
-  //   description:
-  //     'A desktop POS and inventory system for Queen’z that streamlines sales, tracks stock in real time, shows monthly reports, and supports Excel import.',
-  //   tags: ['Java', 'MySQL', 'Swing'],
-  //   link: 'https://github.com/archieamas11/queenz_inventory_system',
-  //   image: '/images/projects/queenz.avif',
-  //   platform: 'web',
-  // },
   {
     title: 'Finisterre Mobile',
     description:

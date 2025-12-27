@@ -18,7 +18,6 @@ export default function ExperiencePage() {
               <div className="bg-accent h-2 w-2 rounded-full" />
             </div>
 
-            {/* Date Badge */}
             <Badge variant="secondary" className="mb-1">
               {item.date}
             </Badge>

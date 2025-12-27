@@ -160,7 +160,14 @@ export const experienceData: ExperienceItem[] = [
         </b>
         in Vietnam as one of the representatives of St. Cecilia's College–Cebu, Inc.
         <a href="https://doi.org/10.5281/zenodo.17815901" target="_blank" rel="noopener noreferrer">
-          <img className="mt-5" src="https://zenodo.org/badge/DOI/10.5281/zenodo.17815901.svg" alt="DOI" />
+          <img
+            className="mt-5"
+            src="https://zenodo.org/badge/DOI/10.5281/zenodo.17815901.svg"
+            alt="DOI"
+            loading="lazy"
+            referrerPolicy="no-referrer"
+            crossOrigin="anonymous"
+          />
         </a>
         <div className="mt-4">
           <h4 className="mb-2 font-semibold">Key Achievements</h4>
