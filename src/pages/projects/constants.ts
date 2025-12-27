@@ -22,7 +22,7 @@ export const projects: Project[] = [
     tags: ['React', 'RAG', 'AI'],
     website: 'https://rag-ten-green.vercel.app',
     // link: 'https://github.com/archieamas11/RAG',
-    image: '/images/projects/askme.png',
+    image: '/images/projects/askme.avif',
     platform: 'web',
   },
   {

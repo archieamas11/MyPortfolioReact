@@ -26,7 +26,7 @@ export function AboutSection() {
           <Avatar className="h-80 w-60 rounded-lg shadow-lg lg:h-full lg:w-80">
             <div className="relative h-full w-full">
               <img
-                src="images/me-light.jpg"
+                src="images/me-light.avif"
                 alt="Archie Albarico profile picture"
                 className={cn(
                   'absolute inset-0 h-full w-full rounded-lg object-cover transition-opacity duration-300',
@@ -36,7 +36,7 @@ export function AboutSection() {
                 aria-hidden={theme === 'dark'}
               />
               <img
-                src="images/me-dark.png"
+                src="images/me-dark.avif"
                 alt="Archie Albarico profile picture"
                 className={cn(
                   'absolute inset-0 h-full w-full rounded-lg object-cover transition-opacity duration-300',

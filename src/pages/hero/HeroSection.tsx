@@ -37,7 +37,7 @@ export default function HeroSection() {
           <a href="#hero" aria-label="Go to homepage">
             <img
               id="logo"
-              src={'images/aaa-white.png'}
+              src={'images/aaa-white.avif'}
               alt="Archie Albarico Logo"
               className={cn(
                 `home-logo glass-effect bg-accent border-background rounded-full border-15 object-contain ${isScrolled ? 'scrolled' : ''}`,
