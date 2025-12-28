@@ -24,7 +24,7 @@ const ChatbotContainer = ({ isOpen, isMini }: { isOpen: boolean; isMini: boolean
       initial={false}
       animate={{ height: isOpen ? 'auto' : 0, opacity: isOpen ? 1 : 0 }}
       transition={{ duration: CHATBOT_ANIMATION_DURATION / 1000, ease: 'easeInOut' }}
-      className="max-w-77 lg:max-w-118"
+      className="max-w-77 md:max-w-118 lg:max-w-118"
       style={{ overflow: 'hidden' }}
     >
       <Activity mode={activityMode}>

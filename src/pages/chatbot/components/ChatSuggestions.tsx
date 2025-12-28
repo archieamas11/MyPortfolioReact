@@ -39,7 +39,7 @@ export function ChatSuggestions({
             disabled={isLoading || isRateLimited}
             className={cn(
               'glass-effect text-muted-foreground hover:text-foreground flex shrink-0 items-center gap-1 rounded-lg px-2 py-1 text-xs whitespace-nowrap transition-colors sm:gap-1.5 sm:px-3 sm:py-1.5 sm:text-sm',
-              'hover:bg-accent/50 focus:ring-accent focus:ring-2 focus:ring-offset-2 focus:outline-none',
+              'hover:bg-accent/20 focus:ring-accent cursor-pointer focus:ring-2 focus:ring-offset-2 focus:outline-none',
               'disabled:cursor-not-allowed disabled:opacity-50',
             )}
             aria-label={`Select suggestion: ${suggestion.tag}`}
