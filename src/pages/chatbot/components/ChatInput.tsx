@@ -58,9 +58,12 @@ export function ChatInput({
           value={value}
           placeholder={isRateLimited ? 'Please wait before sending another message...' : 'Ask anything'}
           onChange={handleInputChange}
-          className={cn('glass-effect min-h-10 w-full resize-none rounded-lg py-3 pr-12', {
-            'opacity-50': isRateLimited,
-          })}
+          className={cn(
+            'glass-effect md:text-md min-h-10 w-full resize-none rounded-lg py-3 pr-12 text-sm lg:text-base',
+            {
+              'opacity-50': isRateLimited,
+            },
+          )}
           onKeyDown={handleKeyDown}
           disabled={isRateLimited || disabled}
           aria-label="Chat message input"
