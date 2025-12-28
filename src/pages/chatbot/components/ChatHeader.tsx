@@ -9,8 +9,10 @@ interface ChatHeaderProps {
 
 export function ChatHeader({ onClear, isLoading }: ChatHeaderProps) {
   return (
-    <CardHeader className="mb-2 flex flex-row items-center justify-between">
-      <CardTitle className="text-foreground text-base font-semibold">Portfolio Chatbot</CardTitle>
+    <CardHeader className="flex flex-row items-center justify-between px-4 py-3 sm:px-6">
+      <CardTitle className="text-foreground flex items-center gap-2 text-base font-semibold">
+        Portfolio Chatbot
+      </CardTitle>
       <Button
         onClick={onClear}
         disabled={isLoading}

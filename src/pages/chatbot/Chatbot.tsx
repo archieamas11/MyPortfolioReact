@@ -1,16 +1,15 @@
 import { useState, useRef, useCallback, useMemo, useEffect } from 'react'
-import { CardContent } from '@/components/ui/card'
 import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
 import { ChatHeader } from './components/ChatHeader'
 import { ChatMessages } from './components/ChatMessages'
-import { ChatInput } from './components/ChatInput'
 import { ChatSuggestions } from './components/ChatSuggestions'
 import { useChatMessages } from '../../hooks/useChatMessages'
 import { useChatbotApi } from '../../hooks/useChatbotApi'
 import { useRateLimit } from '../../hooks/useRateLimit'
 import { useIsMobile } from '../../hooks/use-mobile'
 import { SUGGESTION_TAGS } from './constants'
+import ChatInput from '@/pages/chatbot/components/ChatInput'
 
 interface ChatbotProps {
   isMini?: boolean
@@ -79,13 +78,20 @@ export function Chatbot({ isMini = false }: ChatbotProps) {
 
   return (
     <div
-      className="w-full border-none bg-transparent shadow-none"
+      className={cn('relative flex w-full flex-col overflow-hidden')}
       onWheel={(e) => e.stopPropagation()}
       style={{ overscrollBehavior: 'contain' }}
     >
       <ChatHeader onClear={handleClearChat} isLoading={isLoading} />
-      <CardContent className={cn('space-y-8', isMini ? 'pr-2.5' : 'px-6')}>
+      <div className="relative min-h-0 flex-1 overflow-hidden">
         <ChatMessages messages={messages} scrollAreaRef={scrollAreaRef} />
+      </div>
+      <div
+        className={cn('relative pb-5', {
+          'ml-1 px-4 pt-2': isMobile || isMini,
+          'px-4 pt-3': !isMobile && !isMini,
+        })}
+      >
         <ChatSuggestions
           suggestions={currentSuggestions}
           onSelect={handleSelectSuggestion}
@@ -100,7 +106,7 @@ export function Chatbot({ isMini = false }: ChatbotProps) {
           isLoading={isLoading}
           isRateLimited={isRateLimited}
         />
-      </CardContent>
+      </div>
     </div>
   )
 }
