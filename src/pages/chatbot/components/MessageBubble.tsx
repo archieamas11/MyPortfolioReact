@@ -51,13 +51,10 @@ export function MessageBubble({ message }: MessageBubbleProps) {
                   href={props.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={cn(
-                    'font-medium underline underline-offset-2 transition-colors',
-                    isUser
-                      ? 'text-primary-foreground/90 hover:text-primary-foreground'
-                      : 'text-primary hover:text-primary/80',
-                  )}
-                />
+                  className="text-blue-600 underline underline-offset-4 dark:text-blue-300"
+                >
+                  {props.children}
+                </a>
               ),
               p: ({ ...props }) => <p {...props} className="mb-2 last:mb-0" />,
               ul: ({ ...props }) => <ul {...props} className="mb-2 ml-4 list-disc space-y-1 last:mb-0" />,
