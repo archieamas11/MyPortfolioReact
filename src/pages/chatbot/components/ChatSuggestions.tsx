@@ -41,7 +41,7 @@ export function ChatSuggestions({
               'glass-effect text-muted-foreground hover:text-foreground group border-border/50 relative flex shrink-0 items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs whitespace-nowrap transition-all duration-200 sm:gap-2 sm:px-3.5 sm:py-2 sm:text-sm',
               'hover:border-primary/30 hover:bg-accent/30 focus:ring-accent cursor-pointer hover:shadow-md focus:ring-2 focus:ring-offset-2 focus:outline-none',
               'disabled:hover:border-border/50 disabled:hover:bg-background/50 disabled:cursor-not-allowed disabled:opacity-50',
-              'animate-in fade-in slide-in-from-left-2',
+              // 'animate-in fade-in slide-in-from-left-2',
             )}
             style={{ animationDelay: `${index * 50}ms` }}
             aria-label={`Select suggestion: ${suggestion.tag}`}

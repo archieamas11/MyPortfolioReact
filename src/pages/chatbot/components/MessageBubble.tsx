@@ -16,7 +16,7 @@ export function MessageBubble({ message }: MessageBubbleProps) {
 
   return (
     <div
-      className={cn('animate-in fade-in slide-in-from-bottom-2 flex duration-300', {
+      className={cn('flex', {
         'justify-end': isUser,
         'justify-start': !isUser,
       })}

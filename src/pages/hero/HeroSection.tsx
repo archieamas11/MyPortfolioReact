@@ -80,7 +80,10 @@ export default function HeroSection() {
               initial={isMobile ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: isMobile ? 0 : 0.7, delay: isMobile ? 0 : 0.2 }}
-              className="from-primary font-oswald to-accent relative ml-0 bg-gradient-to-b from-50% to-50% bg-clip-text text-center text-[60px] leading-tight font-bold tracking-widest text-transparent sm:text-[60px] md:text-[70px] lg:text-[105px] xl:ml-3 xl:text-[140px]"
+              className={cn(
+                'from-primary font-oswald to-accent relative ml-0 bg-gradient-to-b from-50% to-50% bg-clip-text text-center text-[60px] leading-tight font-bold tracking-widest text-transparent sm:text-[60px] md:text-[70px] lg:text-[105px] xl:ml-3 xl:text-[140px]',
+                // showSnowfall && 'snow-caps-effect',
+              )}
             >
               ARCHIE ALBARICO
               <span className="from-primary/10 to-accent/30 absolute inset-0 -z-10 bg-gradient-to-b opacity-50 blur-xl" />
