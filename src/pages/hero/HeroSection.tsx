@@ -1,15 +1,28 @@
 import { Button } from '@/components/ui/button'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { Contact, FileUser } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { motion } from 'framer-motion'
 import { useIsMobile } from '@/hooks/use-mobile'
 import { AccentColorSelector } from '@/components/AccentColorSelector'
+import Snowfall from 'react-snowfall'
+import { isHolidaySeason } from '@/utils/date-utils'
+import { useTheme } from 'next-themes'
 
 export default function HeroSection() {
   const [isScrolled, setIsScrolled] = useState(false)
   const isMobile = useIsMobile()
+  const { resolvedTheme } = useTheme()
+  const showSnowfall = useMemo(() => isHolidaySeason(), [])
+
+  const snowfallConfig = useMemo(
+    () => ({
+      snowflakeCount: 50,
+      color: resolvedTheme === 'light' ? '#4A90E2' : '#fff',
+    }),
+    [resolvedTheme],
+  )
 
   useEffect(() => {
     const handleScroll = () => {
@@ -29,7 +42,22 @@ export default function HeroSection() {
           className="relative top-10 flex w-full justify-center lg:top-40"
         >
           {/* Hero section logo background */}
-          <div className="bg-primary/15 bg-effect from-accent/15 hidden h-65 w-full rounded-t-3xl bg-gradient-to-t to-transparent sm:block" />
+          <div className="bg-primary/15 bg-effect from-accent/15 relative hidden h-65 w-full overflow-hidden rounded-t-3xl bg-gradient-to-t to-transparent sm:block">
+            {showSnowfall && !isMobile && (
+              <Snowfall
+                snowflakeCount={snowfallConfig.snowflakeCount}
+                color={snowfallConfig.color}
+                style={{
+                  position: 'absolute',
+                  width: '100%',
+                  height: '100%',
+                  top: 0,
+                  left: 0,
+                  zIndex: 0,
+                }}
+              />
+            )}
+          </div>
           <div className="absolute top-45 sm:top-2 sm:right-2">
             <AccentColorSelector />
           </div>
