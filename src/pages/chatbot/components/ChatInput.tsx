@@ -130,15 +130,6 @@ export default function ChatInput({
             </div>
             <div className="flex items-center gap-2" style={{ gridArea: isExpanded ? 'footer' : 'trailing' }}>
               <div className="ms-auto flex items-center gap-1.5">
-                {/* <Button
-                  type="button"
-                  variant="ghost"
-                  size="icon"
-                  className="hover:bg-accent h-9 w-9 rounded-full"
-                  disabled={isRateLimited || disabled}
-                >
-                  <IconMicrophone className="text-muted-foreground size-5" />
-                </Button> */}
                 {(value.trim() || isLoading) && (
                   <Button
                     type="button"
@@ -146,7 +137,7 @@ export default function ChatInput({
                     size="icon"
                     disabled={!isLoading && (isRateLimited || !value.trim() || disabled)}
                     aria-label={isLoading ? 'Cancel message' : 'Send message'}
-                    className="bg-accent/40 text-primary h-9 w-9 rounded-full shadow-md transition-all duration-200 hover:scale-105 hover:shadow-lg active:scale-95"
+                    className="bg-accent/40 glass-effect hover:bg-accent/50 text-primary h-9 w-9 rounded-full shadow-md transition-all duration-200 hover:scale-105 hover:shadow-lg active:scale-95"
                   >
                     {isLoading ? (
                       <IconPlayerStopFilled className="size-5" />
