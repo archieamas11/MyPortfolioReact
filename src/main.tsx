@@ -4,7 +4,8 @@ import './index.css'
 import 'flag-icons/css/flag-icons.min.css'
 import App from './App.tsx'
 import { ThemeProvider } from '@/components/provider/theme-provider.tsx'
-import { BrowserRouter } from 'react-router'
+import { BrowserRouter, Route, Routes } from 'react-router'
+import NotFound from '@/pages/NotFound.tsx'
 
 if (import.meta.env.DEV) {
   import('react-scan')
@@ -21,7 +22,10 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
       <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-        <App />
+        <Routes>
+          <Route path="/" element={<App />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
       </ThemeProvider>
     </BrowserRouter>
   </StrictMode>,
