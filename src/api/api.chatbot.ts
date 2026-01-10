@@ -28,6 +28,7 @@ interface SSEEvent {
 interface ChatRequestOptions {
   prompt: string
   existingIntents: string[]
+  conversationHistory?: Array<{ role: 'user' | 'assistant'; content: string }>
 }
 
 interface ErrorEventData {
@@ -253,6 +254,7 @@ export async function sendChatMessageStreaming(
   onChunk: (text: string) => void,
   existingIntents: string[] = [],
   abortSignal?: AbortSignal,
+  conversationHistory?: Array<{ role: 'user' | 'assistant'; content: string }>,
 ): Promise<ChatbotResponse> {
   try {
     validateConfiguration()
@@ -276,6 +278,8 @@ export async function sendChatMessageStreaming(
       const requestBody: ChatRequestOptions = {
         prompt: trimmedQuery,
         existingIntents: Array.isArray(existingIntents) ? existingIntents : [],
+        conversationHistory:
+          conversationHistory && Array.isArray(conversationHistory) ? conversationHistory : undefined,
       }
       const headers: HeadersInit = {
         'Content-Type': 'application/json',
@@ -368,6 +372,7 @@ export async function sendChatMessage(
   query: string,
   existingIntents: string[] = [],
   abortSignal?: AbortSignal,
+  conversationHistory?: Array<{ role: 'user' | 'assistant'; content: string }>,
 ): Promise<ChatbotResponse> {
-  return sendChatMessageStreaming(query, () => {}, existingIntents, abortSignal)
+  return sendChatMessageStreaming(query, () => {}, existingIntents, abortSignal, conversationHistory)
 }
