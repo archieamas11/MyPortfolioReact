@@ -2,29 +2,19 @@ import { useTheme } from 'next-themes'
 import React from 'react'
 import { SunIcon, MoonIcon } from 'lucide-react'
 
-import {
-  type AnimationStart,
-  type AnimationVariant,
-  createAnimation,
-} from '@/components/provider/theme-animations'
+import { createAnimation } from '@/components/provider/theme-animations'
 import { Button } from '@/components/ui/button'
 
 interface ThemeToggleAnimationProps {
-  variant?: AnimationVariant
-  start?: AnimationStart
-  showLabel?: boolean
-  url?: string
   className?: string
   size?: 'sm' | 'md' | 'lg'
+  isMobile?: boolean
 }
 
 export function ThemeToggleButton({
-  variant = 'circle-blur',
-  start = 'top-left',
-  showLabel = false,
-  url = '',
   className = '',
   size = 'md',
+  isMobile = false,
 }: ThemeToggleAnimationProps) {
   const { resolvedTheme, setTheme } = useTheme()
   const [mounted, setMounted] = React.useState(false)
@@ -32,7 +22,7 @@ export function ThemeToggleButton({
 
   const styleId = 'theme-transition-styles'
 
-  const updateStyles = React.useCallback((css: string, _name: string) => {
+  const updateStyles = React.useCallback((css: string) => {
     if (typeof window === 'undefined') return
 
     let styleElement = document.getElementById(styleId) as HTMLStyleElement
@@ -47,24 +37,24 @@ export function ThemeToggleButton({
   }, [])
 
   const toggleTheme = React.useCallback(() => {
-    const animation = createAnimation(variant, start, url)
-
-    updateStyles(animation.css, animation.name)
-
-    if (typeof window === 'undefined') return
-
     const switchTheme = () => {
       const next = (resolvedTheme ?? 'light') === 'light' ? 'dark' : 'light'
       setTheme(next)
     }
 
-    if (!document.startViewTransition) {
+    if (typeof window === 'undefined') return
+
+    // Skip animation on mobile or if View Transitions API is not supported
+    if (isMobile || !document.startViewTransition) {
       switchTheme()
       return
     }
 
+    const animation = createAnimation()
+    updateStyles(animation.css)
+
     document.startViewTransition(switchTheme)
-  }, [resolvedTheme, setTheme, variant, start, url, updateStyles])
+  }, [resolvedTheme, setTheme, updateStyles, isMobile])
 
   const iconSize = size === 'sm' ? 14 : size === 'lg' ? 20 : 16
 
@@ -99,16 +89,6 @@ export function ThemeToggleButton({
           <div style={{ width: iconSize, height: iconSize }} />
         )}
       </div>
-      {showLabel && (
-        <>
-          <span className="absolute -top-10 hidden rounded-full px-2 group-hover:block">
-            variant = {variant}
-          </span>
-          <span className="absolute -bottom-10 hidden rounded-full px-2 group-hover:block">
-            start = {start}
-          </span>
-        </>
-      )}
     </Button>
   )
 }
