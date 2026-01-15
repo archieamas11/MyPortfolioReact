@@ -21,7 +21,7 @@ if (import.meta.env.DEV) {
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
-    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <ThemeProvider attribute="class" defaultTheme="dark" storageKey="vite-ui-theme">
         <Routes>
           <Route path="/" element={<App />} />
           <Route path="*" element={<NotFound />} />

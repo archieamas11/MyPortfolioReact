@@ -4,15 +4,15 @@ import { InterestItem } from './components/interest'
 import AboutMe from './components/about-me'
 import Contact from './components/contact'
 import SkillsItems from './components/skills'
-import { useResolvedTheme } from '@/hooks/useResolvedTheme'
 import { cn } from '@/lib/utils'
 import { Tabs, TabsList, TabsPanel, TabsTab } from '@/components/ui/tabs'
 import ExperiencePage from './experience'
 import EducationPage from './education'
 import { motion } from 'framer-motion'
+import { useTheme } from 'next-themes'
 
 export function AboutSection() {
-  const resolvedTheme = useResolvedTheme()
+  const { theme } = useTheme()
   return (
     <section id="about-me" className="section-wrapper">
       <div className="flex flex-col gap-8 lg:flex-row lg:gap-12">
@@ -30,20 +30,20 @@ export function AboutSection() {
                 alt="Archie Albarico profile picture"
                 className={cn(
                   'absolute inset-0 h-full w-full rounded-lg object-cover transition-opacity duration-300',
-                  resolvedTheme === 'dark' ? 'opacity-0' : 'opacity-100',
+                  theme === 'dark' ? 'opacity-0' : 'opacity-100',
                 )}
                 loading="eager"
-                aria-hidden={resolvedTheme === 'dark'}
+                aria-hidden={theme === 'dark'}
               />
               <img
                 src="images/me-dark.avif"
                 alt="Archie Albarico profile picture"
                 className={cn(
                   'absolute inset-0 h-full w-full rounded-lg object-cover transition-opacity duration-300',
-                  resolvedTheme === 'dark' ? 'opacity-100' : 'opacity-0',
+                  theme === 'dark' ? 'opacity-100' : 'opacity-0',
                 )}
                 loading="eager"
-                aria-hidden={resolvedTheme !== 'dark'}
+                aria-hidden={theme !== 'dark'}
               />
             </div>
           </Avatar>

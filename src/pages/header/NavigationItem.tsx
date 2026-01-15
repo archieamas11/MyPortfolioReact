@@ -4,10 +4,9 @@ import type React from 'react'
 import { useRef, memo } from 'react'
 import type { NavItem } from './types'
 import Separator from './components/seperator'
-import { useTheme } from '@/components/provider/theme-provider'
-import { useResolvedTheme } from '@/hooks/useResolvedTheme'
 import { SunIcon, type SunIconHandle } from '@/components/icons/sun'
 import { MoonIcon, type MoonIconHandle } from '@/components/icons/moon'
+import { useTheme } from 'next-themes'
 
 interface IconHandle {
   startAnimation: () => void
@@ -28,34 +27,31 @@ const NavigationItem = memo(
     isMobile: boolean
     onClick: (e: React.MouseEvent<HTMLAnchorElement>, href: string, id: string) => void
   }) => {
-    const { setTheme } = useTheme()
-    const resolvedTheme = useResolvedTheme()
+    const { theme, setTheme } = useTheme()
     const iconRef = useRef<IconHandle | SunIconHandle | MoonIconHandle>(null)
-    
+
     if (item.type === 'separator') {
       return <Separator isMini={isMini} />
     }
 
     const isThemeToggle = item.id === 'theme-toggle-nav'
-    
-    // For theme toggle, determine icon based on current theme
+
     let Icon: React.ForwardRefExoticComponent<
       React.HTMLAttributes<HTMLDivElement> & { size?: number } & React.RefAttributes<IconHandle>
     > | null = null
 
     if (isThemeToggle) {
-      // Show moon icon in light mode, sun icon in dark mode
-      Icon = resolvedTheme === 'dark' ? MoonIcon : SunIcon
+      Icon = theme === 'dark' ? MoonIcon : SunIcon
     } else if (item.icon) {
       Icon = item.icon as React.ForwardRefExoticComponent<
         React.HTMLAttributes<HTMLDivElement> & { size?: number } & React.RefAttributes<IconHandle>
       >
     }
 
-    // Regular navigation items require these fields
-    if (!Icon || !item.href || !item.label || !item.ariaLabel) {
+    if (!Icon || !item.ariaLabel || (!isThemeToggle && (!item.href || !item.label))) {
       return null
     }
+
     const showTooltip = !isActive && !isMobile
 
     const handleMouseEnter = () => {
@@ -75,13 +71,14 @@ const NavigationItem = memo(
         <Tooltip open={showTooltip ? undefined : false}>
           <TooltipTrigger asChild>
             <a
-              href={item.href}
+              href={item.href || '#'}
               aria-label={item.ariaLabel}
               aria-current={isActive ? 'page' : undefined}
+              tabIndex={0}
               onClick={(e) => {
                 if (isThemeToggle) {
                   e.preventDefault()
-                  setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')
+                  setTheme(theme === 'dark' ? 'light' : 'dark')
                 } else {
                   onClick(e, item.href!, item.id)
                 }
