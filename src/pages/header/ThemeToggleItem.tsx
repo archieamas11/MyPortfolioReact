@@ -13,7 +13,7 @@ const ThemeToggleItem = ({ isMini, isMobile }: { isMini: boolean; isMobile: bool
           })}
         >
           <ThemeToggleButton
-            variant="polygon"
+            variant="circle-blur"
             start="right-middle"
             size={isMini && !isMobile ? 'sm' : 'md'}
             className={cn(
