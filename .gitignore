@@ -33,3 +33,4 @@ dist-ssr
 .github/chatmodes
 MyPortfolio.code-workspace
 docs
+.cursor
