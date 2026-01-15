@@ -1,9 +1,10 @@
 import { useTheme } from 'next-themes'
 import React from 'react'
-import { SunIcon, MoonIcon } from 'lucide-react'
 
 import { createAnimation } from '@/components/provider/theme-animations'
 import { Button } from '@/components/ui/button'
+import { SunIcon } from '@/components/icons/sun'
+import { MoonIcon } from '@/components/icons/moon'
 
 interface ThemeToggleAnimationProps {
   className?: string
@@ -73,16 +74,16 @@ export function ThemeToggleButton({
         {mounted ? (
           <>
             <SunIcon
-              className={`transition-transform duration-300 ease-in-out ${resolvedTheme === 'dark' ? 'scale-0 -rotate-90' : 'scale-120 rotate-0'}`}
               size={iconSize}
               aria-hidden="true"
+              className={`transition-transform duration-300 ease-in-out ${resolvedTheme === 'dark' ? 'scale-0 -rotate-90' : 'scale-120 rotate-0'}`}
             />
             <MoonIcon
+              size={iconSize}
+              aria-hidden="true"
               className={`absolute transition-transform duration-300 ease-in-out ${
                 resolvedTheme === 'dark' ? 'scale-120 rotate-0' : 'scale-0 -rotate-90'
               }`}
-              size={iconSize}
-              aria-hidden="true"
             />
           </>
         ) : (
