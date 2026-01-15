@@ -22,7 +22,7 @@ export const createAnimation = (): Animation => {
     css: `
       ::view-transition-group(root) {
         animation-duration: 0.7s;
-        animation-timing-function: var(--expo-out);
+        animation-timing-function: var(--expo-out, cubic-bezier(0.16, 1, 0.3, 1));
       }
       ::view-transition-new(root) {
         mask: url('${svg}') ${maskPosition} / 0 no-repeat;

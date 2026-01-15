@@ -42,6 +42,17 @@ export const navigationItems: NavItem[] = [
     href: '#chatbot',
     ariaLabel: 'Chatbot - Navigation bar',
   },
+  {
+    id: 'separator-chatbot-theme',
+    type: 'separator',
+  },
+  {
+    id: 'theme-toggle-nav',
+    label: 'Theme',
+    icon: undefined,
+    href: '#theme-toggle',
+    ariaLabel: 'Theme Toggle - Navigation bar',
+  },
 ]
 
 export const SCROLL_OFFSET = 400

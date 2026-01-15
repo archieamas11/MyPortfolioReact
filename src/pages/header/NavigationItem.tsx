@@ -3,6 +3,11 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 import type React from 'react'
 import { useRef, memo } from 'react'
 import type { NavItem } from './types'
+import Separator from './components/seperator'
+import { useTheme } from '@/components/provider/theme-provider'
+import { useResolvedTheme } from '@/hooks/useResolvedTheme'
+import { SunIcon, type SunIconHandle } from '@/components/icons/sun'
+import { MoonIcon, type MoonIconHandle } from '@/components/icons/moon'
 
 interface IconHandle {
   startAnimation: () => void
@@ -23,10 +28,34 @@ const NavigationItem = memo(
     isMobile: boolean
     onClick: (e: React.MouseEvent<HTMLAnchorElement>, href: string, id: string) => void
   }) => {
-    const Icon = item.icon as React.ForwardRefExoticComponent<
+    const { setTheme } = useTheme()
+    const resolvedTheme = useResolvedTheme()
+    const iconRef = useRef<IconHandle | SunIconHandle | MoonIconHandle>(null)
+    
+    if (item.type === 'separator') {
+      return <Separator isMini={isMini} />
+    }
+
+    const isThemeToggle = item.id === 'theme-toggle-nav'
+    
+    // For theme toggle, determine icon based on current theme
+    let Icon: React.ForwardRefExoticComponent<
       React.HTMLAttributes<HTMLDivElement> & { size?: number } & React.RefAttributes<IconHandle>
-    >
-    const iconRef = useRef<IconHandle>(null)
+    > | null = null
+
+    if (isThemeToggle) {
+      // Show moon icon in light mode, sun icon in dark mode
+      Icon = resolvedTheme === 'dark' ? MoonIcon : SunIcon
+    } else if (item.icon) {
+      Icon = item.icon as React.ForwardRefExoticComponent<
+        React.HTMLAttributes<HTMLDivElement> & { size?: number } & React.RefAttributes<IconHandle>
+      >
+    }
+
+    // Regular navigation items require these fields
+    if (!Icon || !item.href || !item.label || !item.ariaLabel) {
+      return null
+    }
     const showTooltip = !isActive && !isMobile
 
     const handleMouseEnter = () => {
@@ -49,7 +78,14 @@ const NavigationItem = memo(
               href={item.href}
               aria-label={item.ariaLabel}
               aria-current={isActive ? 'page' : undefined}
-              onClick={(e) => onClick(e, item.href, item.id)}
+              onClick={(e) => {
+                if (isThemeToggle) {
+                  e.preventDefault()
+                  setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')
+                } else {
+                  onClick(e, item.href!, item.id)
+                }
+              }}
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
               className={cn(

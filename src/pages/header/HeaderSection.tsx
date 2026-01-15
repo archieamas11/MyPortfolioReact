@@ -65,6 +65,10 @@ export function HeaderSection() {
     (e: React.MouseEvent<HTMLAnchorElement>, href: string, itemId: string) => {
       e.preventDefault()
 
+      if (itemId === 'theme-toggle-nav') {
+        return
+      }
+
       if (itemId === 'chatbot-nav') {
         handleChatbotToggle()
         return
@@ -106,14 +110,12 @@ export function HeaderSection() {
     >
       <GlassEffectLayers isChatbotOpen={isChatbotOpen} isProjectsVisible={isProjectsVisible} />
       <div className="relative z-999 flex w-full flex-col overflow-hidden">
-        <div className={cn('max-w-full overflow-x-auto', isMobile ? 'w-fit' : 'w-full')}>
           <NavigationList
             activeSection={activeSection}
             isMini={isMini}
             isMobile={isMobile}
             onNavClick={handleNavClick}
           />
-        </div>
         <div className={cn('w-full', isMini && !isMobile && 'w-[400px]', isMobile && 'max-h-screen p-0')}>
           <ChatbotContainer isOpen={isChatbotOpen} isMini={isMini} />
         </div>
