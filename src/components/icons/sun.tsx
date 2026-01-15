@@ -59,6 +59,7 @@ const SunIcon = forwardRef<SunIconHandle, SunIconProps>(
       },
       [controls, onMouseLeave]
     );
+
     return (
       <div
         className={cn(className)}
@@ -79,14 +80,14 @@ const SunIcon = forwardRef<SunIconHandle, SunIconProps>(
         >
           <circle cx="12" cy="12" r="4" />
           {[
-            "M12 2v2",
-            "m19.07 4.93-1.41 1.41",
-            "M20 12h2",
-            "m17.66 17.66 1.41 1.41",
-            "M12 20v2",
-            "m6.34 17.66-1.41 1.41",
-            "M2 12h2",
-            "m4.93 4.93 1.41 1.41",
+            "M12 3v1",
+            "M12 20v1",
+            "M3 12h1",
+            "M20 12h1",
+            "m18.364 5.636-.707.707",
+            "m6.343 17.657-.707.707",
+            "m5.636 5.636.707.707",
+            "m17.657 17.657.707.707",
           ].map((d, index) => (
             <motion.path
               animate={controls}
