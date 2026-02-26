@@ -10,7 +10,9 @@
     "lint:fix": "eslint . --fix",
     "write": "prettier . --write",
     "preview": "vite preview",
-    "prepare": "husky"
+    "prepare": "husky",
+    "react-doctor": "npx -y react-doctor@latest . --verbose --diff --no-ami",
+    "react-doctor-all": "npx -y react-doctor@latest . --verbose --no-ami"
   },
   "dependencies": {
     "@base-ui-components/react": "1.0.0-rc.0",

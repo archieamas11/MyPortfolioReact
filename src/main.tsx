@@ -6,6 +6,8 @@ import App from './App.tsx'
 import { ThemeProvider } from '@/components/provider/theme-provider.tsx'
 import { BrowserRouter, Route, Routes } from 'react-router'
 import NotFound from '@/pages/NotFound.tsx'
+import { MotionConfig as MotionConfigFromMotion } from 'motion/react'
+import { MotionConfig as MotionConfigFromFramer } from 'framer-motion'
 
 if (import.meta.env.DEV) {
   import('react-scan')
@@ -21,12 +23,16 @@ if (import.meta.env.DEV) {
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
-      <ThemeProvider attribute="class" defaultTheme="dark" storageKey="vite-ui-theme">
-        <Routes>
-          <Route path="/" element={<App />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </ThemeProvider>
+      <MotionConfigFromFramer reducedMotion="user">
+        <MotionConfigFromMotion reducedMotion="user">
+          <ThemeProvider attribute="class" defaultTheme="dark" storageKey="vite-ui-theme">
+            <Routes>
+              <Route path="/" element={<App />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </ThemeProvider>
+        </MotionConfigFromMotion>
+      </MotionConfigFromFramer>
     </BrowserRouter>
   </StrictMode>,
 )
