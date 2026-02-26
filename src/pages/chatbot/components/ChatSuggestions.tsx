@@ -34,7 +34,7 @@ export function ChatSuggestions({
         const Icon = suggestion.icon
         return (
           <button
-            key={`${suggestion.tag}-${index}`}
+            key={suggestion.question}
             onClick={() => handleSelect(suggestion.question)}
             disabled={isLoading || isRateLimited}
             className={cn(

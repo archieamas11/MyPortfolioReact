@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback, useMemo, useEffect } from 'react'
+import { useState, useRef, useCallback, useEffect, useMemo } from 'react'
 import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
 import { ChatHeader } from './components/ChatHeader'
@@ -30,13 +30,10 @@ export function Chatbot({ isMini = false }: ChatbotProps) {
     setRateLimitedUntil,
   })
 
-  const maxSuggestions = useMemo(() => {
-    return isMobile ? 3 : 6
-  }, [isMobile])
-
-  const availableSuggestions = useMemo(() => {
-    return SUGGESTION_TAGS.filter((tag) => !usedSuggestions.has(tag.question))
-  }, [usedSuggestions])
+  const maxSuggestions = isMobile ? 3 : 6;
+  const availableSuggestions = SUGGESTION_TAGS.filter(
+    (tag) => !usedSuggestions.has(tag.question)
+  );
 
   useEffect(() => {
     if (availableSuggestions.length === 0) {

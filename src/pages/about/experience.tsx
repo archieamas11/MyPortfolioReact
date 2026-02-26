@@ -7,7 +7,7 @@ export default function ExperiencePage() {
       <div className="border-muted relative space-y-12 border-l-2 pl-8">
         {experienceData.map((item, index) => (
           <motion.div
-            key={index}
+            key={`${item.date}-${item.role}-${item.company}`}
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}

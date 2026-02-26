@@ -15,7 +15,7 @@ export default function EducationPage() {
         <div className="grid grid-cols-1 gap-8 md:grid-cols-4 md:gap-10">
           {EducationData.map((item, index) => (
             <motion.div
-              key={index}
+              key={`${item.level}-${item.school}`}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}

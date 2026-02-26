@@ -28,9 +28,9 @@ export default function HeroSection() {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 1)
     }
-    window.addEventListener('scroll', handleScroll)
+    window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+  }, [setIsScrolled])
 
   return (
     <section id="hero" className="section-wrapper flex items-center justify-center">

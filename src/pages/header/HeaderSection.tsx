@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useCallback, useRef } from 'react'
 import { motion } from 'motion/react'
 import { cn } from '@/lib/utils'
 import { useIsMobile } from '@/hooks/use-mobile'
@@ -10,6 +10,7 @@ import type { SectionId } from './types'
 import { CHATBOT_CLOSE_DELAY } from './constants'
 import { scrollToElement } from './utils/scroll-utils'
 import { useHashSync } from './hooks/useHashSync'
+import { useProjectsElement } from './hooks/useProjectsElement'
 import { useChatbotState } from './hooks/useChatbotState'
 import ChatbotContainer from './ChatbotContainer'
 import NavigationList from './NavigationList'
@@ -18,7 +19,7 @@ import GlassEffectLayers from './components/glass-effect'
 export function HeaderSection() {
   const isMobile = useIsMobile()
   const navRef = useRef<HTMLElement>(null)
-  const [projectsElement, setProjectsElement] = useState<Element | null>(null)
+  const projectsElement = useProjectsElement()
   const {
     isChatbotOpen,
     handleChatbotToggle: toggleChatbot,
@@ -47,11 +48,6 @@ export function HeaderSection() {
     isChatbotOpen,
     setActiveSection,
   })
-
-  // This is for enabling the header background in the projects section when it is in the viewport to improve visibility
-  useEffect(() => {
-    setProjectsElement(document.getElementById('projects'))
-  }, [])
 
   const isProjectsVisible = useIntersectionObserver({
     target: projectsElement,
