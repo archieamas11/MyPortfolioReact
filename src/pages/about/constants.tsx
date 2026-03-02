@@ -140,6 +140,11 @@ export const experienceData: ExperienceItem[] = [
               Converted 10,000+ excel and paper-based records into a secure digital inventory system, improving operational efficiency by <b>70%</b>.
             </li>
             <li>
+              Optimized admin and agents workflow of Finisterre Gardenz, transitioning from{' '}
+              <b>paper-based inventory → Excel → manual map editing → printed maps</b> to a fully digital
+              system, improving operational efficiency by <b>70%</b>.
+            </li>
+            <li>
               Improved map rendering performance for 3,000+ plot markers and 7,000+ niches, increasing speed by <b>50%</b>.
             </li>
             <li>
@@ -208,11 +213,6 @@ export const experienceData: ExperienceItem[] = [
             </li>
             <li>
               Implemented real-time inventory tracking, reducing manual errors by <b> 35%</b>.
-            </li>
-            <li>
-              Optimized admin and staff workflow of Finisterre Gardenz, transitioning from{' '}
-              <b>paper-based inventory → Excel → manual map editing → printed maps</b> to a fully digital
-              system, improving operational efficiency by <b>70%</b>.
             </li>
           </ul>
         </div>
