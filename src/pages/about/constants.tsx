@@ -137,15 +137,10 @@ export const experienceData: ExperienceItem[] = [
         <div className="mt-4">
           <ul className="list-disc space-y-1 pl-5">
             <li>
-              Converted 10,000+ excel and paper-based records into a secure digital inventory system, improving operational efficiency by <b>70%</b>.
+              Digitized over 10,000 Finisterre Gardenz paper-based and Excel records, replacing the process from <b>manual inventory → Excel sheets → map editing → printed maps</b> with a secure digital inventory system. This increased operational efficiency by <b>70%</b>.
             </li>
             <li>
-              Optimized admin and agents workflow of Finisterre Gardenz, transitioning from{' '}
-              <b>paper-based inventory → Excel → manual map editing → printed maps</b> to a fully digital
-              system, improving operational efficiency by <b>70%</b>.
-            </li>
-            <li>
-              Improved map rendering performance for 3,000+ plot markers and 7,000+ niches, increasing speed by <b>50%</b>.
+              Improved map rendering performance for 3,000+ plot markers and 7,000+ niches, increasing speed by <b>80%</b>.
             </li>
             <li>
               Led system orientation meetings for agents and clients, improving user experience and making real-time plot tracking easier.
