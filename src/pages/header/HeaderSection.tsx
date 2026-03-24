@@ -106,12 +106,12 @@ export function HeaderSection() {
     >
       <GlassEffectLayers isChatbotOpen={isChatbotOpen} isProjectsVisible={isProjectsVisible} />
       <div className="relative z-999 flex w-full flex-col overflow-hidden">
-          <NavigationList
-            activeSection={activeSection}
-            isMini={isMini}
-            isMobile={isMobile}
-            onNavClick={handleNavClick}
-          />
+        <NavigationList
+          activeSection={activeSection}
+          isMini={isMini}
+          isMobile={isMobile}
+          onNavClick={handleNavClick}
+        />
         <div className={cn('w-full', isMini && !isMobile && 'w-[400px]', isMobile && 'max-h-screen p-0')}>
           <ChatbotContainer isOpen={isChatbotOpen} isMini={isMini} />
         </div>
