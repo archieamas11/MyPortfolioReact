@@ -133,20 +133,20 @@ export const experienceData: ExperienceItem[] = [
     company: 'Finisterre Gardenz',
     points: (
       <>
-        Developed a cross-platform web application for Finisterre Gardenz plot inventoy management and navigation using Agile iterative-driven development.
+        Developed a full-stack web application for <a href="https://www.facebook.com/finisterregardenz" target="_blank" rel="noopener noreferrer" className="underline">Finisterre Gardenz</a> to manage cemetery plot inventory and navigation.
         <div className="mt-4">
           <ul className="list-disc space-y-1 pl-5">
             <li>
-              Digitized over 10,000 Finisterre Gardenz paper-based and Excel records, replacing the process from <b>manual inventory → Excel sheets → map editing → printed maps</b> with a secure digital inventory system. This increased operational efficiency by <b>70%</b>.
+              Digitized 10,000+ paper and Excel records into a centralized system, eliminating manual workflows and improving operational efficiency by <b>70%</b>.
             </li>
             <li>
-              Improved map rendering performance for 3,000+ plot markers and 7,000+ niches, increasing speed by <b>80%</b>.
+              Optimized map rendering for 10,000+ markers (plots and niches), improving performance and load speed by <b>80%</b>.
             </li>
             <li>
-              Led system orientation meetings for agents and clients, improving user experience and making real-time plot tracking easier.
+              Built interactive map-based navigation for real-time plot location tracking, improving accuracy and usability for agents and clients.
             </li>
             <li>
-              Developed accurate plot markers and navigation for Finsiterre Gardenz to improve map and navigation accuracy.
+              Conducted system training sessions for agents and clients, enabling smooth adoption of the platform.
             </li>
           </ul>
         </div>
