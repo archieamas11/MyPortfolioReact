@@ -27,7 +27,14 @@ export function HeaderSection() {
     handleChatbotToggle: toggleChatbot,
     handleChatbotClose: closeChatbot,
   } = useChatbotState()
-  const [activeSection, setActiveSection] = useActiveSection(isChatbotOpen)
+  const scrollHapticRef = useRef<() => void>(() => { })
+  scrollHapticRef.current = () => {
+    useHaptics.trigger(defaultPatterns.light)
+  }
+
+  const [activeSection, setActiveSection] = useActiveSection(isChatbotOpen, {
+    onScrollSectionChange: () => scrollHapticRef.current(),
+  })
   const isMini = useScrollDirection(isMobile, isChatbotOpen)
 
   const handleChatbotToggle = useCallback(() => {
@@ -112,6 +119,7 @@ export function HeaderSection() {
         <NavigationList
           activeSection={activeSection}
           isMini={isMini}
+          useHaptics={useHaptics}
           isMobile={isMobile}
           onNavClick={handleNavClick}
         />

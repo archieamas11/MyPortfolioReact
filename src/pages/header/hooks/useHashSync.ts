@@ -2,7 +2,6 @@ import { useEffect } from 'react'
 import { hashToSectionId, sectionIdToHash } from '../utils/hash-mapping'
 import { scrollToElement } from '../utils/scroll-utils'
 import type { SectionId } from '../types'
-import { defaultPatterns, WebHaptics } from 'web-haptics'
 
 interface UseHashSyncOptions {
   activeSection: SectionId
@@ -11,7 +10,6 @@ interface UseHashSyncOptions {
 }
 
 export const useHashSync = ({ activeSection, isChatbotOpen, setActiveSection }: UseHashSyncOptions): void => {
-  const haptics = new WebHaptics();
   // Handle initial hash on mount
   useEffect(() => {
     const hash = window.location.hash
@@ -25,7 +23,6 @@ export const useHashSync = ({ activeSection, isChatbotOpen, setActiveSection }: 
       if (targetElement) {
         scrollToElement(hash)
         setActiveSection(hashToSectionId(hash))
-        haptics.trigger(defaultPatterns.light)
       } else if (attempts < maxAttempts) {
         attempts++
         setTimeout(attemptScroll, 100)

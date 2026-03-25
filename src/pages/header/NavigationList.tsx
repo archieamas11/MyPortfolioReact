@@ -8,6 +8,7 @@ import type { NavItem, SectionId } from './types'
 import { navigationItems } from './constants'
 import { useTheme } from 'next-themes'
 import { memo, useEffect, useRef } from 'react'
+import { WebHaptics, defaultPatterns } from 'web-haptics'
 
 interface IconHandle {
   startAnimation: () => void
@@ -21,12 +22,14 @@ const NavigationItem = memo(
     isMini,
     isMobile,
     onClick,
+    useHaptics,
   }: {
     item: NavItem
     isActive: boolean
     isMini: boolean
     isMobile: boolean
     onClick: (e: React.MouseEvent<HTMLAnchorElement>, href: string, id: string) => void
+    useHaptics: WebHaptics
   }) => {
     const { theme, setTheme } = useTheme()
     const iconRef = useRef<IconHandle | SunIconHandle | MoonIconHandle>(null)
@@ -94,8 +97,10 @@ const NavigationItem = memo(
               onClick={(e) => {
                 if (isThemeToggle) {
                   e.preventDefault()
+                  useHaptics.trigger(defaultPatterns.medium)
                   setTheme(theme === 'dark' ? 'light' : 'dark')
                 } else {
+                  useHaptics.trigger(defaultPatterns.selection)
                   onClick(e, item.href!, item.id)
                 }
               }}
@@ -162,11 +167,13 @@ const NavigationList = memo(
     isMini,
     isMobile,
     onNavClick,
+    useHaptics,
   }: {
     activeSection: SectionId
     isMini: boolean
     isMobile: boolean
     onNavClick: (e: React.MouseEvent<HTMLAnchorElement>, href: string, id: string) => void
+    useHaptics: WebHaptics
   }) => (
     <ul
       className={cn(
@@ -178,6 +185,7 @@ const NavigationList = memo(
         <NavigationItem
           key={item.id}
           item={item}
+          useHaptics={useHaptics}
           isActive={activeSection === item.id}
           isMini={isMini}
           isMobile={isMobile}

@@ -39,7 +39,7 @@ export function AccentColorSelector() {
           )}
           style={{ backgroundColor: color.value }}
           onClick={() => {
-            haptics.trigger(defaultPatterns.selection);
+            haptics.trigger(defaultPatterns.light);
             updateAccentColor(color.value)
           }}
           title={color.name}

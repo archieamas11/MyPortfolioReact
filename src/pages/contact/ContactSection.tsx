@@ -1,8 +1,11 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import ContactForm from './Forms'
 import { personalDetails } from '../about/constants'
+import { defaultPatterns, WebHaptics } from 'web-haptics'
 
 export function ContactSection() {
+  const haptics = new WebHaptics();
+
   return (
     <section id="contact" className="section-wrapper overflow-hidden">
       <div className="grid w-full grid-cols-1 justify-between gap-20 lg:grid-cols-2 lg:gap-0">
@@ -47,6 +50,9 @@ export function ContactSection() {
                     key={detail.label}
                     href={detail.href}
                     target="_blank"
+                    onClick={() => {
+                      haptics.trigger(defaultPatterns.selection)
+                    }}
                     rel="noopener noreferrer"
                     aria-label={`Follow me on ${detail.label}`}
                     className="group hover:text-primary flex items-center gap-3 text-sm transition-colors"

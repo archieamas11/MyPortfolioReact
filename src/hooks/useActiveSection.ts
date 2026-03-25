@@ -2,6 +2,11 @@ import { useState, useEffect, useRef } from 'react'
 import type { SectionId } from '@/pages/header/types'
 import { SCROLL_OFFSET } from '@/pages/header/constants'
 
+export type UseActiveSectionOptions = {
+  /** Fired only when scroll position changes the active section (not clicks / hash / chatbot). */
+  onScrollSectionChange?: () => void
+}
+
 const calculateActiveSection = (
   scrollY: number,
   elements?: Record<string, HTMLElement | null>,
@@ -36,9 +41,20 @@ const calculateActiveSection = (
   return 'home-nav'
 }
 
-export const useActiveSection = (isChatbotOpen: boolean) => {
+export const useActiveSection = (
+  isChatbotOpen: boolean,
+  options?: UseActiveSectionOptions,
+) => {
   const [activeSection, setActiveSection] = useState<SectionId>('home-nav')
   const elementsRef = useRef<Record<string, HTMLElement | null>>({})
+  const activeSectionRef = useRef<SectionId>(activeSection)
+  const onScrollSectionChangeRef = useRef(options?.onScrollSectionChange)
+  onScrollSectionChangeRef.current = options?.onScrollSectionChange
+  const hasCompletedInitialScrollRef = useRef(false)
+
+  useEffect(() => {
+    activeSectionRef.current = activeSection
+  }, [activeSection])
 
   useEffect(() => {
     const getElements = () => ({
@@ -62,7 +78,16 @@ export const useActiveSection = (isChatbotOpen: boolean) => {
       }
 
       const newSection = calculateActiveSection(window.scrollY, elementsRef.current)
-      setActiveSection((prev) => (prev !== newSection ? newSection : prev))
+      const changed = activeSectionRef.current !== newSection
+      const skipHaptic = !hasCompletedInitialScrollRef.current
+      hasCompletedInitialScrollRef.current = true
+
+      if (changed) {
+        setActiveSection(newSection)
+        if (!skipHaptic) {
+          onScrollSectionChangeRef.current?.()
+        }
+      }
     }
 
     window.addEventListener('scroll', handleScroll, { passive: true })
