@@ -61,7 +61,7 @@ export function ContactSection() {
         </div>
 
         {/* Right content */}
-        <Card className="glass-effect from-accent/3 bg-gradient-to-t to-transparent">
+        <Card className="glass-effect from-accent/3 bg-linear-to-t to-transparent">
           <CardHeader>
             <CardTitle className="text-primary text-xl md:text-2xl">Drop Me a Line</CardTitle>
             <CardTitle className="text-muted-foreground font-normal text-sm">
