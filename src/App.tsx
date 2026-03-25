@@ -1,11 +1,23 @@
+import { lazy, Suspense } from 'react'
 import HeroSection from '@/pages/hero/HeroSection'
-import { AboutSection } from '@/pages/about'
-import { ProjectsSection } from '@/pages/projects/ProjectsSection'
-import { ContactSection } from '@/pages/contact'
-import { Footer } from '@/pages/Footer'
 import { HeaderSection } from '@/pages/header'
+import { Footer } from '@/pages/Footer'
 import { Toaster } from '@/components/ui/sonner'
 import { useIsMobile } from '@/hooks/use-mobile'
+
+const AboutSection = lazy(() =>
+  import('@/pages/about').then((m) => ({ default: m.AboutSection })),
+)
+const ProjectsSection = lazy(() =>
+  import('@/pages/projects/ProjectsSection').then((m) => ({ default: m.ProjectsSection })),
+)
+const ContactSection = lazy(() =>
+  import('@/pages/contact').then((m) => ({ default: m.ContactSection })),
+)
+
+function SectionFallback() {
+  return <div className="min-h-32 w-full" aria-hidden />
+}
 
 function App() {
   const isMobile = useIsMobile()
@@ -14,9 +26,15 @@ function App() {
       <HeaderSection />
       <HeroSection />
       <div className="mx-auto max-w-7xl">
-        <AboutSection />
-        <ProjectsSection />
-        <ContactSection />
+        <Suspense fallback={<SectionFallback />}>
+          <AboutSection />
+        </Suspense>
+        <Suspense fallback={<SectionFallback />}>
+          <ProjectsSection />
+        </Suspense>
+        <Suspense fallback={<SectionFallback />}>
+          <ContactSection />
+        </Suspense>
       </div>
       <Footer />
       <Toaster richColors position={isMobile ? 'top-center' : 'bottom-right'} />

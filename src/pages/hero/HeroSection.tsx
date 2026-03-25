@@ -1,14 +1,15 @@
 import { Button } from '@/components/ui/button'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, lazy, Suspense } from 'react'
 import { Contact, FileUser } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { motion } from 'framer-motion'
 import { useIsMobile } from '@/hooks/use-mobile'
 import { AccentColorSelector } from '@/components/AccentColorSelector'
-import Snowfall from 'react-snowfall'
 import { isHolidaySeason } from '@/utils/date-utils'
 import { useTheme } from 'next-themes'
+
+const Snowfall = lazy(() => import('react-snowfall'))
 
 export default function HeroSection() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -44,18 +45,20 @@ export default function HeroSection() {
           {/* Hero section logo background */}
           <div className="bg-primary/15 bg-effect from-accent/15 relative hidden h-65 w-full overflow-hidden rounded-t-3xl bg-gradient-to-t to-transparent sm:block">
             {showSnowfall && !isMobile && (
-              <Snowfall
-                snowflakeCount={snowfallConfig.snowflakeCount}
-                color={snowfallConfig.color}
-                style={{
-                  position: 'absolute',
-                  width: '100%',
-                  height: '100%',
-                  top: 0,
-                  left: 0,
-                  zIndex: 0,
-                }}
-              />
+              <Suspense fallback={null}>
+                <Snowfall
+                  snowflakeCount={snowfallConfig.snowflakeCount}
+                  color={snowfallConfig.color}
+                  style={{
+                    position: 'absolute',
+                    width: '100%',
+                    height: '100%',
+                    top: 0,
+                    left: 0,
+                    zIndex: 0,
+                  }}
+                />
+              </Suspense>
             )}
           </div>
           <div className="absolute top-45 sm:top-2 sm:right-2">
@@ -71,6 +74,8 @@ export default function HeroSection() {
               id="logo"
               src={'images/aaa-white.avif'}
               alt="Archie Albarico Logo"
+              fetchPriority="high"
+              decoding="async"
               className={cn(
                 `home-logo glass-effect bg-accent border-background rounded-full border-15 object-contain ${isScrolled ? 'scrolled' : ''}`,
                 isMobile ? 'border-0' : '',
