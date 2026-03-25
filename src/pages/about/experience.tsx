@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 export default function ExperiencePage() {
   return (
     <section id="experience" className="container max-w-4xl py-10">
-      <div className="border-muted relative space-y-12 border-l-2 pl-8">
+      <div className="border-muted-foreground/20 relative space-y-12 border-l-2 pl-8">
         {experienceData.map((item, index) => (
           <motion.div
             key={`${item.date}-${item.role}-${item.company}`}
@@ -18,7 +18,7 @@ export default function ExperiencePage() {
               <div className="bg-accent h-2 w-2 rounded-full" />
             </div>
 
-            <Badge variant="secondary" className="mb-1">
+            <Badge className="mb-1">
               {item.date}
             </Badge>
             <h2 className="text-2xl leading-tight font-bold">{item.role}</h2>

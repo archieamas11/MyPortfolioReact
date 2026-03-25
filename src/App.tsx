@@ -3,6 +3,7 @@ import HeroSection from '@/pages/hero/HeroSection'
 import { HeaderSection } from '@/pages/header'
 import { Footer } from '@/pages/Footer'
 import { Toaster } from '@/components/ui/sonner'
+import { LiquidBlobBackground } from '@/components/LiquidBlobBackground'
 import { useIsMobile } from '@/hooks/use-mobile'
 
 const AboutSection = lazy(() =>
@@ -23,6 +24,7 @@ function App() {
   const isMobile = useIsMobile()
   return (
     <div className="relative min-h-screen w-full">
+      <LiquidBlobBackground />
       <HeaderSection />
       <HeroSection />
       <div className="mx-auto max-w-7xl">
