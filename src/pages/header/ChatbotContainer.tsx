@@ -1,22 +1,9 @@
-import { Activity, lazy, Suspense, useState, useEffect } from 'react'
+import { Activity, useState, useEffect } from 'react'
 import { motion } from 'motion/react'
-
-const Chatbot = lazy(() =>
-  import('@/pages/chatbot/Chatbot').then((m) => ({ default: m.Chatbot })),
-)
+import { Chatbot } from '@/pages/chatbot/Chatbot'
 
 export const CHATBOT_ANIMATION_DURATION = 300
 
-function ChatbotLoadingFallback() {
-  return (
-    <div
-      className="text-muted-foreground flex min-h-[240px] w-full items-center justify-center text-sm"
-      role="status"
-    >
-      Loading assistant…
-    </div>
-  )
-}
 
 const ChatbotContainer = ({ isOpen, isMini }: { isOpen: boolean; isMini: boolean }) => {
   const [activityMode, setActivityMode] = useState<'visible' | 'hidden'>('hidden')
@@ -52,9 +39,7 @@ const ChatbotContainer = ({ isOpen, isMini }: { isOpen: boolean; isMini: boolean
       <Activity mode={activityMode}>
         <div>
           {shouldMountChatbot && (
-            <Suspense fallback={<ChatbotLoadingFallback />}>
-              <Chatbot isMini={isMini} />
-            </Suspense>
+            <Chatbot isMini={isMini} />
           )}
         </div>
       </Activity>
