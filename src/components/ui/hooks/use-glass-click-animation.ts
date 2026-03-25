@@ -15,9 +15,6 @@ enabled: boolean
   durationMs?: number
 }
 
-/**
- * Reusable click animation state for glass-like controls.
- */
 export function useGlassClickAnimation({
   enabled,
   disabled = false,

@@ -15,7 +15,7 @@ import { useChatbotState } from './hooks/useChatbotState'
 import ChatbotContainer from './ChatbotContainer'
 import NavigationList from './NavigationList'
 import GlassEffectLayers from './components/glass-effect'
-import { WebHaptics } from "web-haptics";
+import { defaultPatterns, WebHaptics } from "web-haptics";
 
 export function HeaderSection() {
   const isMobile = useIsMobile()
@@ -61,6 +61,7 @@ export function HeaderSection() {
 
   const handleNavClick = useCallback(
     (e: React.MouseEvent<HTMLAnchorElement>, href: string, itemId: string) => {
+      useHaptics.trigger(defaultPatterns.selection)
       e.preventDefault()
 
       if (itemId === 'theme-toggle-nav') {
@@ -109,7 +110,6 @@ export function HeaderSection() {
       <GlassEffectLayers isChatbotOpen={isChatbotOpen} isProjectsVisible={isProjectsVisible} />
       <div className="relative z-999 flex w-full flex-col overflow-hidden">
         <NavigationList
-          useHaptics={useHaptics}
           activeSection={activeSection}
           isMini={isMini}
           isMobile={isMobile}
