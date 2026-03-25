@@ -62,8 +62,7 @@ export default function ContactForm() {
 
       turnstileRef.current?.reset()
       form.reset()
-    } catch (error) {
-      console.error('Form submission error', error)
+    } catch {
       toast.error('Failed to submit the form. Please try again.')
     }
   }
@@ -107,7 +106,7 @@ export default function ContactForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Subject</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select onValueChange={field.onChange} value={field.value || undefined}>
                 <FormControl>
                   <SelectTrigger className="!h-12 w-full">
                     <SelectValue placeholder="Select a subject" />
@@ -184,7 +183,7 @@ export default function ContactForm() {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <div className="flex w-full justify-center overflow-scroll">
+                <div className="flex w-full justify-center overflow-x-auto">
                   <Turnstile
                     ref={turnstileRef}
                     siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY || '1x00000000000000000000AA'}
@@ -202,8 +201,6 @@ export default function ContactForm() {
                     }}
                     onExpire={() => {
                       field.onChange('')
-                      // toast.warning('Verification expired. Please verify again.')
-                      console.log('Turnstile token expired')
                     }}
                   />
                 </div>

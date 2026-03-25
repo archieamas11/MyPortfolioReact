@@ -18,8 +18,7 @@ const NavigationList = memo(
   }) => (
     <ul
       className={cn(
-        'bouncy flex list-none flex-row items-center justify-between p-1',
-        isMini ? 'py-2' : 'py-2',
+        'bouncy flex list-none flex-row items-center justify-between p-1 py-2',
         isMobile ? 'py-3 px-2' : '',
       )}
     >

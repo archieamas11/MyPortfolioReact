@@ -13,7 +13,12 @@ export default function ProjectFooter({ project, fullWidth = false }: ProjectFoo
     <div className={cn('flex gap-2', fullWidth ? 'w-full' : '')}>
       {project.website && (
         <Button asChild variant="glass" size="sm" className={cn(fullWidth ? 'flex-1' : '')}>
-          <a href={project.website} target="_blank" rel="noopener noreferrer">
+          <a
+            href={project.website}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`Open ${project.title} website in a new tab`}
+          >
             <Globe className="mr-1 h-4 w-4" />
             Website
           </a>
@@ -21,7 +26,12 @@ export default function ProjectFooter({ project, fullWidth = false }: ProjectFoo
       )}
       {project.link && (
         <Button asChild variant="glass" size="sm" className={cn(fullWidth ? 'flex-1' : '')}>
-          <a href={project.link} target="_blank" rel="noopener noreferrer">
+          <a
+            href={project.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`View ${project.title} source code on GitHub`}
+          >
             <Github className="mr-1 h-4 w-4" />
             Source
           </a>

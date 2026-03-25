@@ -30,10 +30,8 @@ export function Chatbot({ isMini = false }: ChatbotProps) {
     setRateLimitedUntil,
   })
 
-  const maxSuggestions = isMobile ? 3 : 6;
-  const availableSuggestions = SUGGESTION_TAGS.filter(
-    (tag) => !usedSuggestions.has(tag.question)
-  );
+  const maxSuggestions = isMobile ? 3 : 6
+  const availableSuggestions = SUGGESTION_TAGS.filter((tag) => !usedSuggestions.has(tag.question))
 
   useEffect(() => {
     if (availableSuggestions.length === 0) {

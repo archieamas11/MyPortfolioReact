@@ -21,7 +21,7 @@ export function AboutSection() {
           initial={{ opacity: 0, scale: 0.5, rotate: -5 }}
           whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, type: 'spring', bounce: 0.4 }}
+          transition={{ duration: 0.6, type: 'spring', bounce: 0.12 }}
         >
           <Avatar className="h-80 w-60 rounded-lg shadow-lg lg:h-full lg:w-80">
             <div className="relative h-full w-full">

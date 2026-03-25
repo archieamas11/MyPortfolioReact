@@ -91,6 +91,7 @@ const NavigationItem = memo(
                 'transform-gpu transition-all duration-300',
                 'hover:scale-105 active:scale-95',
                 'ease-in-out',
+                'focus-visible:ring-ring focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none',
                 {
                   'glass-effect bg-primary/20 text-accent scale-105': isActive,
                   'h-17 w-17': !isMini && !isMobile,

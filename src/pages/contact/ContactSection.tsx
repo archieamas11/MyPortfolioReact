@@ -9,7 +9,7 @@ export function ContactSection() {
         {/* Left content*/}
         <div className="p-0">
           <h2 className="mb-4 text-3xl font-bold sm:text-4xl md:text-5xl lg:text-6xl uppercase">Get In Touch</h2>
-          <p className="text-muted-foreground font-base max-w-md text-justify text-lg md:text-xl">
+          <p className="text-muted-foreground font-normal max-w-md text-justify text-lg md:text-xl">
             I'm always interested in new opportunities. Whether you want to collaborate, discuss a project, or
             just say hello, I'd love to hear from you!
           </p>
@@ -22,10 +22,10 @@ export function ContactSection() {
                   href={detail.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex gap-2 space-y-2 text-sm transition-colors"
+                  className="group hover:text-primary flex items-center gap-3 text-sm transition-colors"
                 >
-                  <div className="bg-primary/10 text-primary flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-center transition-colors">
-                    <detail.icon size={15} />
+                  <div className="bg-primary/10 text-primary group-hover:bg-primary/15 flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition-colors">
+                    <detail.icon size={15} aria-hidden />
                   </div>
                   <div>
                     <p className="font-medium">{detail.label}</p>
@@ -49,10 +49,10 @@ export function ContactSection() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`Follow me on ${detail.label}`}
-                    className="group flex gap-2 space-y-2 text-sm transition-colors"
+                    className="group hover:text-primary flex items-center gap-3 text-sm transition-colors"
                   >
-                    <div className="bg-primary/10 text-primary flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-center transition-colors">
-                      <detail.icon size={15} />
+                    <div className="bg-primary/10 text-primary group-hover:bg-primary/15 flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition-colors">
+                      <detail.icon size={15} aria-hidden />
                     </div>
                   </a>
                 ))}
@@ -64,7 +64,7 @@ export function ContactSection() {
         <Card className="glass-effect from-accent/3 bg-gradient-to-t to-transparent">
           <CardHeader>
             <CardTitle className="text-primary text-xl md:text-2xl">Drop Me a Line</CardTitle>
-            <CardTitle className="text-muted-foreground font-base text-sm">
+            <CardTitle className="text-muted-foreground font-normal text-sm">
               I'd love to hear from you
             </CardTitle>
           </CardHeader>

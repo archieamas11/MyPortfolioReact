@@ -62,7 +62,11 @@ export default function HeroSection() {
             <AccentColorSelector />
           </div>
           {/* Logo  */}
-          <a href="#hero" aria-label="Go to homepage">
+          <a
+            href="#hero"
+            aria-label="Go to homepage"
+            className="focus-visible:ring-ring rounded-full focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none"
+          >
             <img
               id="logo"
               src={'images/aaa-white.avif'}
@@ -93,9 +97,9 @@ export default function HeroSection() {
               initial={isMobile ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: isMobile ? 0 : 0.5, delay: isMobile ? 0 : 0.4 }}
-              className="flex w-full flex-col items-center justify-between gap-4 space-y-2 sm:flex-row sm:gap-6"
+              className="flex w-full flex-col items-center justify-between gap-4 sm:flex-row sm:gap-6"
             >
-              <h2 className="text-muted-foreground font-base text-2xl leading-none lg:text-[35px]">
+              <h2 className="text-muted-foreground font-normal text-2xl leading-none lg:text-[35px]">
                 Full-Stack Developer
               </h2>
               <div className="flex w-full max-w-80 flex-row gap-2 sm:w-auto">
