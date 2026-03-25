@@ -3,6 +3,7 @@ import type { SectionId } from './types'
 import { navigationItems } from './constants'
 import { cn } from '@/lib/utils'
 import { memo } from 'react'
+import type { WebHaptics } from 'web-haptics'
 
 const NavigationList = memo(
   ({
@@ -10,11 +11,13 @@ const NavigationList = memo(
     isMini,
     isMobile,
     onNavClick,
+    useHaptics,
   }: {
     activeSection: SectionId
     isMini: boolean
     isMobile: boolean
     onNavClick: (e: React.MouseEvent<HTMLAnchorElement>, href: string, id: string) => void
+    useHaptics: WebHaptics
   }) => (
     <ul
       className={cn(
@@ -25,6 +28,7 @@ const NavigationList = memo(
       {navigationItems.map((item) => (
         <NavigationItem
           key={item.id}
+          useHaptics={useHaptics}
           item={item}
           isActive={activeSection === item.id}
           isMini={isMini}

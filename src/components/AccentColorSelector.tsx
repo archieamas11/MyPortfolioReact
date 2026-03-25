@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { cn } from '@/lib/utils'
+import { WebHaptics, defaultPatterns } from "web-haptics";
 
 const PRESET_COLORS = [
   { name: 'Default Rose', value: '#f43f5e' },
@@ -11,6 +12,7 @@ const PRESET_COLORS = [
 
 export function AccentColorSelector() {
   const [accentColor, setAccentColor] = useState('#f43f5e')
+  const haptics = new WebHaptics();
 
   const updateAccentColor = (color: string) => {
     const root = document.documentElement
@@ -27,7 +29,7 @@ export function AccentColorSelector() {
   }, [])
 
   return (
-    <div className="bg-background/50 border-muted-foreground/20 flex items-center gap-2 rounded-full border p-2 backdrop-blur-sm">
+    <div className="bg-secondary/50 glass-effect border-muted-foreground/20 flex items-center gap-2 rounded-full border p-2 backdrop-blur-sm">
       {PRESET_COLORS.map((color) => (
         <button
           key={color.value}
@@ -37,6 +39,7 @@ export function AccentColorSelector() {
           )}
           style={{ backgroundColor: color.value }}
           onClick={() => {
+            haptics.trigger(defaultPatterns.selection);
             updateAccentColor(color.value)
           }}
           title={color.name}

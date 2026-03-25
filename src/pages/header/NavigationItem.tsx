@@ -1,12 +1,13 @@
 import { cn } from '@/lib/utils'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import type React from 'react'
-import { useRef, memo } from 'react'
+import { useEffect, useRef, memo } from 'react'
 import type { NavItem } from './types'
 import Separator from './components/seperator'
 import { SunIcon, type SunIconHandle } from '@/components/icons/sun'
 import { MoonIcon, type MoonIconHandle } from '@/components/icons/moon'
 import { useTheme } from 'next-themes'
+import { WebHaptics, defaultPatterns } from "web-haptics";
 
 interface IconHandle {
   startAnimation: () => void
@@ -20,15 +21,34 @@ const NavigationItem = memo(
     isMini,
     isMobile,
     onClick,
+    useHaptics,
   }: {
     item: NavItem
     isActive: boolean
     isMini: boolean
     isMobile: boolean
     onClick: (e: React.MouseEvent<HTMLAnchorElement>, href: string, id: string) => void
+    useHaptics: WebHaptics
   }) => {
     const { theme, setTheme } = useTheme()
     const iconRef = useRef<IconHandle | SunIconHandle | MoonIconHandle>(null)
+    const prevIsActiveRef = useRef<boolean>(isActive)
+
+    useEffect(() => {
+      if (item.type === 'separator') return
+      if (!isActive) {
+        prevIsActiveRef.current = false
+        return
+      }
+
+      // Trigger only on the transition to "active" to avoid spamming while scrolling.
+      const shouldTrigger = prevIsActiveRef.current === false
+      prevIsActiveRef.current = true
+
+      if (!shouldTrigger) return
+      if (!WebHaptics.isSupported) return
+
+    }, [item.type, isActive, useHaptics])
 
     if (item.type === 'separator') {
       return <Separator isMini={isMini} />
@@ -77,6 +97,9 @@ const NavigationItem = memo(
               tabIndex={0}
               onClick={(e) => {
                 if (isThemeToggle) {
+                  void useHaptics.trigger(defaultPatterns.selection).catch(() => {
+                    // Ignore haptics failures.
+                  })
                   e.preventDefault()
                   setTheme(theme === 'dark' ? 'light' : 'dark')
                 } else {

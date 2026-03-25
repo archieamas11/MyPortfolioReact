@@ -8,6 +8,8 @@ import { useIsMobile } from '@/hooks/use-mobile'
 import { AccentColorSelector } from '@/components/AccentColorSelector'
 import { isHolidaySeason } from '@/utils/date-utils'
 import { useTheme } from 'next-themes'
+import '@/components/ui/style/glass-animation.scss'
+import { useGlassClickAnimation } from '@/components/ui/hooks/use-glass-click-animation'
 
 const Snowfall = lazy(() => import('react-snowfall'))
 
@@ -15,6 +17,16 @@ export default function HeroSection() {
   const [isScrolled, setIsScrolled] = useState(false)
   const isMobile = useIsMobile()
   const { resolvedTheme } = useTheme()
+  const { glassAnimating, startGlassClickAnimation } = useGlassClickAnimation({
+    enabled: true,
+    disabled: false,
+    withRipples: false,
+  })
+
+  const handleMouseEnter = (e: React.MouseEvent<HTMLElement>) => {
+    startGlassClickAnimation(e)
+  }
+
   const showSnowfall = useMemo(() => isHolidaySeason(), [])
 
   const snowfallConfig = useMemo(
@@ -33,6 +45,7 @@ export default function HeroSection() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [setIsScrolled])
 
+
   return (
     <section id="hero" className="section-wrapper flex items-center justify-center">
       <div className="flex min-h-150 w-full max-w-7xl">
@@ -43,7 +56,7 @@ export default function HeroSection() {
           className="relative top-10 flex w-full justify-center lg:top-40"
         >
           {/* Hero section logo background */}
-          <div className="bg-primary/15 bg-effect from-accent/15 relative hidden h-65 w-full overflow-hidden rounded-t-3xl bg-gradient-to-t to-transparent sm:block">
+          <div className="bg-primary/15 bg-effect from-accent/15 relative hidden h-65 w-full overflow-hidden rounded-t-3xl bg-linear-to-t to-transparent sm:block">
             {showSnowfall && !isMobile && (
               <Suspense fallback={null}>
                 <Snowfall
@@ -77,9 +90,11 @@ export default function HeroSection() {
               fetchPriority="high"
               decoding="async"
               className={cn(
-                `home-logo glass-effect bg-accent border-background rounded-full border-15 object-contain ${isScrolled ? 'scrolled' : ''}`,
+                `home-logo glassContainer glass-effect bg-accent border-background rounded-full border-15 object-contain ${isScrolled ? 'scrolled' : ''}`,
                 isMobile ? 'border-0' : '',
+                glassAnimating && 'glassAnimatingHost',
               )}
+              onMouseEnter={handleMouseEnter}
             />
           </a>
 
@@ -90,12 +105,12 @@ export default function HeroSection() {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: isMobile ? 0 : 0.7, delay: isMobile ? 0 : 0.2 }}
               className={cn(
-                'from-primary font-oswald to-accent relative ml-0 bg-gradient-to-b from-50% to-50% bg-clip-text text-center text-[60px] leading-tight font-bold tracking-widest text-transparent sm:text-[60px] md:text-[70px] lg:text-[105px] xl:ml-3 xl:text-[140px]',
+                'from-primary font-oswald to-accent relative ml-0 bg-linear-to-b from-50% to-50% bg-clip-text text-center text-[60px] leading-tight font-bold tracking-widest text-transparent sm:text-[60px] md:text-[70px] lg:text-[105px] xl:ml-3 xl:text-[140px]',
                 // showSnowfall && 'snow-caps-effect',
               )}
             >
               ARCHIE ALBARICO
-              <span className="from-primary/10 to-accent/30 absolute inset-0 -z-10 bg-gradient-to-b opacity-50 blur-xl" />
+              <span className="from-primary/10 to-accent/30 absolute inset-0 -z-10 bg-linear-to-b opacity-50 blur-xl" />
             </motion.h1>
 
             <motion.div

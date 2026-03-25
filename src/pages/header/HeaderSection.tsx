@@ -15,10 +15,12 @@ import { useChatbotState } from './hooks/useChatbotState'
 import ChatbotContainer from './ChatbotContainer'
 import NavigationList from './NavigationList'
 import GlassEffectLayers from './components/glass-effect'
+import { WebHaptics } from "web-haptics";
 
 export function HeaderSection() {
   const isMobile = useIsMobile()
   const navRef = useRef<HTMLElement>(null)
+  const useHaptics = new WebHaptics();
   const projectsElement = useProjectsElement()
   const {
     isChatbotOpen,
@@ -107,6 +109,7 @@ export function HeaderSection() {
       <GlassEffectLayers isChatbotOpen={isChatbotOpen} isProjectsVisible={isProjectsVisible} />
       <div className="relative z-999 flex w-full flex-col overflow-hidden">
         <NavigationList
+          useHaptics={useHaptics}
           activeSection={activeSection}
           isMini={isMini}
           isMobile={isMobile}
