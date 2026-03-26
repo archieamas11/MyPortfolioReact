@@ -1,9 +1,9 @@
-import { toast } from 'sonner'
 import { useForm } from 'react-hook-form'
 import { useFormspark } from '@formspark/use-formspark'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useRef } from 'react'
+import { useToast } from '@/components/ui/toast'
 import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile'
 import { Button } from '@/components/ui/button'
 import {
@@ -21,6 +21,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { contactSchema } from './schema'
 export default function ContactForm() {
   const turnstileRef = useRef<TurnstileInstance>(null)
+  const { showToast } = useToast()
   const [submit, submitting] = useFormspark({
     formId: import.meta.env.VITE_FORMSPARK_FORM_ID,
   })
@@ -41,12 +42,12 @@ export default function ContactForm() {
   async function onSubmit(values: z.infer<typeof contactSchema>) {
     try {
       if (values.website || values.phone) {
-        toast.error('Bot detected. Submission blocked.')
+        showToast({ variant: 'error', description: 'Bot detected. Submission blocked.' })
         return
       }
 
       if (!values.turnstileToken) {
-        toast.error('Please complete the verification.')
+        showToast({ variant: 'error', description: 'Please complete the verification.' })
         return
       }
 
@@ -58,12 +59,12 @@ export default function ContactForm() {
         'cf-turnstile-response': values.turnstileToken,
       })
 
-      toast.success('Form submitted successfully!')
+      showToast({ variant: 'success', description: 'Form submitted successfully!' })
 
       turnstileRef.current?.reset()
       form.reset()
     } catch {
-      toast.error('Failed to submit the form. Please try again.')
+      showToast({ variant: 'error', description: 'Failed to submit the form. Please try again.' })
     }
   }
 
@@ -197,7 +198,7 @@ export default function ContactForm() {
                     }}
                     onError={() => {
                       field.onChange('')
-                      toast.error('Verification failed. Please try again.')
+                      showToast({ variant: 'error', description: 'Verification failed. Please try again.' })
                     }}
                     onExpire={() => {
                       field.onChange('')

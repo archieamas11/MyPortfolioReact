@@ -1,6 +1,6 @@
 import { useState, useRef, useCallback, useEffect, useMemo } from 'react'
-import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
+import { useToast } from '@/components/ui/toast'
 import { ChatHeader } from './components/ChatHeader'
 import { ChatMessages } from './components/ChatMessages'
 import { ChatSuggestions } from './components/ChatSuggestions'
@@ -20,6 +20,7 @@ export function Chatbot({ isMini = false }: ChatbotProps) {
   const [input, setInput] = useState('')
   const [usedSuggestions, setUsedSuggestions] = useState<Set<string>>(new Set())
   const isMobile = useIsMobile()
+  const { showToast } = useToast()
 
   const { messages, addMessages, updateMessage, clearMessages } = useChatMessages()
   const { isRateLimited, setRateLimitedUntil } = useRateLimit()
@@ -68,8 +69,8 @@ export function Chatbot({ isMini = false }: ChatbotProps) {
     cancelRequest()
     clearMessages()
     setUsedSuggestions(new Set())
-    toast.success('Chat history cleared')
-  }, [cancelRequest, clearMessages])
+    showToast({ variant: 'success', description: 'Chat history cleared' })
+  }, [cancelRequest, clearMessages, showToast])
 
   return (
     <div

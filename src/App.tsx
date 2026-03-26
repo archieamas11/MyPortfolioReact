@@ -2,7 +2,7 @@ import { lazy, Suspense } from 'react'
 import HeroSection from '@/pages/hero/HeroSection'
 import { HeaderSection } from '@/pages/header'
 import { Footer } from '@/pages/Footer'
-import { Toaster } from '@/components/ui/sonner'
+import { ToastProvider } from '@/components/ui/toast'
 import { LiquidBlobBackground } from '@/components/LiquidBlobBackground'
 import { useIsMobile } from '@/hooks/use-mobile'
 
@@ -23,24 +23,25 @@ function SectionFallback() {
 function App() {
   const isMobile = useIsMobile()
   return (
-    <div className="relative min-h-screen w-full">
-      <LiquidBlobBackground />
-      <HeaderSection />
-      <HeroSection />
-      <div className="mx-auto max-w-7xl">
-        <Suspense fallback={<SectionFallback />}>
-          <AboutSection />
-        </Suspense>
-        <Suspense fallback={<SectionFallback />}>
-          <ProjectsSection />
-        </Suspense>
-        <Suspense fallback={<SectionFallback />}>
-          <ContactSection />
-        </Suspense>
+    <ToastProvider position={isMobile ? 'top-center' : 'bottom-right'}>
+      <div className="relative min-h-screen w-full">
+        <LiquidBlobBackground />
+        <HeaderSection />
+        <HeroSection />
+        <div className="mx-auto max-w-7xl">
+          <Suspense fallback={<SectionFallback />}>
+            <AboutSection />
+          </Suspense>
+          <Suspense fallback={<SectionFallback />}>
+            <ProjectsSection />
+          </Suspense>
+          <Suspense fallback={<SectionFallback />}>
+            <ContactSection />
+          </Suspense>
+        </div>
+        <Footer />
       </div>
-      <Footer />
-      <Toaster richColors position={isMobile ? 'top-center' : 'bottom-right'} />
-    </div>
+    </ToastProvider>
   )
 }
 

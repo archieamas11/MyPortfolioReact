@@ -8,7 +8,7 @@ import { useIsMobile } from '@/hooks/use-mobile'
 import { AccentColorSelector } from '@/components/AccentColorSelector'
 import { isHolidaySeason } from '@/utils/date-utils'
 import { useTheme } from 'next-themes'
-import '@/components/ui/style/glass-animation.scss'
+import '@/components/ui/style/glass-animation.css'
 import { useGlassClickAnimation } from '@/components/ui/hooks/use-glass-click-animation'
 
 const Snowfall = lazy(() => import('react-snowfall'))

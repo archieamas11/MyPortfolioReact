@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Slot } from '@radix-ui/react-slot'
 import { cva, type VariantProps } from 'class-variance-authority'
-import './style/glass-animation.scss'
+import './style/glass-animation.css'
 import { cn } from '@/lib/utils'
 import { useGlassClickAnimation } from './hooks/use-glass-click-animation'
 import { WebHaptics, defaultPatterns } from "web-haptics";

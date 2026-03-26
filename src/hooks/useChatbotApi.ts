@@ -1,6 +1,6 @@
 import { useState, useRef, useCallback } from 'react'
-import { toast } from 'sonner'
 import { sendChatMessageStreaming } from '@/api/api.chatbot'
+import { useToast } from '@/components/ui/toast'
 import type { Message } from '@/types/types'
 
 interface UseChatbotApiParams {
@@ -68,6 +68,7 @@ export function useChatbotApi({
 }: UseChatbotApiParams) {
   const [isLoading, setIsLoading] = useState(false)
   const abortControllerRef = useRef<AbortController | null>(null)
+  const { showToast } = useToast()
 
   const cancelRequest = useCallback(() => {
     abortControllerRef.current?.abort()
@@ -154,7 +155,7 @@ export function useChatbotApi({
           })
 
           if (response.error !== 'Request cancelled') {
-            toast.error(response.error || 'Failed to get response')
+            showToast({ variant: 'error', description: response.error || 'Failed to get response' })
           }
         }
       } catch (error) {
@@ -163,13 +164,13 @@ export function useChatbotApi({
           text: 'Sorry, I encountered an error connecting to the server. Please try again.',
           status: 'error',
         })
-        toast.error('Failed to connect to chatbot service')
+        showToast({ variant: 'error', description: 'Failed to connect to chatbot service' })
       } finally {
         setIsLoading(false)
         abortControllerRef.current = null
       }
     },
-    [isLoading, messages, addMessages, updateMessage, setRateLimitedUntil],
+    [addMessages, isLoading, messages, setRateLimitedUntil, showToast, updateMessage],
   )
 
   return {
