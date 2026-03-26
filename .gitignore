@@ -12,6 +12,7 @@ dist
 dist-ssr
 *.local
 .impeccable.md
+test
 
 # Environment variables
 .env

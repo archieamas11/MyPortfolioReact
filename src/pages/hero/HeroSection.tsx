@@ -9,7 +9,7 @@ import { AccentColorSelector } from '@/components/AccentColorSelector'
 import { isHolidaySeason } from '@/utils/date-utils'
 import { useTheme } from 'next-themes'
 import '@/components/ui/style/glass-animation.css'
-import { useGlassClickAnimation } from '@/components/ui/hooks/use-glass-click-animation'
+import { Elasticity } from '@/components/ui/elasticity/Elasticity'
 
 const Snowfall = lazy(() => import('react-snowfall'))
 
@@ -17,15 +17,8 @@ export default function HeroSection() {
   const [isScrolled, setIsScrolled] = useState(false)
   const isMobile = useIsMobile()
   const { resolvedTheme } = useTheme()
-  const { glassAnimating, startGlassClickAnimation } = useGlassClickAnimation({
-    enabled: true,
-    disabled: false,
-    withRipples: false,
-  })
 
-  const handleMouseEnter = (e: React.MouseEvent<HTMLElement>) => {
-    startGlassClickAnimation(e)
-  }
+  const elasticityEnabled = !isMobile
 
   const showSnowfall = useMemo(() => isHolidaySeason(), [])
 
@@ -83,19 +76,19 @@ export default function HeroSection() {
             aria-label="Go to homepage"
             className="focus-visible:ring-ring rounded-full focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none"
           >
-            <img
-              id="logo"
-              src={'images/aaa-white.avif'}
-              alt="Archie Albarico Logo"
-              fetchPriority="high"
-              decoding="async"
-              className={cn(
-                `home-logo glassContainer glass-effect bg-accent border-background rounded-full border-15 object-contain ${isScrolled ? 'scrolled' : ''}`,
-                isMobile ? 'border-0' : '',
-                glassAnimating && 'glassAnimatingHost',
-              )}
-              onMouseEnter={handleMouseEnter}
-            />
+            <Elasticity elasticity={0.5} preserveCenteredTranslate enabled={elasticityEnabled}>
+              <img
+                id="logo"
+                src={'images/aaa-white.avif'}
+                alt="Archie Albarico Logo"
+                fetchPriority="high"
+                decoding="async"
+                className={cn(
+                  `home-logo glassContainer glass-effect bg-accent border-background rounded-full border-15 object-contain ${isScrolled ? 'scrolled' : ''}`,
+                  isMobile ? 'border-0' : '',
+                )}
+              />
+            </Elasticity>
           </a>
 
           {/* Heading */}

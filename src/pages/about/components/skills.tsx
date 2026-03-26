@@ -2,7 +2,7 @@ import { cn } from '@/lib/utils'
 import { skillsArr } from '../constants'
 import { motion } from 'framer-motion'
 import { useSequentialReveal } from '@/hooks/useSequentialReveal'
-// import { Badge } from '@/components/ui/badge'
+import { Elasticity } from '@/components/ui/elasticity/Elasticity'
 
 function SkillsItems() {
   const { containerRef, registerItem } = useSequentialReveal({
@@ -48,20 +48,20 @@ function SkillsItems() {
           // }[skill.level]
 
           return (
-            <div
-              key={skill.label}
-              ref={registerItem}
-              className={cn(
-                'group glass-effect relative flex flex-col items-center overflow-hidden rounded-lg border py-8 transition-all duration-300',
-                'hover:bg-linear-to-b',
-                // levelVariants.border,
-                // levelVariants.shadow,
-                // levelVariants.gradient,
-              )}
-            >
-              {/* <div className="via-primary/10 absolute inset-0 -left-full -z-10 bg-gradient-to-r from-transparent to-transparent transition-[left] duration-500 group-hover:left-full" /> */}
+            <Elasticity key={skill.label} elasticity={1}>
+              <div
+                ref={registerItem}
+                className={cn(
+                  'group glass-effect relative flex flex-col items-center overflow-hidden rounded-lg border py-8 transition-all duration-300',
+                  'hover:bg-linear-to-b',
+                  // levelVariants.border,
+                  // levelVariants.shadow,
+                  // levelVariants.gradient,
+                )}
+              >
+                {/* <div className="via-primary/10 absolute inset-0 -left-full -z-10 bg-gradient-to-r from-transparent to-transparent transition-[left] duration-500 group-hover:left-full" /> */}
 
-              {/* <div
+                {/* <div
                 className={cn(
                   'absolute top-2 right-2 z-10 rounded-sm px-2 py-1 text-[0.6rem] font-bold uppercase opacity-0 transition-opacity duration-300 group-hover:opacity-100',
                   {
@@ -73,16 +73,15 @@ function SkillsItems() {
               >
                 {skill.level}
               </div> */}
+                <div className="mb-3">
+                  <Icon size="50" />
+                </div>
 
-              <div className="mb-3">
-                <Icon size="50" />
-              </div>
-
-              <div className="flex w-full flex-col items-center gap-1 text-center">
-                <p className="group-hover:text-primary text-base leading-tight font-semibold transition-colors duration-300">
-                  {skill.label}
-                </p>
-                {/* {skill.experience && (
+                <div className="flex w-full flex-col items-center gap-1 text-center">
+                  <p className="group-hover:text-primary text-base leading-tight font-semibold transition-colors duration-300">
+                    {skill.label}
+                  </p>
+                  {/* {skill.experience && (
                   <Badge
                     className={cn('text-primary', {
                       'border-green-600 bg-green-500/20': skill.level === 'advanced',
@@ -93,9 +92,9 @@ function SkillsItems() {
                     {skill.experience}+ {skill.experience < 2 ? 'Year' : 'Years'}
                   </Badge>
                 )} */}
-              </div>
+                </div>
 
-              {/* <div className="bg-primary/10 mt-4 h-1 w-full overflow-hidden rounded-full">
+                {/* <div className="bg-primary/10 mt-4 h-1 w-full overflow-hidden rounded-full">
                 <div
                   style={{ width: skill.progressWidth }}
                   className={cn(
@@ -107,7 +106,8 @@ function SkillsItems() {
                   )}
                 />
               </div> */}
-            </div>
+              </div>
+            </Elasticity>
           )
         })}
       </motion.div>

@@ -209,8 +209,7 @@ const ToastCard: React.FC<{
       enableLiquidAnimation={toast.enableLiquidAnimation}
       triggerAnimation={phase === 'enter'}
       rootClassName={cn(
-        // Card base (applied to the glass container)
-        'pointer-events-auto w-full transition-all duration-200 ease-out will-change-transform rounded-lg glass-effect backdrop-blur-xl`',
+        'pointer-events-auto w-full transition-all duration-200 ease-out will-change-transform rounded-lg glass-effect shadow-md backdrop-blur-xl',
         variantClassMap[toast.variant],
         opacityClass,
         transformClass,
@@ -229,7 +228,7 @@ const ToastCard: React.FC<{
           <button
             type="button"
             aria-label="Dismiss toast"
-            className="absolute top-1 right-1 flex h-4 w-4 items-center justify-center rounded-full border border-white/25 bg-white/10 text-sm font-medium text-white transition duration-150 hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/40"
+            className="cursor-pointer absolute top-1 right-1 flex h-4 w-4 items-center justify-center rounded-full border border-white/25 bg-white/10 text-sm font-medium text-white transition duration-150 hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/40"
             onClick={() => setPhase('exit')}
           >
             ×
@@ -344,7 +343,7 @@ export const ToastProvider: React.FC<ToastProviderProps> = ({
               return (
                 <div
                   key={toastPosition}
-                  className={cn('pointer-events-none fixed z-1100 flex w-fullmax-w-lg gap-3', positionClassMap[toastPosition])}
+                  className={cn('pointer-events-none fixed z-1100 flex w-full max-w-xs sm:max-w-sm gap-3', positionClassMap[toastPosition])}
                 >
                   {ordered.map((toast) => (
                     <ToastCard key={toast.id} toast={toast} onRemove={removeToast} />

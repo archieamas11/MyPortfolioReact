@@ -3,7 +3,6 @@ import { Slot } from '@radix-ui/react-slot'
 import { cva, type VariantProps } from 'class-variance-authority'
 import './style/glass-animation.css'
 import { cn } from '@/lib/utils'
-import { useGlassClickAnimation } from './hooks/use-glass-click-animation'
 import { WebHaptics, defaultPatterns } from "web-haptics";
 
 const buttonVariants = cva(
@@ -54,16 +53,6 @@ function Button({
   }) {
   const isGlass = variant === 'glass'
   const haptics = new WebHaptics();
-  const { glassAnimating, startGlassClickAnimation } = useGlassClickAnimation({
-    enabled: isGlass,
-    disabled,
-    withRipples: false,
-  })
-
-  const handleMouseEnter = (e: React.MouseEvent<HTMLElement>) => {
-    startGlassClickAnimation(e)
-    onMouseEnter?.(e as React.MouseEvent<HTMLButtonElement>)
-  }
 
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
     if (useHaptics) {
@@ -74,7 +63,6 @@ function Button({
 
   const glassLayerClass = cn(
     isGlass && 'glassContainer',
-    isGlass && glassAnimating && (asChild ? 'glassAnimatingHost' : 'glassAnimating'),
   )
 
   const Comp = asChild ? Slot : 'button'
@@ -83,7 +71,6 @@ function Button({
     <Comp
       data-slot="button"
       className={cn(buttonVariants({ variant, size, className }), glassLayerClass)}
-      onMouseEnter={handleMouseEnter}
       onClick={handleClick}
       disabled={disabled}
       {...props}
