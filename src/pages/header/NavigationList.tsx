@@ -108,13 +108,13 @@ const NavigationItem = memo(
               onMouseLeave={handleMouseLeave}
               className={cn(
                 'group text-muted-foreground flex flex-col items-center justify-center rounded-lg text-center text-xs no-underline',
-                'hover:bg-primary/5 hover:text-primary bg-transparent',
+                'hover:bg-primary/10 hover:text-primary bg-transparent',
                 'transform-gpu transition-all duration-300',
                 'hover:scale-105 active:scale-95',
                 'ease-in-out',
                 'focus-visible:ring-ring focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none',
                 {
-                  'glass-effect bg-primary/20 text-accent scale-105': isActive,
+                  'glass-effect bg-primary/5 text-accent scale-105': isActive,
                   'h-17 w-17': !isMini && !isMobile,
                   'h-14 w-14': isMini && !isMobile,
                   'h-10 w-10': isMobile,

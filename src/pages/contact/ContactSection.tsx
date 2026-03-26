@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import ContactForm from './Forms'
 import { personalDetails } from '../about/constants'
 import { defaultPatterns, WebHaptics } from 'web-haptics'
+import { GlassEdgeReflect } from '@/components/ui/glass-edge-reflect/GlassEdgeReflect';
 
 export function ContactSection() {
   const haptics = new WebHaptics();
@@ -67,17 +68,19 @@ export function ContactSection() {
         </div>
 
         {/* Right content */}
-        <Card className="glass-effect from-accent/3 bg-linear-to-t to-transparent">
-          <CardHeader>
-            <CardTitle className="text-primary text-xl md:text-2xl">Drop Me a Line</CardTitle>
-            <CardTitle className="text-muted-foreground font-normal text-sm">
-              I'd love to hear from you
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="mt-5 w-full">
-            <ContactForm />
-          </CardContent>
-        </Card>
+        <GlassEdgeReflect asChild className="h-full">
+          <Card className="glass-effect from-accent/3 bg-linear-to-t to-transparent">
+            <CardHeader>
+              <CardTitle className="text-primary text-xl md:text-2xl">Drop Me a Line</CardTitle>
+              <CardTitle className="text-muted-foreground font-normal text-sm">
+                I'd love to hear from you
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="mt-5 w-full">
+              <ContactForm />
+            </CardContent>
+          </Card>
+        </GlassEdgeReflect>
       </div>
     </section>
   )

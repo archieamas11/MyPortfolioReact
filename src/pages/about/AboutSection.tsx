@@ -10,6 +10,7 @@ import ExperiencePage from './experience'
 import EducationPage from './education'
 import { motion } from 'framer-motion'
 import { useTheme } from 'next-themes'
+import { GlassEdgeReflect } from '@/components/ui/glass-edge-reflect/GlassEdgeReflect'
 
 export function AboutSection() {
   const { theme } = useTheme()
@@ -47,7 +48,9 @@ export function AboutSection() {
               />
             </div>
           </Avatar>
-          <div className="glass absolute inset-0 rounded-xl bg-white/20 dark:bg-white/5"></div>
+          <GlassEdgeReflect asChild className="h-full">
+            <div className="glass-effect absolute inset-0 rounded-xl bg-white/20 dark:bg-white/5"></div>
+          </GlassEdgeReflect>
         </motion.div>
 
         <div className="grid w-full grid-cols-1 gap-8 lg:grid-cols-3 lg:gap-12">
