@@ -8,7 +8,7 @@ import { useChatMessages } from '../../hooks/useChatMessages'
 import { useChatbotApi } from '../../hooks/useChatbotApi'
 import { useRateLimit } from '../../hooks/useRateLimit'
 import { useIsMobile } from '../../hooks/use-mobile'
-import { SUGGESTION_TAGS } from './constants'
+import { INITIAL_MESSAGE_TEXT, SUGGESTION_TAGS } from './constants'
 import ChatInput from '@/pages/chatbot/components/ChatInput'
 
 interface ChatbotProps {
@@ -17,6 +17,7 @@ interface ChatbotProps {
 
 export function Chatbot({ isMini = false }: ChatbotProps) {
   const scrollAreaRef = useRef<HTMLDivElement>(null)
+  const isClearingRef = useRef(false)
   const [input, setInput] = useState('')
   const [usedSuggestions, setUsedSuggestions] = useState<Set<string>>(new Set())
   const isMobile = useIsMobile()
@@ -32,7 +33,9 @@ export function Chatbot({ isMini = false }: ChatbotProps) {
   })
 
   const maxSuggestions = isMobile ? 3 : 6
-  const availableSuggestions = SUGGESTION_TAGS.filter((tag) => !usedSuggestions.has(tag.question))
+  const availableSuggestions = useMemo(() => {
+    return SUGGESTION_TAGS.filter((tag) => !usedSuggestions.has(tag.question))
+  }, [usedSuggestions])
 
   useEffect(() => {
     if (availableSuggestions.length === 0) {
@@ -66,11 +69,24 @@ export function Chatbot({ isMini = false }: ChatbotProps) {
   }, [input, isRateLimited, sendMessage])
 
   const handleClearChat = useCallback(() => {
-    cancelRequest()
-    clearMessages()
-    setUsedSuggestions(new Set())
-    showToast({ variant: 'success', description: 'Chat history cleared' })
-  }, [cancelRequest, clearMessages, showToast])
+    if (isClearingRef.current) return
+    const isAlreadyCleared = messages.length === 1 && messages[0].text === INITIAL_MESSAGE_TEXT
+    if (isAlreadyCleared) return
+
+    isClearingRef.current = true
+
+    try {
+      cancelRequest()
+      clearMessages()
+      setUsedSuggestions(new Set())
+      showToast({ variant: 'success', description: 'Conversation cleared.' })
+    } finally {
+      // Allow the next interaction after state updates are queued.
+      window.setTimeout(() => {
+        isClearingRef.current = false
+      }, 0)
+    }
+  }, [cancelRequest, clearMessages, messages, showToast])
 
   return (
     <div

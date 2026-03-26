@@ -2,6 +2,7 @@ import { useState, useRef, useCallback } from 'react'
 import { sendChatMessageStreaming } from '@/api/api.chatbot'
 import { useToast } from '@/components/ui/toast'
 import type { Message } from '@/types/types'
+import { useWebHaptics } from 'web-haptics/react'
 
 interface UseChatbotApiParams {
   messages: Message[]
@@ -69,11 +70,32 @@ export function useChatbotApi({
   const [isLoading, setIsLoading] = useState(false)
   const abortControllerRef = useRef<AbortController | null>(null)
   const { showToast } = useToast()
+  const { trigger } = useWebHaptics()
+
+  // Prevent haptics spam
+  const lastHapticAtRef = useRef(0)
+  const HAPTIC_COOLDOWN_MS = 70
+  const HAPTIC_DURATION_MS = 12
+
+  const CANCELLED_TEXT = 'Cancelled.'
+  const GENERIC_ERROR_TEXT = 'Something went wrong while generating a reply. Please try again.'
+  const CONNECTION_ERROR_TEXT = "We couldn't reach the chatbot service. Please try again in a moment."
+
+  const toUserFacingErrorText = (error?: string): string => {
+    if (!error) return GENERIC_ERROR_TEXT
+    if (error === 'Request cancelled') return CANCELLED_TEXT
+    if (error.startsWith('Too many requests')) return error
+    if (error === 'Please enter a message') return error
+    if (error.startsWith('Message is too long')) return error
+
+    return GENERIC_ERROR_TEXT
+  }
 
   const cancelRequest = useCallback(() => {
     abortControllerRef.current?.abort()
     abortControllerRef.current = null
     setIsLoading(false)
+    lastHapticAtRef.current = 0
 
     let lastBotIndex = -1
     for (let i = messages.length - 1; i >= 0; i--) {
@@ -85,11 +107,26 @@ export function useChatbotApi({
 
     if (lastBotIndex !== -1 && messages[lastBotIndex].status === 'streaming') {
       updateMessage(messages[lastBotIndex].id, {
-        text: messages[lastBotIndex].text || 'Request cancelled.',
+        text: messages[lastBotIndex].text || CANCELLED_TEXT,
         status: 'complete',
       })
     }
   }, [messages, updateMessage])
+
+  const maybeTriggerStreamingHaptic = useCallback(
+    (chunkText: string) => {
+      if (!chunkText) return
+      if (!trigger) return
+      if (typeof document !== 'undefined' && document.hidden) return
+
+      const now = typeof performance !== 'undefined' ? performance.now() : Date.now()
+      if (now - lastHapticAtRef.current < HAPTIC_COOLDOWN_MS) return
+      lastHapticAtRef.current = now
+
+      void trigger?.(HAPTIC_DURATION_MS, { intensity: 0.15 })?.catch(() => {})
+    },
+    [trigger],
+  )
 
   const sendMessage = useCallback(
     async (input: string, isRateLimited: boolean) => {
@@ -120,6 +157,7 @@ export function useChatbotApi({
 
       addMessages([userMessage, botMessage])
       setIsLoading(true)
+      lastHapticAtRef.current = 0
 
       try {
         let accumulatedText = ''
@@ -127,6 +165,7 @@ export function useChatbotApi({
           trimmedInput,
           (chunk: string) => {
             accumulatedText += chunk
+            maybeTriggerStreamingHaptic(chunk)
             updateMessage(botMessageId, {
               text: accumulatedText,
               status: 'streaming',
@@ -149,28 +188,37 @@ export function useChatbotApi({
             setRateLimitedUntil(Date.now() + response.retryAfter * 1000)
           }
 
+          const isCancelled = response.error === 'Request cancelled' || abortControllerRef.current?.signal.aborted
+          const errorText = toUserFacingErrorText(response.error)
+
           updateMessage(botMessageId, {
-            text: response.error || 'Sorry, I encountered an error. Please try again.',
-            status: 'error',
+            text: isCancelled ? CANCELLED_TEXT : errorText,
+            status: isCancelled ? 'complete' : 'error',
           })
 
-          if (response.error !== 'Request cancelled') {
-            showToast({ variant: 'error', description: response.error || 'Failed to get response' })
+          if (!isCancelled) {
+            showToast({ variant: 'error', description: errorText })
           }
         }
       } catch (error) {
         console.error('Error sending chat message:', error)
-        updateMessage(botMessageId, {
-          text: 'Sorry, I encountered an error connecting to the server. Please try again.',
-          status: 'error',
-        })
-        showToast({ variant: 'error', description: 'Failed to connect to chatbot service' })
+
+        const isCancelled = abortControllerRef.current?.signal.aborted
+        if (isCancelled) {
+          updateMessage(botMessageId, { text: CANCELLED_TEXT, status: 'complete' })
+        } else {
+          updateMessage(botMessageId, {
+            text: CONNECTION_ERROR_TEXT,
+            status: 'error',
+          })
+          showToast({ variant: 'error', description: CONNECTION_ERROR_TEXT })
+        }
       } finally {
         setIsLoading(false)
         abortControllerRef.current = null
       }
     },
-    [addMessages, isLoading, messages, setRateLimitedUntil, showToast, updateMessage],
+    [addMessages, isLoading, messages, maybeTriggerStreamingHaptic, setRateLimitedUntil, showToast, updateMessage],
   )
 
   return {

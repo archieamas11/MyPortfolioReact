@@ -42,12 +42,15 @@ export default function ContactForm() {
   async function onSubmit(values: z.infer<typeof contactSchema>) {
     try {
       if (values.website || values.phone) {
-        showToast({ variant: 'error', description: 'Bot detected. Submission blocked.' })
+        showToast({
+          variant: 'error',
+          description: "We couldn't process your submission. Please try again.",
+        })
         return
       }
 
       if (!values.turnstileToken) {
-        showToast({ variant: 'error', description: 'Please complete the verification.' })
+        showToast({ variant: 'error', description: 'Please complete the verification above.' })
         return
       }
 
@@ -59,12 +62,15 @@ export default function ContactForm() {
         'cf-turnstile-response': values.turnstileToken,
       })
 
-      showToast({ variant: 'success', description: 'Form submitted successfully!' })
+      showToast({ variant: 'success', description: 'Message sent. Thank you for reaching out.' })
 
       turnstileRef.current?.reset()
       form.reset()
     } catch {
-      showToast({ variant: 'error', description: 'Failed to submit the form. Please try again.' })
+      showToast({
+        variant: 'error',
+        description: "We couldn't send your message. Please try again in a moment.",
+      })
     }
   }
 
@@ -76,9 +82,9 @@ export default function ContactForm() {
           name="full_name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Full Name</FormLabel>
+              <FormLabel>Full name</FormLabel>
               <FormControl>
-                <Input placeholder="Your Full Name" type="text" {...field} />
+                <Input placeholder="Your name" type="text" {...field} />
               </FormControl>
               <FormDescription className="sr-only">full name</FormDescription>
               <FormMessage />
@@ -91,9 +97,9 @@ export default function ContactForm() {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email Address</FormLabel>
+              <FormLabel>Email address</FormLabel>
               <FormControl>
-                <Input placeholder="your.email@example.com" type="email" {...field} />
+                <Input placeholder="name@example.com" type="email" {...field} />
               </FormControl>
               <FormDescription className="sr-only">Your email address</FormDescription>
               <FormMessage />
@@ -109,7 +115,7 @@ export default function ContactForm() {
               <FormLabel>Subject</FormLabel>
               <Select onValueChange={field.onChange} value={field.value || undefined}>
                 <FormControl>
-                  <SelectTrigger className="!h-12 w-full">
+                  <SelectTrigger className="h-12! w-full">
                     <SelectValue placeholder="Select a subject" />
                   </SelectTrigger>
                 </FormControl>
@@ -202,6 +208,10 @@ export default function ContactForm() {
                     }}
                     onExpire={() => {
                       field.onChange('')
+                      showToast({
+                        variant: 'error',
+                        description: 'Verification expired. Please complete it again.',
+                      })
                     }}
                   />
                 </div>
@@ -212,7 +222,7 @@ export default function ContactForm() {
         />
 
         <Button type="submit" className="mt-5 w-full" variant={'glass'} size={'xl'} disabled={submitting}>
-          {submitting ? 'Sending...' : 'Send Message'}
+          {submitting ? 'Sending...' : 'Send message'}
         </Button>
       </form>
     </Form>
