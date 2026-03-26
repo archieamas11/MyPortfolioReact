@@ -210,7 +210,7 @@ const ToastCard: React.FC<{
       triggerAnimation={phase === 'enter'}
       rootClassName={cn(
         // Card base (applied to the glass container)
-        'pointer-events-auto w-full transition-all duration-200 ease-out will-change-transform rounded-lg glass-effect backdrop-blur-sm`',
+        'pointer-events-auto w-full transition-all duration-200 ease-out will-change-transform rounded-lg glass-effect backdrop-blur-xl`',
         variantClassMap[toast.variant],
         opacityClass,
         transformClass,
