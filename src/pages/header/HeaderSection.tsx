@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useRef } from 'react'
 import { motion } from 'motion/react'
 import { cn } from '@/lib/utils'
 import { useIsMobile } from '@/hooks/use-mobile'
@@ -27,23 +27,8 @@ export function HeaderSection() {
     handleChatbotToggle: toggleChatbot,
     handleChatbotClose: closeChatbot,
   } = useChatbotState()
-  const scrollHapticRef = useRef<() => void>(() => { })
-  scrollHapticRef.current = () => {
-    useHaptics.trigger(defaultPatterns.light)
-  }
-
   const [activeSection, setActiveSection] = useActiveSection(isChatbotOpen)
   const isMini = useScrollDirection(isMobile, isChatbotOpen)
-
-  const didMountRef = useRef(false)
-  useEffect(() => {
-    if (!didMountRef.current) {
-      didMountRef.current = true
-      return
-    }
-    if (isChatbotOpen) return
-    scrollHapticRef.current()
-  }, [activeSection, isChatbotOpen])
 
   const handleChatbotToggle = useCallback(() => {
     toggleChatbot()
