@@ -242,8 +242,7 @@ html {
     inset -3px -3px 0.5px -3px rgba(0, 0, 0, 0.85),
     inset 1px 1px 1px -0.5px rgba(0, 0, 0, 0.6),
     inset -1px -1px 1px -0.5px rgba(0, 0, 0, 0.6),
-    /* inset 0 0 6px 6px rgba(0, 0, 0, 0.12), */
-    inset 0 0 2px 2px rgba(0, 0, 0, 0.06),
+    /* inset 0 0 6px 6px rgba(0, 0, 0, 0.12), */ inset 0 0 2px 2px rgba(0, 0, 0, 0.06),
     0 0 12px rgba(255, 255, 255, 0.15);
   transition: all 0.3s ease;
 }
@@ -254,8 +253,7 @@ html {
     inset -3px -3px 0.5px -3.5px rgba(255, 255, 255, 0.85),
     inset 1px 1px 1px -0.5px rgba(255, 255, 255, 0.6),
     inset -1px -1px 1px -0.5px rgba(255, 255, 255, 0.6),
-    /* inset 0 0 6px 6px rgba(255, 255, 255, 0.12), */
-    inset 0 0 2px 2px rgba(255, 255, 255, 0.06),
+    /* inset 0 0 6px 6px rgba(255, 255, 255, 0.12), */ inset 0 0 2px 2px rgba(255, 255, 255, 0.06),
     0 0 12px rgba(0, 0, 0, 0.15);
   transition: all 0.3s ease;
 }
@@ -265,8 +263,7 @@ html {
     inset 3px 3px 0.5px -3px rgba(0, 0, 0, 0.9),
     inset -3px -3px 0.5px -3px rgba(0, 0, 0, 0.85),
     inset 1px 1px 1px -0.5px rgba(0, 0, 0, 0.6),
-    /* inset 0 0 6px 6px rgba(0, 0, 0, 0.12), */
-    inset 0 0 2px 2px rgba(0, 0, 0, 0.06),
+    /* inset 0 0 6px 6px rgba(0, 0, 0, 0.12), */ inset 0 0 2px 2px rgba(0, 0, 0, 0.06),
     0 0 12px rgba(255, 255, 255, 0.15);
   transition: all 0.3s ease;
 }
@@ -276,8 +273,7 @@ html {
     inset 3px 3px 0.5px -3.5px rgba(255, 255, 255, 0.09),
     inset -3px -3px 0.5px -3.5px rgba(255, 255, 255, 0.85),
     inset 1px 1px 1px -0.5px rgba(255, 255, 255, 0.6),
-    /* inset 0 0 6px 6px rgba(255, 255, 255, 0.12), */
-    inset 0 0 2px 2px rgba(255, 255, 255, 0.06),
+    /* inset 0 0 6px 6px rgba(255, 255, 255, 0.12), */ inset 0 0 2px 2px rgba(255, 255, 255, 0.06),
     0 0 12px rgba(0, 0, 0, 0.15);
   transition: all 0.3s ease;
 }
@@ -299,7 +295,7 @@ html {
 }
 
 .section-wrapper {
-  @apply min-h-dvh w-full px-8 py-25 lg:px-10 md:px-10 sm:px-10 xl:px-0;
+  @apply min-h-dvh w-full px-8 py-25 sm:px-10 md:px-10 lg:px-10 xl:px-0;
 }
 
 /* Liquid blob background */
@@ -309,7 +305,6 @@ html {
 }
 
 @keyframes liquid-float-a {
-
   0%,
   100% {
     transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
@@ -321,7 +316,6 @@ html {
 }
 
 @keyframes liquid-float-b {
-
   0%,
   100% {
     transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
@@ -349,17 +343,21 @@ html {
 
 .liquid-blob-vignette {
   z-index: 1;
-  background: radial-gradient(ellipse 90% 70% at 50% 35%,
-      transparent 0%,
-      color-mix(in oklch, var(--background) 88%, var(--accent) 12%) 100%);
+  background: radial-gradient(
+    ellipse 90% 70% at 50% 35%,
+    transparent 0%,
+    color-mix(in oklch, var(--background) 88%, var(--accent) 12%) 100%
+  );
   opacity: 0.92;
   transition: background 1.35s var(--expo-out);
 }
 
 .dark .liquid-blob-vignette {
-  background: radial-gradient(ellipse 85% 65% at 50% 38%,
-      transparent 0%,
-      color-mix(in oklch, var(--background) 92%, var(--accent) 8%) 100%);
+  background: radial-gradient(
+    ellipse 85% 65% at 50% 38%,
+    transparent 0%,
+    color-mix(in oklch, var(--background) 92%, var(--accent) 8%) 100%
+  );
 }
 
 .liquid-blob {
@@ -400,7 +398,9 @@ html {
   height: 100%;
   border-radius: 58% 42% 38% 62% / 48% 38% 62% 52%;
   filter: blur(44px);
-  transition: background 1.35s var(--expo-out), filter 1.35s var(--expo-out);
+  transition:
+    background 1.35s var(--expo-out),
+    filter 1.35s var(--expo-out);
 }
 
 .liquid-blob--2 .liquid-blob-core {
@@ -408,24 +408,30 @@ html {
 }
 
 .liquid-blob--1 .liquid-blob-core {
-  background: radial-gradient(circle at 35% 35%,
-      color-mix(in oklch, var(--accent) 68%, transparent) 0%,
-      color-mix(in oklch, var(--accent) 36%, transparent) 58%,
-      transparent 76%);
+  background: radial-gradient(
+    circle at 35% 35%,
+    color-mix(in oklch, var(--accent) 68%, transparent) 0%,
+    color-mix(in oklch, var(--accent) 36%, transparent) 58%,
+    transparent 76%
+  );
 }
 
 .liquid-blob--2 .liquid-blob-core {
-  background: radial-gradient(circle at 58% 42%,
-      color-mix(in oklch, var(--accent) 52%, white 10%) 0%,
-      color-mix(in oklch, var(--accent) 30%, transparent) 62%,
-      transparent 78%);
+  background: radial-gradient(
+    circle at 58% 42%,
+    color-mix(in oklch, var(--accent) 52%, white 10%) 0%,
+    color-mix(in oklch, var(--accent) 30%, transparent) 62%,
+    transparent 78%
+  );
 }
 
 .dark .liquid-blob--2 .liquid-blob-core {
-  background: radial-gradient(circle at 58% 42%,
-      color-mix(in oklch, var(--accent) 52%, oklch(0.32 0.05 280)) 0%,
-      color-mix(in oklch, var(--accent) 28%, transparent) 62%,
-      transparent 78%);
+  background: radial-gradient(
+    circle at 58% 42%,
+    color-mix(in oklch, var(--accent) 52%, oklch(0.32 0.05 280)) 0%,
+    color-mix(in oklch, var(--accent) 28%, transparent) 62%,
+    transparent 78%
+  );
 }
 
 @media (max-width: 640px) {

@@ -1,5 +1,12 @@
 import './glass.css'
-import React, { forwardRef, type ComponentPropsWithoutRef, type ElementType, useCallback, useRef, useState } from 'react'
+import React, {
+  forwardRef,
+  type ComponentPropsWithoutRef,
+  type ElementType,
+  useCallback,
+  useRef,
+  useState,
+} from 'react'
 import { cn } from '@/lib/utils'
 
 export type GlassProps<T extends ElementType = 'div'> = {
@@ -12,7 +19,17 @@ export type GlassProps<T extends ElementType = 'div'> = {
 } & ComponentPropsWithoutRef<T>
 
 const Glass = forwardRef(function GlassInner<T extends ElementType = 'div'>(
-  { as, children, className, rootClassName, rootStyle, enableLiquidAnimation = false, triggerAnimation = false, onClick, ...props }: GlassProps<T>,
+  {
+    as,
+    children,
+    className,
+    rootClassName,
+    rootStyle,
+    enableLiquidAnimation = false,
+    triggerAnimation = false,
+    onClick,
+    ...props
+  }: GlassProps<T>,
   ref: React.ForwardedRef<any>,
 ) {
   const Component = (as || 'div') as ElementType
@@ -54,7 +71,6 @@ const Glass = forwardRef(function GlassInner<T extends ElementType = 'div'>(
         className={cn('glassContainer', rootClassName, isAnimating && 'glassAnimating')}
         style={rootStyle}
       >
-
         {isAnimating && (
           <div
             className="glassRipple"
@@ -71,9 +87,10 @@ const Glass = forwardRef(function GlassInner<T extends ElementType = 'div'>(
       </div>
     </>
   )
-}) as <T extends ElementType = 'div'>(props: GlassProps<T> & { ref?: React.ForwardedRef<any> }) => React.ReactElement
+}) as <T extends ElementType = 'div'>(
+  props: GlassProps<T> & { ref?: React.ForwardedRef<any> },
+) => React.ReactElement
 
-(Glass as any).displayName = 'Glass'
+;(Glass as any).displayName = 'Glass'
 
 export default Glass
-

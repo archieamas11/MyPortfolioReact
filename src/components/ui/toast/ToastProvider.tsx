@@ -18,7 +18,13 @@ type ToastVariant = 'default' | 'success' | 'error' | 'info'
 
 type ToastAnimation = 'slide-from-right' | 'slide-from-left' | 'slide-from-bottom' | 'scale'
 
-type ToastPosition = 'top-right' | 'top-left' | 'top-center' | 'bottom-right' | 'bottom-left' | 'bottom-center'
+type ToastPosition =
+  | 'top-right'
+  | 'top-left'
+  | 'top-center'
+  | 'bottom-right'
+  | 'bottom-left'
+  | 'bottom-center'
 
 export type ToastDefinition = {
   id?: string
@@ -63,8 +69,7 @@ type ToastContextValue = {
 
 const variantClassMap: Record<ToastVariant, string> = {
   default: 'border-white/25 text-white shadow-[0_18px_40px_rgba(15,23,42,0.32)]',
-  success:
-    'bg-emerald-500/15 text-emerald-50 shadow-[0_18px_40px_rgba(16,185,129,0.28)] glass',
+  success: 'bg-emerald-500/15 text-emerald-50 shadow-[0_18px_40px_rgba(16,185,129,0.28)] glass',
   error: 'bg-rose-500/15 border-rose-400/40 text-rose-50 shadow-[0_18px_40px_rgba(244,63,94,0.30)]',
   info: 'bg-sky-500/15 border-sky-400/40 text-sky-50 shadow-[0_18px_40px_rgba(56,189,248,0.28)]',
 }
@@ -217,18 +222,21 @@ const ToastCard: React.FC<{
     >
       <div className="relative p-3 pr-8">
         <div className="flex items-start gap-2">
-          <div className="mt-0.5 flex h-5 w-5 items-center justify-center shrink-0 text-current" aria-hidden="true">
+          <div
+            className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center text-current"
+            aria-hidden="true"
+          >
             <Icon className="h-5 w-5" />
           </div>
           <div className="min-w-0 flex-1 space-y-1">
-            {toast.title && <p className="text-base font-semibold leading-tight">{toast.title}</p>}
+            {toast.title && <p className="text-base leading-tight font-semibold">{toast.title}</p>}
             {toast.description && <p className="text-sm leading-snug text-current/80">{toast.description}</p>}
           </div>
 
           <button
             type="button"
             aria-label="Dismiss toast"
-            className="cursor-pointer absolute top-1 right-1 flex h-4 w-4 items-center justify-center rounded-full border border-white/25 bg-white/10 text-sm font-medium text-white transition duration-150 hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/40"
+            className="absolute top-1 right-1 flex h-4 w-4 cursor-pointer items-center justify-center rounded-full border border-white/25 bg-white/10 text-sm font-medium text-white transition duration-150 hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/40"
             onClick={() => setPhase('exit')}
           >
             ×
@@ -332,29 +340,33 @@ export const ToastProvider: React.FC<ToastProviderProps> = ({
       {portalNode &&
         createPortal(
           <>
-            {(Object.entries(toastsByPosition) as [ToastPosition, ToastRecord[]][]).map(([toastPosition, items]) => {
-              if (!items.length) return null
+            {(Object.entries(toastsByPosition) as [ToastPosition, ToastRecord[]][]).map(
+              ([toastPosition, items]) => {
+                if (!items.length) return null
 
-              const ordered =
-                positionSorts[toastPosition] === 'desc'
-                  ? [...items].sort((a, b) => b.createdAt - a.createdAt)
-                  : [...items].sort((a, b) => a.createdAt - b.createdAt)
+                const ordered =
+                  positionSorts[toastPosition] === 'desc'
+                    ? [...items].sort((a, b) => b.createdAt - a.createdAt)
+                    : [...items].sort((a, b) => a.createdAt - b.createdAt)
 
-              return (
-                <div
-                  key={toastPosition}
-                  className={cn('pointer-events-none fixed z-1100 flex w-full max-w-xs sm:max-w-sm gap-3', positionClassMap[toastPosition])}
-                >
-                  {ordered.map((toast) => (
-                    <ToastCard key={toast.id} toast={toast} onRemove={removeToast} />
-                  ))}
-                </div>
-              )
-            })}
+                return (
+                  <div
+                    key={toastPosition}
+                    className={cn(
+                      'pointer-events-none fixed z-1100 flex w-full max-w-xs gap-3 sm:max-w-sm',
+                      positionClassMap[toastPosition],
+                    )}
+                  >
+                    {ordered.map((toast) => (
+                      <ToastCard key={toast.id} toast={toast} onRemove={removeToast} />
+                    ))}
+                  </div>
+                )
+              },
+            )}
           </>,
           portalNode,
         )}
     </ToastContext.Provider>
   )
 }
-

@@ -4,7 +4,6 @@ import { Chatbot } from '@/pages/chatbot/Chatbot'
 
 export const CHATBOT_ANIMATION_DURATION = 300
 
-
 const ChatbotContainer = ({ isOpen, isMini }: { isOpen: boolean; isMini: boolean }) => {
   const [activityMode, setActivityMode] = useState<'visible' | 'hidden'>('hidden')
   const [hasOpenedChatbot, setHasOpenedChatbot] = useState(false)
@@ -37,11 +36,7 @@ const ChatbotContainer = ({ isOpen, isMini }: { isOpen: boolean; isMini: boolean
       style={{ overflow: 'hidden' }}
     >
       <Activity mode={activityMode}>
-        <div>
-          {shouldMountChatbot && (
-            <Chatbot isMini={isMini} />
-          )}
-        </div>
+        <div>{shouldMountChatbot && <Chatbot isMini={isMini} />}</div>
       </Activity>
     </motion.div>
   )

@@ -9,7 +9,7 @@ type GlassRipple = {
 }
 
 type UseGlassClickAnimationOptions = {
-enabled: boolean
+  enabled: boolean
   disabled?: boolean
   withRipples?: boolean
   durationMs?: number

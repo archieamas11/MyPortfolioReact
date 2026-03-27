@@ -1,5 +1,5 @@
-import { useCallback, useRef } from 'react'
-import { motion } from 'motion/react'
+import { useCallback, useMemo, useRef } from 'react'
+import { LazyMotion, domAnimation, m } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import { useIsMobile } from '@/hooks/use-mobile'
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver'
@@ -15,12 +15,12 @@ import { useChatbotState } from './hooks/useChatbotState'
 import ChatbotContainer from './ChatbotContainer'
 import NavigationList from './NavigationList'
 import GlassEffectLayers from './components/glass-effect'
-import { defaultPatterns, WebHaptics } from "web-haptics";
+import { WebHaptics } from 'web-haptics'
 
 export function HeaderSection() {
   const isMobile = useIsMobile()
   const navRef = useRef<HTMLElement>(null)
-  const useHaptics = new WebHaptics();
+  const haptics = useMemo(() => new WebHaptics(), [])
   const projectsElement = useProjectsElement()
   const {
     isChatbotOpen,
@@ -61,7 +61,6 @@ export function HeaderSection() {
 
   const handleNavClick = useCallback(
     (e: React.MouseEvent<HTMLAnchorElement>, href: string, itemId: string) => {
-      useHaptics.trigger(defaultPatterns.selection)
       e.preventDefault()
 
       if (itemId === 'theme-toggle-nav') {
@@ -91,35 +90,37 @@ export function HeaderSection() {
   )
 
   return (
-    <motion.nav
-      ref={navRef}
-      className={cn(
-        'fixed z-800',
-        isMobile
-          ? 'max-full right-0 bottom-4 left-0 mx-auto flex w-fit justify-center overflow-hidden'
-          : 'top-4 left-1/2',
-      )}
-      initial={isMobile ? { y: 0, x: 0, opacity: 1 } : { y: -100, x: '-50%', opacity: 0 }}
-      animate={{
-        y: 0,
-        x: isMobile ? 0 : '-50%',
-        opacity: 1,
-      }}
-      transition={{ duration: isMobile ? 0 : 0.5, ease: 'easeOut' }}
-    >
-      <GlassEffectLayers isChatbotOpen={isChatbotOpen} isProjectsVisible={isProjectsVisible} />
-      <div className="relative z-999 flex w-full flex-col overflow-hidden">
-        <NavigationList
-          activeSection={activeSection}
-          isMini={isMini}
-          useHaptics={useHaptics}
-          isMobile={isMobile}
-          onNavClick={handleNavClick}
-        />
-        <div className={cn('w-full', isMini && !isMobile && 'w-[400px]', isMobile && 'max-h-screen p-0')}>
-          <ChatbotContainer isOpen={isChatbotOpen} isMini={isMini} />
+    <LazyMotion features={domAnimation}>
+      <m.nav
+        ref={navRef}
+        className={cn(
+          'fixed z-800',
+          isMobile
+            ? 'max-full right-0 bottom-4 left-0 mx-auto flex w-fit justify-center overflow-hidden'
+            : 'top-4 left-1/2',
+        )}
+        initial={isMobile ? { y: 0, x: 0, opacity: 1 } : { y: -100, x: '-50%', opacity: 0 }}
+        animate={{
+          y: 0,
+          x: isMobile ? 0 : '-50%',
+          opacity: 1,
+        }}
+        transition={{ duration: isMobile ? 0 : 0.5, ease: 'easeOut' }}
+      >
+        <GlassEffectLayers isChatbotOpen={isChatbotOpen} isProjectsVisible={isProjectsVisible} />
+        <div className="relative z-999 flex w-full flex-col overflow-hidden">
+          <NavigationList
+            activeSection={activeSection}
+            isMini={isMini}
+            haptics={haptics}
+            isMobile={isMobile}
+            onNavClick={handleNavClick}
+          />
+          <div className={cn('w-full', isMini && !isMobile && 'w-[400px]', isMobile && 'max-h-screen p-0')}>
+            <ChatbotContainer isOpen={isChatbotOpen} isMini={isMini} />
+          </div>
         </div>
-      </div>
-    </motion.nav>
+      </m.nav>
+    </LazyMotion>
   )
 }

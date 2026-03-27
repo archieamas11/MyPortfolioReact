@@ -6,15 +6,11 @@ import { ToastProvider } from '@/components/ui/toast'
 import { LiquidBlobBackground } from '@/components/LiquidBlobBackground'
 import { useIsMobile } from '@/hooks/use-mobile'
 
-const AboutSection = lazy(() =>
-  import('@/pages/about').then((m) => ({ default: m.AboutSection })),
-)
+const AboutSection = lazy(() => import('@/pages/about').then((m) => ({ default: m.AboutSection })))
 const ProjectsSection = lazy(() =>
   import('@/pages/projects/ProjectsSection').then((m) => ({ default: m.ProjectsSection })),
 )
-const ContactSection = lazy(() =>
-  import('@/pages/contact').then((m) => ({ default: m.ContactSection })),
-)
+const ContactSection = lazy(() => import('@/pages/contact').then((m) => ({ default: m.ContactSection })))
 
 function SectionFallback() {
   return <div className="min-h-32 w-full" aria-hidden />

@@ -10,10 +10,9 @@ export type UseElasticityOptions = {
   transitionMs?: number
 }
 
-const DEFAULTS: Required<Pick<
-  UseElasticityOptions,
-  'enabled' | 'elasticity' | 'activationZonePx' | 'mode' | 'transitionMs'
->> = {
+const DEFAULTS: Required<
+  Pick<UseElasticityOptions, 'enabled' | 'elasticity' | 'activationZonePx' | 'mode' | 'transitionMs'>
+> = {
   enabled: true,
   elasticity: 2,
   activationZonePx: 200,
@@ -88,19 +87,25 @@ export function useElasticity<T extends HTMLElement>(
     const normalizedY = deltaY / centerDistance
 
     const stretchIntensity = Math.min(centerDistance / 300, 1) * elasticity * fadeInFactor
-    const scaleX = Math.max(0.8, 1 + Math.abs(normalizedX) * stretchIntensity * 0.3 - Math.abs(normalizedY) * stretchIntensity * 0.15)
-    const scaleY = Math.max(0.8, 1 + Math.abs(normalizedY) * stretchIntensity * 0.3 - Math.abs(normalizedX) * stretchIntensity * 0.15)
+    const scaleX = Math.max(
+      0.8,
+      1 + Math.abs(normalizedX) * stretchIntensity * 0.3 - Math.abs(normalizedY) * stretchIntensity * 0.15,
+    )
+    const scaleY = Math.max(
+      0.8,
+      1 + Math.abs(normalizedY) * stretchIntensity * 0.3 - Math.abs(normalizedX) * stretchIntensity * 0.15,
+    )
 
     const tx = (p.x - centerX) * elasticity * 0.1 * fadeInFactor
     const ty = (p.y - centerY) * elasticity * 0.1 * fadeInFactor
     const sx = Math.max(0.8, scaleX)
     const sy = Math.max(0.8, scaleY)
 
-    const next: React.CSSProperties = ({
+    const next: React.CSSProperties = {
       transform: `translate3d(${tx}px, ${ty}px, 0) scale(${sx}, ${sy})`,
       transition: `transform ${transitionMs}ms ease-out`,
       willChange: 'transform',
-    } satisfies React.CSSProperties)
+    } satisfies React.CSSProperties
 
     setStyle(next)
     setOffset({ x: tx, y: ty })
@@ -145,4 +150,3 @@ export function useElasticity<T extends HTMLElement>(
 
   return { elasticityStyle: style, elasticityOffset: offset, elasticityScale: scale }
 }
-

@@ -188,7 +188,8 @@ export function useChatbotApi({
             setRateLimitedUntil(Date.now() + response.retryAfter * 1000)
           }
 
-          const isCancelled = response.error === 'Request cancelled' || abortControllerRef.current?.signal.aborted
+          const isCancelled =
+            response.error === 'Request cancelled' || abortControllerRef.current?.signal.aborted
           const errorText = toUserFacingErrorText(response.error)
 
           updateMessage(botMessageId, {
@@ -218,7 +219,15 @@ export function useChatbotApi({
         abortControllerRef.current = null
       }
     },
-    [addMessages, isLoading, messages, maybeTriggerStreamingHaptic, setRateLimitedUntil, showToast, updateMessage],
+    [
+      addMessages,
+      isLoading,
+      messages,
+      maybeTriggerStreamingHaptic,
+      setRateLimitedUntil,
+      showToast,
+      updateMessage,
+    ],
   )
 
   return {

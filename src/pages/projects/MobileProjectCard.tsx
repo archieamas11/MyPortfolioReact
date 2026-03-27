@@ -12,7 +12,7 @@ interface MobileProjectCardProps {
 
 export function MobileProjectCard({ project, registerItem }: MobileProjectCardProps) {
   return (
-    <GlassEdgeReflect asChild className="h-full" >
+    <GlassEdgeReflect asChild className="h-full">
       <Card className="glass-effect group relative h-full overflow-hidden border-white/10 p-0 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl">
         <CardContent className="h-full p-0">
           <div className="grid h-full grid-cols-1 md:grid-cols-2">
@@ -31,9 +31,7 @@ export function MobileProjectCard({ project, registerItem }: MobileProjectCardPr
               <div className="space-y-4">
                 <div className="flex flex-wrap gap-2">
                   {project.tags.slice(0, 3).map((t) => (
-                    <Badge key={t} >
-                      {t}
-                    </Badge>
+                    <Badge key={t}>{t}</Badge>
                   ))}
                 </div>
 
@@ -52,6 +50,6 @@ export function MobileProjectCard({ project, registerItem }: MobileProjectCardPr
           </div>
         </CardContent>
       </Card>
-    </GlassEdgeReflect >
+    </GlassEdgeReflect>
   )
 }

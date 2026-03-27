@@ -18,9 +18,7 @@ export default function ExperiencePage() {
               <div className="bg-accent h-2 w-2 rounded-full" />
             </div>
 
-            <Badge className="mb-1">
-              {item.date}
-            </Badge>
+            <Badge className="mb-1">{item.date}</Badge>
             <h2 className="text-2xl leading-tight font-bold">{item.role}</h2>
             <h3 className="text-muted-foreground mt-1 text-lg font-medium">{item.company}</h3>
             <div className="mt-3 text-base leading-relaxed">{item.points}</div>

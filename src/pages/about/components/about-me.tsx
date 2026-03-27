@@ -16,7 +16,10 @@ export default function AboutMe() {
         viewport={{ once: true }}
         transition={{ delay: 0.2, duration: 0.5 }}
       >
-        HELLO!<span className="wave-emoji inline-block origin-[70%_70%]" role="img" aria-label="waving hand">👋</span>
+        HELLO!
+        <span className="wave-emoji inline-block origin-[70%_70%]" role="img" aria-label="waving hand">
+          👋
+        </span>
       </motion.h2>
       <motion.div
         className="bg-accent mt-3 hidden h-1 w-25 rounded-full lg:block"

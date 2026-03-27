@@ -22,14 +22,14 @@ const NavigationItem = memo(
     isMini,
     isMobile,
     onClick,
-    useHaptics,
+    haptics,
   }: {
     item: NavItem
     isActive: boolean
     isMini: boolean
     isMobile: boolean
     onClick: (e: React.MouseEvent<HTMLAnchorElement>, href: string, id: string) => void
-    useHaptics: WebHaptics
+    haptics: WebHaptics
   }) => {
     const { theme, setTheme } = useTheme()
     const iconRef = useRef<IconHandle | SunIconHandle | MoonIconHandle>(null)
@@ -97,10 +97,10 @@ const NavigationItem = memo(
               onClick={(e) => {
                 if (isThemeToggle) {
                   e.preventDefault()
-                  useHaptics.trigger(defaultPatterns.medium)
+                  haptics.trigger(defaultPatterns.medium)
                   setTheme(theme === 'dark' ? 'light' : 'dark')
                 } else {
-                  useHaptics.trigger(defaultPatterns.selection)
+                  haptics.trigger(defaultPatterns.selection)
                   onClick(e, item.href!, item.id)
                 }
               }}
@@ -112,7 +112,7 @@ const NavigationItem = memo(
                 'transform-gpu transition-all duration-300',
                 'hover:scale-105 active:scale-95',
                 'ease-in-out',
-                'focus-visible:ring-ring focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none',
+                'focus-visible:ring-ring focus-visible:ring-offset-background focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
                 {
                   'glass-effect bg-primary/5 text-accent scale-105': isActive,
                   'h-17 w-17': !isMini && !isMobile,
@@ -167,25 +167,25 @@ const NavigationList = memo(
     isMini,
     isMobile,
     onNavClick,
-    useHaptics,
+    haptics,
   }: {
     activeSection: SectionId
     isMini: boolean
     isMobile: boolean
     onNavClick: (e: React.MouseEvent<HTMLAnchorElement>, href: string, id: string) => void
-    useHaptics: WebHaptics
+    haptics: WebHaptics
   }) => (
     <ul
       className={cn(
-        'transition-all duration-300 ease-in-out flex list-none flex-row items-center justify-between p-1 py-2',
-        isMobile ? 'py-3 px-2' : '',
+        'flex list-none flex-row items-center justify-between p-1 py-2 transition-all duration-300 ease-in-out',
+        isMobile ? 'px-2 py-3' : '',
       )}
     >
       {navigationItems.map((item) => (
         <NavigationItem
           key={item.id}
           item={item}
-          useHaptics={useHaptics}
+          haptics={haptics}
           isActive={activeSection === item.id}
           isMini={isMini}
           isMobile={isMobile}

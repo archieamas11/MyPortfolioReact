@@ -2,18 +2,20 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import ContactForm from './Forms'
 import { personalDetails } from '../about/constants'
 import { defaultPatterns, WebHaptics } from 'web-haptics'
-import { GlassEdgeReflect } from '@/components/ui/glass-edge-reflect/GlassEdgeReflect';
+import { GlassEdgeReflect } from '@/components/ui/glass-edge-reflect/GlassEdgeReflect'
 
 export function ContactSection() {
-  const haptics = new WebHaptics();
+  const haptics = new WebHaptics()
 
   return (
     <section id="contact" className="section-wrapper overflow-hidden">
       <div className="grid w-full grid-cols-1 justify-between gap-20 lg:grid-cols-2 lg:gap-0">
         {/* Left content*/}
         <div className="p-0">
-          <h2 className="mb-4 text-3xl font-bold sm:text-4xl md:text-5xl lg:text-6xl uppercase">Get In Touch</h2>
-          <p className="text-muted-foreground font-normal max-w-md text-justify text-lg md:text-xl">
+          <h2 className="mb-4 text-3xl font-bold uppercase sm:text-4xl md:text-5xl lg:text-6xl">
+            Get In Touch
+          </h2>
+          <p className="text-muted-foreground max-w-md text-justify text-lg font-normal md:text-xl">
             I'm always interested in new opportunities. Whether you want to collaborate, discuss a project, or
             just say hello, I'd love to hear from you!
           </p>
@@ -72,7 +74,7 @@ export function ContactSection() {
           <Card className="glass-effect from-accent/3 bg-linear-to-t to-transparent">
             <CardHeader>
               <CardTitle className="text-primary text-xl md:text-2xl">Drop Me a Line</CardTitle>
-              <CardTitle className="text-muted-foreground font-normal text-sm">
+              <CardTitle className="text-muted-foreground text-sm font-normal">
                 I'd love to hear from you
               </CardTitle>
             </CardHeader>

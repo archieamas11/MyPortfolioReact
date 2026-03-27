@@ -22,9 +22,9 @@ type ElasticityProps = {
   withGlassEdgeReflect?: boolean
   glassEdgeReflectProps?: Omit<GlassEdgeReflectProps, 'children' | 'asChild' | 'className' | 'style'>
 } & Omit<UseElasticityOptions, 'enabled' | 'elasticity' | 'activationZonePx' | 'transitionMs'> & {
-  className?: string
-  style?: React.CSSProperties
-}
+    className?: string
+    style?: React.CSSProperties
+  }
 
 export function Elasticity({
   children,
@@ -89,7 +89,7 @@ export function Elasticity({
       if (typeof existingChildRef === 'function') {
         existingChildRef(value)
       } else if (existingChildRef) {
-        ; (existingChildRef as React.MutableRefObject<HTMLElement | null>).current = value
+        ;(existingChildRef as React.MutableRefObject<HTMLElement | null>).current = value
       }
       targetRef.current = value
     }

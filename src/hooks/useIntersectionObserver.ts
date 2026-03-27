@@ -34,7 +34,7 @@ export function useIntersectionObserver({
     return () => {
       observer.disconnect()
     }
-  }, [target, root, rootMargin, JSON.stringify(threshold)])
+  }, [target, root, rootMargin, threshold])
 
   return isIntersecting
 }

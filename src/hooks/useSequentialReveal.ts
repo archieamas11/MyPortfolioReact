@@ -79,6 +79,17 @@ export const useSequentialReveal = (options: SequentialRevealOptions = {}) => {
       return
     }
 
+    if (delay <= 0) {
+      items.forEach((node) => {
+        node.classList.add('reveal-item-visible')
+      })
+
+      animatingRef.current = false
+      hasAnimatedRef.current = true
+      onComplete?.()
+      return
+    }
+
     animatingRef.current = true
 
     items.sort((a, b) => {
