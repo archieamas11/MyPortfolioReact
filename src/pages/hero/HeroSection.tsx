@@ -75,19 +75,17 @@ export default function HeroSection() {
           <div
             className="focus-visible:ring-ring rounded-full focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none"
           >
-            <Elasticity elasticity={0.6} preserveCenteredTranslate={true} withGlassEdgeReflect={false} enabled={!isMobile}>
-              <img
-                id="logo"
-                src={'images/aaa-white.avif'}
-                alt="Archie Albarico Logo"
-                fetchPriority="high"
-                decoding="async"
-                className={cn(
-                  `home-logo glass-effect bg-accent border-background rounded-full border-15 object-contain ${isScrolled ? 'scrolled' : ''}`,
-                  isMobile ? 'border-0' : '',
-                )}
-              />
-            </Elasticity>
+            <img
+              id="logo"
+              src={'images/aaa-white.avif'}
+              alt="Archie Albarico Logo"
+              fetchPriority="high"
+              decoding="async"
+              className={cn(
+                `home-logo glass-effect bg-accent border-background rounded-full border-15 object-contain ${isScrolled ? 'scrolled' : ''}`,
+                isMobile ? 'border-0' : '',
+              )}
+            />
           </div>
 
           {/* Heading */}
