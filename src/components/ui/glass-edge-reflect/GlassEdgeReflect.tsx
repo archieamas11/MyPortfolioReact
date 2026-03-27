@@ -1,5 +1,3 @@
-'use client'
-
 import * as React from 'react'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
@@ -10,13 +8,16 @@ export type GlassEdgeReflectProps = {
   asChild?: boolean
   className?: string
   style?: React.CSSProperties
-
-  // Thinner edges: this controls the mask's inner "cut-out" size.
+  /**
+   * Controls whether child content is clipped to the component bounds.
+   * Keep this `true` for strict card clipping, set to `false` for floating UI
+   * like tooltips/popovers that need to escape the container.
+   */
+  clipContent?: boolean
+  // Thinner edges glass redlect edges.
   edgeThicknessPx?: number
-
-  // Overall intensity multiplier (affects alpha values inside the gradient).
+  // Overall intensity multiplier.
   intensity?: number
-
   // Hover fade-in strengths for the two edge layers.
   layer1HoverOpacity?: number
   layer2HoverOpacity?: number
@@ -38,7 +39,8 @@ export const GlassEdgeReflect = React.forwardRef<HTMLElement, GlassEdgeReflectPr
     asChild = false,
     className,
     style,
-    edgeThicknessPx = 2,
+    clipContent = true,
+    edgeThicknessPx = 1,
     intensity = 10,
     layer1HoverOpacity = 0.3,
     layer2HoverOpacity = 0.38,
@@ -47,9 +49,37 @@ export const GlassEdgeReflect = React.forwardRef<HTMLElement, GlassEdgeReflectPr
 ) {
   const rafRef = useRef<number | null>(null)
   const leaveResetTimeoutRef = useRef<number | null>(null)
-  const [edgeFx, setEdgeFx] = useState({ x: 0, y: 0 })
-  const pendingRef = useRef(edgeFx)
+  const pendingRef = useRef({ x: 0, y: 0 })
+  const rootElRef = useRef<HTMLElement | null>(null)
   const [isHovered, setIsHovered] = useState(false)
+
+  const asChildExistingRef = useMemo<React.Ref<HTMLElement> | undefined>(() => {
+    if (!asChild) return undefined
+    let extractedRef: React.Ref<HTMLElement> | undefined
+    React.Children.forEach(children, (child, index) => {
+      if (index === 0 && React.isValidElement(child)) {
+        extractedRef = (child as any).ref
+      }
+    })
+    return extractedRef
+  }, [asChild, children])
+
+  const stableMergedRef = useMemo(() => {
+    return mergeRefs<HTMLElement>(
+      (value) => {
+        rootElRef.current = value
+      },
+      asChildExistingRef,
+      forwardedRef,
+    )
+  }, [asChildExistingRef, forwardedRef])
+
+  const applyEdgeVars = useCallback((x: number, y: number) => {
+    const root = rootElRef.current
+    if (!root) return
+    root.style.setProperty('--ger-mouse-x', String(x))
+    root.style.setProperty('--ger-mouse-y', String(y))
+  }, [])
 
   const updateEdgeFxFromEvent = useCallback((el: HTMLElement, clientX: number, clientY: number) => {
     const rect = el.getBoundingClientRect()
@@ -66,9 +96,9 @@ export const GlassEdgeReflect = React.forwardRef<HTMLElement, GlassEdgeReflectPr
     if (rafRef.current !== null) return
     rafRef.current = window.requestAnimationFrame(() => {
       rafRef.current = null
-      setEdgeFx(pendingRef.current)
+      applyEdgeVars(pendingRef.current.x, pendingRef.current.y)
     })
-  }, [])
+  }, [applyEdgeVars])
 
   useEffect(() => {
     return () => {
@@ -77,40 +107,28 @@ export const GlassEdgeReflect = React.forwardRef<HTMLElement, GlassEdgeReflectPr
     }
   }, [])
 
-  const computeBorderGradient = useMemo(() => {
-    const clamp01 = (n: number) => Math.max(0, Math.min(1, n))
+  const clamp01 = (n: number) => Math.max(0, Math.min(1, n))
+  const maxOffset = 60
+  const alphaA1 = clamp01((0.12 + maxOffset * 0.008) * intensity)
+  const alphaB1 = clamp01((0.4 + maxOffset * 0.012) * intensity)
+  const alphaA2 = clamp01((0.32 + maxOffset * 0.008) * intensity)
+  const alphaB2 = clamp01((0.6 + maxOffset * 0.012) * intensity)
 
-    const mouseOffsetX = edgeFx.x * 60
-    const mouseOffsetY = edgeFx.y * 60
+  const layer1Gradient = `linear-gradient(
+    calc(135deg + (var(--ger-mouse-x, 0) * 72deg)),
+    rgba(255, 255, 255, 0.0) 0%,
+    rgba(255, 255, 255, ${alphaA1}) max(10%, calc(33% + (var(--ger-mouse-y, 0) * 18%))),
+    rgba(255, 255, 255, ${alphaB1}) min(90%, calc(66% + (var(--ger-mouse-y, 0) * 24%))),
+    rgba(255, 255, 255, 0.0) 100%
+  )`
+  const layer2Gradient = `linear-gradient(
+    calc(135deg + (var(--ger-mouse-x, 0) * 72deg)),
+    rgba(255, 255, 255, 0.0) 0%,
+    rgba(255, 255, 255, ${alphaA2}) max(10%, calc(33% + (var(--ger-mouse-y, 0) * 18%))),
+    rgba(255, 255, 255, ${alphaB2}) min(90%, calc(66% + (var(--ger-mouse-y, 0) * 24%))),
+    rgba(255, 255, 255, 0.0) 100%
+  )`
 
-    const alphaA1 = clamp01((0.12 + Math.abs(mouseOffsetX) * 0.008) * intensity)
-    const alphaB1 = clamp01((0.4 + Math.abs(mouseOffsetX) * 0.012) * intensity)
-    const alphaA2 = clamp01((0.32 + Math.abs(mouseOffsetX) * 0.008) * intensity)
-    const alphaB2 = clamp01((0.6 + Math.abs(mouseOffsetX) * 0.012) * intensity)
-
-    const stopA = Math.max(10, 33 + mouseOffsetY * 0.3)
-    const stopB = Math.min(90, 66 + mouseOffsetY * 0.4)
-
-    const angle = 135 + mouseOffsetX * 1.2
-
-    const layer1 = `linear-gradient(
-      ${angle}deg,
-      rgba(255, 255, 255, 0.0) 0%,
-      rgba(255, 255, 255, ${alphaA1}) ${stopA}%,
-      rgba(255, 255, 255, ${alphaB1}) ${stopB}%,
-      rgba(255, 255, 255, 0.0) 100%
-    )`
-
-    const layer2 = `linear-gradient(
-      ${angle}deg,
-      rgba(255, 255, 255, 0.0) 0%,
-      rgba(255, 255, 255, ${alphaA2}) ${stopA}%,
-      rgba(255, 255, 255, ${alphaB2}) ${stopB}%,
-      rgba(255, 255, 255, 0.0) 100%
-    )`
-
-    return { layer1, layer2 }
-  }, [edgeFx.x, edgeFx.y, intensity])
   const edgeOverlay = (
     <>
       <span
@@ -123,7 +141,7 @@ export const GlassEdgeReflect = React.forwardRef<HTMLElement, GlassEdgeReflectPr
           WebkitMaskComposite: 'xor',
           maskComposite: 'exclude',
           mixBlendMode: 'screen',
-          background: computeBorderGradient.layer1,
+          background: layer1Gradient,
           opacity: isHovered ? layer1HoverOpacity : 0,
         }}
       />
@@ -137,7 +155,7 @@ export const GlassEdgeReflect = React.forwardRef<HTMLElement, GlassEdgeReflectPr
           WebkitMaskComposite: 'xor',
           maskComposite: 'exclude',
           mixBlendMode: 'overlay',
-          background: computeBorderGradient.layer2,
+          background: layer2Gradient,
           opacity: isHovered ? layer2HoverOpacity : 0,
         }}
       />
@@ -162,7 +180,8 @@ export const GlassEdgeReflect = React.forwardRef<HTMLElement, GlassEdgeReflectPr
     setIsHovered(false)
     if (leaveResetTimeoutRef.current !== null) window.clearTimeout(leaveResetTimeoutRef.current)
     leaveResetTimeoutRef.current = window.setTimeout(() => {
-      setEdgeFx({ x: 0, y: 0 })
+      pendingRef.current = { x: 0, y: 0 }
+      applyEdgeVars(0, 0)
       leaveResetTimeoutRef.current = null
     }, 310)
   }
@@ -175,16 +194,18 @@ export const GlassEdgeReflect = React.forwardRef<HTMLElement, GlassEdgeReflectPr
     }
 
     const childProps = onlyChild.props as { className?: string; style?: React.CSSProperties }
-    const existingChildRef = (onlyChild as any).ref as React.Ref<HTMLElement> | undefined
-    const mergedRef = mergeRefs<HTMLElement>(existingChildRef, forwardedRef)
     const mergedStyle = { ...(childProps.style ?? {}), ...(style ?? {}) }
 
     return React.cloneElement(onlyChild, {
-      className: cn('group relative overflow-hidden', childProps.className, className),
+      className: cn(
+        'group relative',
+        clipContent ? 'overflow-hidden' : 'overflow-visible',
+        childProps.className,
+        className,
+      ),
       style: mergedStyle,
-      ref: mergedRef,
+      ref: stableMergedRef,
       onMouseEnter: (e: React.MouseEvent<HTMLElement>) => {
-        // Call existing handler first for predictable behavior.
         ; (onlyChild.props as { onMouseEnter?: (ev: React.MouseEvent<HTMLElement>) => void }).onMouseEnter?.(e)
         handleMouseEnter(e)
       },
@@ -206,9 +227,9 @@ export const GlassEdgeReflect = React.forwardRef<HTMLElement, GlassEdgeReflectPr
 
   return (
     <div
-      className={cn('group relative overflow-hidden', className)}
+      className={cn('group relative', clipContent ? 'overflow-hidden' : 'overflow-visible', className)}
       style={style}
-      ref={forwardedRef as React.Ref<HTMLDivElement>}
+      ref={stableMergedRef as React.Ref<HTMLDivElement>}
       onMouseEnter={handleMouseEnter}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
@@ -220,4 +241,3 @@ export const GlassEdgeReflect = React.forwardRef<HTMLElement, GlassEdgeReflectPr
 })
 
 GlassEdgeReflect.displayName = 'GlassEdgeReflect'
-

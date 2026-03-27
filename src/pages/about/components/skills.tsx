@@ -3,6 +3,7 @@ import { skillsArr } from '../constants'
 import { motion } from 'framer-motion'
 import { useSequentialReveal } from '@/hooks/useSequentialReveal'
 import { Elasticity } from '@/components/ui/elasticity/Elasticity'
+import { useIsMobile } from '@/hooks/use-mobile'
 
 function SkillsItems() {
   const { containerRef, registerItem } = useSequentialReveal({
@@ -10,6 +11,8 @@ function SkillsItems() {
     threshold: 0.25,
     replay: true,
   })
+  const isMobile = useIsMobile()
+  const elasticityEnabled = !isMobile
 
   return (
     <div className="space-y-8">
@@ -48,7 +51,7 @@ function SkillsItems() {
           // }[skill.level]
 
           return (
-            <Elasticity key={skill.label} elasticity={1}>
+            <Elasticity key={skill.label} enabled={elasticityEnabled} elasticity={0.6}>
               <div
                 ref={registerItem}
                 className={cn(

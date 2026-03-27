@@ -28,7 +28,7 @@ export function ContactSection() {
                   rel="noopener noreferrer"
                   className="group hover:text-primary flex items-center gap-3 text-sm transition-colors"
                 >
-                  <div className="glass-effect text-primary flex h-10 w-10 shrink-0 items-center justify-center rounded-full">
+                  <div className="glass-effect text-primary flex h-10 w-10 shrink-0 items-center justify-center rounded-full hover:bg-white/10 hover:shadow-md">
                     <detail.icon size={15} aria-hidden />
                   </div>
                   <div>
@@ -58,7 +58,7 @@ export function ContactSection() {
                     aria-label={`Follow me on ${detail.label}`}
                     className="group hover:text-primary flex items-center gap-3 text-sm transition-colors"
                   >
-                    <div className="glass-effect text-primary flex h-10 w-10 shrink-0 items-center justify-center rounded-full">
+                    <div className="glass-effect text-primary flex h-10 w-10 shrink-0 items-center justify-center rounded-full hover:bg-white/10 hover:shadow-md">
                       <detail.icon size={15} aria-hidden />
                     </div>
                   </a>

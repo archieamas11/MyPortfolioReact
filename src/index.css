@@ -212,15 +212,13 @@ html {
   position: absolute;
   top: 5%;
   left: 50%;
-  translate: -50% -50%;
-  transform: none;
+  transform: translate(-50%, -50%);
   z-index: 100;
 
   @media screen and (max-width: 640px) {
     top: -1px;
     right: 0;
     left: auto;
-    translate: 0 0;
     transform: none;
     position: fixed;
     width: 100%;

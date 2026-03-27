@@ -18,8 +18,6 @@ export default function HeroSection() {
   const isMobile = useIsMobile()
   const { resolvedTheme } = useTheme()
 
-  const elasticityEnabled = !isMobile
-
   const showSnowfall = useMemo(() => isHolidaySeason(), [])
 
   const snowfallConfig = useMemo(
@@ -67,16 +65,17 @@ export default function HeroSection() {
               </Suspense>
             )}
           </div>
-          <div className="absolute top-45 sm:top-2 sm:right-2">
-            <AccentColorSelector />
-          </div>
+          <Elasticity withGlassEdgeReflect={true} className='rounded-full' enabled={!isMobile}>
+            <div className="absolute top-45 sm:top-2 sm:right-2">
+              <AccentColorSelector />
+            </div>
+          </Elasticity>
+
           {/* Logo  */}
-          <a
-            href="#hero"
-            aria-label="Go to homepage"
+          <div
             className="focus-visible:ring-ring rounded-full focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none"
           >
-            <Elasticity elasticity={0.5} preserveCenteredTranslate enabled={elasticityEnabled}>
+            <Elasticity elasticity={0.6} preserveCenteredTranslate={true} withGlassEdgeReflect={false} enabled={!isMobile}>
               <img
                 id="logo"
                 src={'images/aaa-white.avif'}
@@ -84,12 +83,12 @@ export default function HeroSection() {
                 fetchPriority="high"
                 decoding="async"
                 className={cn(
-                  `home-logo glassContainer glass-effect bg-accent border-background rounded-full border-15 object-contain ${isScrolled ? 'scrolled' : ''}`,
+                  `home-logo glass-effect bg-accent border-background rounded-full border-15 object-contain ${isScrolled ? 'scrolled' : ''}`,
                   isMobile ? 'border-0' : '',
                 )}
               />
             </Elasticity>
-          </a>
+          </div>
 
           {/* Heading */}
           <div className="absolute top-60 flex flex-col items-center justify-center sm:top-56 md:top-54 lg:top-49 xl:top-43">
@@ -99,7 +98,6 @@ export default function HeroSection() {
               transition={{ duration: isMobile ? 0 : 0.7, delay: isMobile ? 0 : 0.2 }}
               className={cn(
                 'from-primary font-oswald to-accent relative ml-0 bg-linear-to-b from-50% to-50% bg-clip-text text-center text-[60px] leading-tight font-bold tracking-widest text-transparent sm:text-[60px] md:text-[70px] lg:text-[105px] xl:ml-3 xl:text-[140px]',
-                // showSnowfall && 'snow-caps-effect',
               )}
             >
               ARCHIE ALBARICO
@@ -144,6 +142,6 @@ export default function HeroSection() {
           </div>
         </motion.div>
       </div>
-    </section>
+    </section >
   )
 }

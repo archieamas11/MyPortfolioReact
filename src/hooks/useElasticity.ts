@@ -97,10 +97,9 @@ export function useElasticity<T extends HTMLElement>(
     const sy = Math.max(0.8, scaleY)
 
     const next: React.CSSProperties = ({
-      translate: `${tx}px ${ty}px`,
-      scale: `${sx} ${sy}`,
-      transition: `translate ${transitionMs}ms ease-out, scale ${transitionMs}ms ease-out`,
-      willChange: 'translate, scale',
+      transform: `translate3d(${tx}px, ${ty}px, 0) scale(${sx}, ${sy})`,
+      transition: `transform ${transitionMs}ms ease-out`,
+      willChange: 'transform',
     } satisfies React.CSSProperties)
 
     setStyle(next)

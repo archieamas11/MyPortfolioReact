@@ -1,6 +1,7 @@
 import { interests } from '@/pages/about/constants'
 import { AnimatedTooltip } from '@/components/ui/animated-tooltip'
 import { motion } from 'framer-motion'
+import { Elasticity } from '@/components/ui/elasticity/Elasticity'
 
 export function InterestItem() {
   return (
@@ -19,6 +20,7 @@ export function InterestItem() {
       >
         INTEREST
       </motion.h2>
+
       <motion.div
         className="grid grid-cols-3 gap-3"
         initial="hidden"
@@ -27,19 +29,28 @@ export function InterestItem() {
       >
         {interests.map((interest) => (
           <motion.div key={interest.id}>
-            <AnimatedTooltip
-              label={interest.label}
-              className="hover:border-primary/20 glass-effect cursor-auto overflow-hidden rounded-lg p-2 text-center shadow-sm transition-all duration-200 hover:bg-white/10 hover:shadow-md sm:p-3"
+            <Elasticity
+              enabled={false}
+              withGlassEdgeReflect={true}
+              glassEdgeReflectProps={{ clipContent: false }}
+              className="rounded-lg"
             >
-              <div className="flex flex-col items-center gap-2 py-2 sm:gap-3 lg:py-0">
-                <div className="text-primary flex h-8 w-8 items-center justify-center rounded-md transition-colors sm:h-10 sm:w-10 lg:h-12 lg:w-12">
-                  <interest.icon size={20} className="sm:h-6 sm:w-6" />
-                </div>
-                <span className="text-muted-foreground not-sr-only text-xs font-medium lg:sr-only">
-                  {interest.label}
-                </span>
+              <div className="rounded-lg">
+                <AnimatedTooltip
+                  label={interest.label}
+                  className="glass-effect cursor-auto overflow-hidden rounded-lg p-2 text-center shadow-sm transition-all duration-200 hover:bg-white/10 hover:shadow-md sm:p-3"
+                >
+                  <div className="flex flex-col items-center gap-2 py-2 sm:gap-3 lg:py-0">
+                    <div className="text-primary flex h-8 w-8 items-center justify-center rounded-md transition-colors sm:h-10 sm:w-10 lg:h-12 lg:w-12">
+                      <interest.icon size={20} className="sm:h-6 sm:w-6" />
+                    </div>
+                    <span className="text-muted-foreground not-sr-only text-xs font-medium lg:sr-only">
+                      {interest.label}
+                    </span>
+                  </div>
+                </AnimatedTooltip>
               </div>
-            </AnimatedTooltip>
+            </Elasticity>
           </motion.div>
         ))}
       </motion.div>

@@ -29,12 +29,12 @@ export function AccentColorSelector() {
   }, [])
 
   return (
-    <div className="bg-secondary/50 glass-effect border-muted-foreground/20 flex items-center gap-2 rounded-full border p-2 backdrop-blur-sm">
+    <div className="bg-secondary/50 glass-effect border-muted-foreground/20 flex items-center gap-2 rounded-full hover:bg-white/10 hover:shadow-md border p-2 backdrop-blur-sm">
       {PRESET_COLORS.map((color) => (
         <button
           key={color.value}
           className={cn(
-            'border-border ring-offset-background focus:ring-ring h-6 w-6 rounded-full border transition-transform hover:scale-110 focus:ring-2 focus:outline-none',
+            'cursor-pointer ring-offset-background/50 focus:ring-ring h-6 w-6 rounded-full  transition-transform hover:scale-110 focus:ring-2 focus:outline-none',
             accentColor === color.value && 'ring-ring ring-2 ring-offset-2',
           )}
           style={{ backgroundColor: color.value }}

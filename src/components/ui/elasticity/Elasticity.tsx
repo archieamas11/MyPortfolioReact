@@ -1,5 +1,9 @@
 import * as React from 'react'
 import { useElasticity, type UseElasticityOptions } from '@/hooks/useElasticity'
+import {
+  GlassEdgeReflect,
+  type GlassEdgeReflectProps,
+} from '@/components/ui/glass-edge-reflect/GlassEdgeReflect'
 
 type ElasticityProps = {
   children: React.ReactElement<any>
@@ -7,23 +11,19 @@ type ElasticityProps = {
   elasticity?: number
   activationZonePx?: number
   transitionMs?: number
+  /**
+   * When true the element is assumed to be centred via
+   * `top:50%; left:50%; transform:translate(-50%,-50%)`.
+   * The elastic translate is composited on top of that centering offset so the
+   * element doesn't jump away from its intended position. This is just workaround hehe
+   */
   preserveCenteredTranslate?: boolean
+  /** Default is true. If false it will disable the flass reflect effect */
+  withGlassEdgeReflect?: boolean
+  glassEdgeReflectProps?: Omit<GlassEdgeReflectProps, 'children' | 'asChild' | 'className' | 'style'>
 } & Omit<UseElasticityOptions, 'enabled' | 'elasticity' | 'activationZonePx' | 'transitionMs'> & {
   className?: string
   style?: React.CSSProperties
-}
-
-function mergeRefs<T>(...refs: Array<React.Ref<T> | undefined>) {
-  return (value: T | null) => {
-    for (const ref of refs) {
-      if (!ref) continue
-      if (typeof ref === 'function') {
-        ref(value)
-      } else {
-        ; (ref as React.MutableRefObject<T | null>).current = value
-      }
-    }
-  }
 }
 
 export function Elasticity({
@@ -33,7 +33,9 @@ export function Elasticity({
   activationZonePx = 200,
   transitionMs,
   preserveCenteredTranslate = false,
-  mode = 'individual',
+  mode = 'transform',
+  withGlassEdgeReflect = true,
+  glassEdgeReflectProps,
   className,
   style,
 }: ElasticityProps) {
@@ -56,16 +58,16 @@ export function Elasticity({
       if (!elasticityOffset || !elasticityScale) return undefined
 
       return {
-        translate: `calc(-50% + ${elasticityOffset.x}px) calc(-50% + ${elasticityOffset.y}px)`,
-        scale: `${elasticityScale.x} ${elasticityScale.y}`,
-        transition: `translate ${effectiveTransitionMs}ms ease-out, scale ${effectiveTransitionMs}ms ease-out`,
-        willChange: 'translate, scale',
+        transform: `translate3d(calc(-50% + ${elasticityOffset.x}px), calc(-50% + ${elasticityOffset.y}px), 0) scale(${elasticityScale.x}, ${elasticityScale.y})`,
+        transition: `transform ${effectiveTransitionMs}ms ease-out`,
+        willChange: 'transform',
       }
     }
 
     return elasticityStyle
   }, [
     enabled,
+    effectiveTransitionMs,
     elasticityOffset,
     elasticityScale,
     elasticityStyle,
@@ -73,16 +75,39 @@ export function Elasticity({
   ])
 
   const childProps = children.props as { className?: string; style?: React.CSSProperties }
-  const childStyle = childProps.style
-  const mergedStyle = { ...(childStyle ?? {}), ...(style ?? {}), ...(animatedStyle ?? {}) }
+  const mergedClassName = React.useMemo(() => {
+    return className ? [childProps.className, className].filter(Boolean).join(' ') : childProps.className
+  }, [childProps.className, className])
+
+  const mergedStyle = React.useMemo(() => {
+    return { ...(childProps.style ?? {}), ...(style ?? {}), ...(animatedStyle ?? {}) }
+  }, [animatedStyle, childProps.style, style])
 
   const existingChildRef = (children as any).ref as React.Ref<HTMLElement> | undefined
-  const mergedRef = React.useMemo(() => mergeRefs<HTMLElement>(existingChildRef, targetRef), [existingChildRef])
+  const mergedRef = React.useMemo(() => {
+    return (value: HTMLElement | null) => {
+      if (typeof existingChildRef === 'function') {
+        existingChildRef(value)
+      } else if (existingChildRef) {
+        ; (existingChildRef as React.MutableRefObject<HTMLElement | null>).current = value
+      }
+      targetRef.current = value
+    }
+  }, [existingChildRef])
 
-  return React.cloneElement(children, {
-    className: className ? [childProps.className, className].filter(Boolean).join(' ') : childProps.className,
-    style: mergedStyle,
-    ref: mergedRef,
-  })
+  const animatedChild = React.useMemo(() => {
+    return React.cloneElement(children, {
+      className: mergedClassName,
+      style: mergedStyle,
+      ref: mergedRef,
+    })
+  }, [children, mergedClassName, mergedStyle, mergedRef])
+
+  if (!withGlassEdgeReflect) return animatedChild
+
+  return (
+    <GlassEdgeReflect asChild {...glassEdgeReflectProps}>
+      {animatedChild}
+    </GlassEdgeReflect>
+  )
 }
-
