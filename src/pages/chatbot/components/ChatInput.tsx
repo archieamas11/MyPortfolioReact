@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils'
 import { IconPlayerStopFilled } from '@tabler/icons-react'
 import { useRef, useState, useCallback } from 'react'
 import { ArrowUpIcon } from 'lucide-react'
+import { Elasticity } from '@/components/ui/elasticity/Elasticity'
 
 interface RagInputProps {
   value: string
@@ -81,7 +82,7 @@ export default function ChatInput({
     if (isLoading) {
       onCancel()
     } else {
-      handleSubmit({ preventDefault: () => {} } as React.FormEvent)
+      handleSubmit({ preventDefault: () => { } } as React.FormEvent)
     }
   }, [isLoading, onCancel, handleSubmit])
 
@@ -89,73 +90,78 @@ export default function ChatInput({
     <>
       <div className="w-full">
         <form onSubmit={handleSubmit} className="group/composer w-full">
-          <div
-            className={cn(
-              'glass-effect dark:bg-muted/50 border-border bg-background/50 mx-auto max-h-35 w-full max-w-2xl cursor-text overflow-clip border bg-clip-padding p-1 shadow-lg transition-all duration-200 hover:shadow-xl md:p-2',
-              {
-                'grid grid-cols-1 grid-rows-[auto_1fr_auto] rounded-lg': isExpanded,
-                'grid grid-cols-[auto_1fr_auto] grid-rows-[auto_1fr_auto] rounded-lg': !isExpanded,
-                'opacity-50': isRateLimited,
-              },
-            )}
-            style={{
-              gridTemplateAreas: isExpanded
-                ? "'header' 'primary' 'footer'"
-                : "'header header header' 'leading primary trailing' '. footer .'",
-            }}
-          >
+          <Elasticity enabled={true} withGlassEdgeReflect={true} elasticity={0} activationZonePx={200} transitionMs={500}>
             <div
-              className={cn('flex min-h-14 items-center overflow-x-hidden px-1.5', {
-                'mb-0 px-2 py-1': isExpanded,
-                '-my-2.5': !isExpanded,
-              })}
-              style={{ gridArea: 'primary' }}
+              className={cn(
+                'glass-effect dark:bg-muted/50 border-border bg-background/50 mx-auto max-h-35 w-full max-w-2xl cursor-text overflow-clip border bg-clip-padding p-1 shadow-lg transition-all duration-200 hover:shadow-xl md:p-2',
+                {
+                  'grid grid-cols-1 grid-rows-[auto_1fr_auto] rounded-lg': isExpanded,
+                  'grid grid-cols-[auto_1fr_auto] grid-rows-[auto_1fr_auto] rounded-lg': !isExpanded,
+                  'opacity-50': isRateLimited,
+                },
+              )}
+              style={{
+                gridTemplateAreas: isExpanded
+                  ? "'header' 'primary' 'footer'"
+                  : "'header header header' 'leading primary trailing' '. footer .'",
+              }}
             >
-              <div className="max-h-52 flex-1 overflow-auto">
-                <Textarea
-                  ref={textareaRef}
-                  value={value}
-                  onChange={handleTextareaChange}
-                  onKeyDown={handleKeyDown}
-                  placeholder={
-                    isRateLimited ? 'Please wait before sending another message...' : 'Ask anything'
-                  }
-                  className="placeholder:text-muted-foreground scrollbar-thin md:text-md min-h-0 resize-none rounded-none border-0 p-0 text-sm focus-visible:ring-0 focus-visible:ring-offset-0 lg:text-base dark:bg-transparent"
-                  rows={1}
-                  disabled={isRateLimited || disabled}
-                  aria-label="Chat message input"
-                  maxLength={2000}
-                />
+              <div
+                className={cn('flex min-h-14 items-center overflow-x-hidden px-1.5', {
+                  'mb-0 px-2 py-1': isExpanded,
+                  '-my-2.5': !isExpanded,
+                })}
+                style={{ gridArea: 'primary' }}
+              >
+                <div className="max-h-52 flex-1 overflow-auto">
+                  <Textarea
+                    ref={textareaRef}
+                    value={value}
+                    onChange={handleTextareaChange}
+                    onKeyDown={handleKeyDown}
+                    placeholder={
+                      isRateLimited ? 'Please wait before sending another message...' : 'Ask anything'
+                    }
+                    className="placeholder:text-muted-foreground scrollbar-thin md:text-md min-h-0 resize-none rounded-none border-0 p-0 text-sm focus-visible:ring-0 focus-visible:ring-offset-0 lg:text-base dark:bg-transparent"
+                    rows={1}
+                    disabled={isRateLimited || disabled}
+                    aria-label="Chat message input"
+                    maxLength={2000}
+                  />
+                </div>
               </div>
-            </div>
-            <div className="flex items-center gap-2" style={{ gridArea: isExpanded ? 'footer' : 'trailing' }}>
-              <div className="ms-auto flex items-center gap-1.5">
-                {(value.trim() || isLoading) && (
-                  <Button
-                    type="button"
-                    onClick={handleButtonClick}
-                    size="icon"
-                    disabled={!isLoading && (isRateLimited || !value.trim() || disabled)}
-                    aria-label={isLoading ? 'Cancel message' : 'Send message'}
-                    className="bg-accent/40 glass-effect hover:bg-accent/50 text-primary h-9 w-9 rounded-full shadow-md transition-all duration-200 hover:scale-105 hover:shadow-lg active:scale-95"
-                  >
-                    {isLoading ? (
-                      <IconPlayerStopFilled className="size-5" />
-                    ) : (
-                      <ArrowUpIcon className="size-5" />
+              <Elasticity className='rounded-full'>
+                <div className="flex items-center gap-2" style={{ gridArea: isExpanded ? 'footer' : 'trailing' }}>
+                  <div className="ms-auto flex items-center gap-1.5">
+                    {(value.trim() || isLoading) && (
+                      <Button
+                        type="button"
+                        onClick={handleButtonClick}
+                        size="icon"
+                        disabled={!isLoading && (isRateLimited || !value.trim() || disabled)}
+                        aria-label={isLoading ? 'Cancel message' : 'Send message'}
+                        className="bg-accent/40 glass-effect hover:bg-accent/50 text-primary h-9 w-9 rounded-full shadow-md transition-all duration-200 hover:scale-105 hover:shadow-lg active:scale-95"
+                      >
+                        {isLoading ? (
+                          <IconPlayerStopFilled className="size-5" />
+                        ) : (
+                          <ArrowUpIcon className="size-5" />
+                        )}
+                      </Button>
                     )}
-                  </Button>
-                )}
-              </div>
+                  </div>
+                </div>
+              </Elasticity>
             </div>
-          </div>
-        </form>
-      </div>
+          </Elasticity >
+        </form >
+      </div >
       {isRateLimited && (
         <p className="text-muted-foreground mt-2 text-center text-xs" role="alert">
           Rate limited. Please wait before sending another message.
         </p>
-      )}
+      )
+      }
     </>
   )
 }
