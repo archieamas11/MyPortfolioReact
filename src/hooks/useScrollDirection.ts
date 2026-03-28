@@ -15,7 +15,7 @@ export const useScrollDirection = (isMobile: boolean, isChatbotOpen: boolean) =>
     const handleScroll = () => {
       const currentScroll = window.pageYOffset || document.documentElement.scrollTop
 
-      if (!isMobile && !isChatbotOpen) {
+      if (!isChatbotOpen) {
         if (currentScroll > lastScrollTop.current && currentScroll > MINI_MODE_THRESHOLD) {
           setIsMini(true)
         } else if (currentScroll < lastScrollTop.current) {

@@ -115,9 +115,11 @@ const NavigationItem = memo(
                 'focus-visible:ring-ring focus-visible:ring-offset-background focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
                 {
                   'glass-effect bg-primary/5 text-accent scale-105': isActive,
+                  'rounded-full': isMobile,
                   'h-17 w-17': !isMini && !isMobile,
                   'h-14 w-14': isMini && !isMobile,
-                  'h-10 w-10': isMobile,
+                  'h-10 w-10': isMobile && !isMini,
+                  'h-8 w-8 my-1': isMobile && isMini,
                 },
               )}
             >
@@ -127,10 +129,7 @@ const NavigationItem = memo(
                   isMobile ? 'h-5 w-5' : 'h-6 w-6',
                 )}
                 style={{
-                  transform:
-                    !isMobile && isMini
-                      ? `scale(${isActive ? 0.95 : 0.833})`
-                      : `scale(${isActive ? 1.2 : 1})`,
+                  transform: `scale(${isMini ? (isActive ? 0.95 : 0.833) : isActive ? 1.2 : 1})`,
                 }}
               >
                 <Icon ref={iconRef} size={isMobile ? 20 : 24} />
@@ -178,7 +177,7 @@ const NavigationList = memo(
     <ul
       className={cn(
         'flex list-none flex-row items-center justify-between p-1 py-2 transition-all duration-300 ease-in-out',
-        isMobile ? 'px-2 py-3' : '',
+        isMobile && isMini && 'py-1',
       )}
     >
       {navigationItems.map((item) => (
