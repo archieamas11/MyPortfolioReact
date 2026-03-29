@@ -146,21 +146,21 @@ export const experienceData: ExperienceItem[] = [
         <div className="mt-4">
           <ul className="list-disc space-y-1 pl-5">
             <li>
-              Digitized 10,000+ paper and Excel records into a centralized system, eliminating manual
-              workflows and improving operational efficiency by <b>70%</b>.
+              Digitized 7,000+ paper and Excel records into a centralized system, eliminating manual workflows
+              and improving operational efficiency by <b>70%</b>.
             </li>
             <li>
-              Optimized map rendering for 10,000+ markers (plots and niches), improving performance and load
+              Optimized map rendering for 7,000+ markers (plots and niches), improving performance and load
               speed by <b>80%</b>.
             </li>
             <li>
               Built interactive map-based navigation for real-time plot location tracking, improving accuracy
               and usability for agents and clients.
             </li>
-            <li>
+            {/* <li>
               Conducted system training sessions for agents and clients, enabling smooth adoption of the
               platform.
-            </li>
+            </li> */}
           </ul>
         </div>
       </>
@@ -224,6 +224,25 @@ export const experienceData: ExperienceItem[] = [
             </li>
           </ul>
         </div>
+      </>
+    ),
+  },
+  {
+    date: '2023 - 2025',
+    role: 'Working Student – Maritime Simulator Specialist',
+    company: "St. Cecilia's College – Cebu, Inc. (Maritime Department)",
+    points: (
+      <>
+        <b>Managed and maintained advanced maritime simulators</b> for two years as a working student,
+        ensuring flawless operation during <b>testing and regulatory inspections</b>.
+        <br />
+        <br />
+        <span>
+          As the central technical support in the Maritime Department, I maximized simulator uptime and system
+          reliability, performed routine diagnostics, coordinated with faculty during laboratory exercises,
+          and delivered rapid troubleshooting for mission-critical scenarios.
+          <br />
+        </span>
       </>
     ),
   },
