@@ -114,12 +114,12 @@ const NavigationItem = memo(
                 'ease-in-out',
                 'focus-visible:ring-ring focus-visible:ring-offset-background focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
                 {
-                  'glass-effect bg-primary/5 text-accent scale-105': isActive,
+                  'glass-effect bg-primary/5 text-accent backdrop-blur-3xl': isActive,
                   'rounded-full': isMobile,
                   'h-17 w-17': !isMini && !isMobile,
                   'h-14 w-14': isMini && !isMobile,
                   'h-10 w-10': isMobile && !isMini,
-                  'h-8 w-8 my-1': isMobile && isMini,
+                  'my-1 h-8 w-8': isMobile && isMini,
                 },
               )}
             >

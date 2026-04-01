@@ -1,4 +1,4 @@
-import { personalDetails } from '../constants'
+import { personalDetails } from '../data/personal-details'
 import { AnimatedTooltip } from '@/components/ui/animated-tooltip'
 import { Elasticity } from '@/components/ui/elasticity/Elasticity'
 import { motion } from 'framer-motion'

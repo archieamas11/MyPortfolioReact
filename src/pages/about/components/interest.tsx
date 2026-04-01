@@ -1,4 +1,4 @@
-import { interests } from '@/pages/about/constants'
+import { interests } from '../data/interests'
 import { AnimatedTooltip } from '@/components/ui/animated-tooltip'
 import { motion } from 'framer-motion'
 import { Elasticity } from '@/components/ui/elasticity/Elasticity'

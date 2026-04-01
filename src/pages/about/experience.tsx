@@ -1,5 +1,5 @@
 import { Badge } from '@/components/ui/badge'
-import { experienceData } from './constants'
+import { experienceData } from './data/experience'
 import { motion } from 'framer-motion'
 export default function ExperiencePage() {
   return (

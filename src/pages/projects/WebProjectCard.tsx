@@ -32,7 +32,10 @@ export function WebProjectCard({ project, registerItem }: WebProjectCardProps) {
               ref={registerItem}
               src={project.image}
               alt={project.title}
+              width={768}
+              height={432}
               loading="lazy"
+              decoding="async"
               className="h-48 w-full object-cover"
             />
           </div>

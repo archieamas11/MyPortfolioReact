@@ -1,5 +1,5 @@
 import { Badge } from '@/components/ui/badge'
-import { EducationData } from './constants'
+import { EducationData } from './data/education'
 import { motion } from 'framer-motion'
 
 export default function EducationPage() {
@@ -39,7 +39,15 @@ export default function EducationPage() {
                 <div className="flex flex-col gap-3">
                   <div className="flex items-start gap-3">
                     <div className="bg-muted h-10 w-10 shrink-0 overflow-hidden rounded-full border">
-                      <img src={item.logo} alt={item.level} className="h-full w-full object-cover" />
+                      <img
+                        src={item.logo}
+                        alt={item.level}
+                        width={40}
+                        height={40}
+                        loading="lazy"
+                        decoding="async"
+                        className="h-full w-full object-cover"
+                      />
                     </div>
                     <div className="text-muted-foreground min-w-0 flex-1 space-y-1 text-sm">
                       <div className="text-foreground leading-tight font-medium">{item.school}</div>

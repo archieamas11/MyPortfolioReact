@@ -68,10 +68,13 @@ type ToastContextValue = {
 }
 
 const variantClassMap: Record<ToastVariant, string> = {
-  default: 'border-white/25 text-white shadow-[0_18px_40px_rgba(15,23,42,0.32)]',
-  success: 'bg-emerald-500/15 text-emerald-50 shadow-[0_18px_40px_rgba(16,185,129,0.28)] glass',
-  error: 'bg-rose-500/15 border-rose-400/40 text-rose-50 shadow-[0_18px_40px_rgba(244,63,94,0.30)]',
-  info: 'bg-sky-500/15 border-sky-400/40 text-sky-50 shadow-[0_18px_40px_rgba(56,189,248,0.28)]',
+  default:
+    'border-zinc-200/90 dark:border-white/25 text-zinc-900 dark:text-white bg-white dark:bg-zinc-900 shadow-[0_18px_40px_rgba(15,23,42,0.12)] dark:shadow-[0_18px_40px_rgba(15,23,42,0.32)]',
+  success:
+    'bg-emerald-500/10 dark:bg-emerald-500/15 text-emerald-800 dark:text-emerald-50 shadow-[0_18px_40px_rgba(16,185,129,0.12)] dark:shadow-[0_18px_40px_rgba(16,185,129,0.28)] glass',
+  error:
+    'bg-rose-500/10 dark:bg-rose-500/15 border-rose-400/80 dark:border-rose-400/40 text-rose-800 dark:text-rose-50 shadow-[0_18px_40px_rgba(244,63,94,0.12)] dark:shadow-[0_18px_40px_rgba(244,63,94,0.30)]',
+  info: 'bg-sky-500/10 dark:bg-sky-500/15 border-sky-400/80 dark:border-sky-400/40 text-sky-800 dark:text-sky-50 shadow-[0_18px_40px_rgba(56,189,248,0.14)] dark:shadow-[0_18px_40px_rgba(56,189,248,0.28)]',
 }
 
 const variantIconMap: Record<ToastVariant, LucideIcon> = {

@@ -73,7 +73,7 @@ export default function HeroSection() {
             className="relative top-10 flex w-full justify-center lg:top-40"
           >
             {/* Hero section logo background */}
-            <div className="bg-primary/15 bg-effect from-accent/15 relative hidden h-65 w-full overflow-hidden rounded-t-3xl bg-linear-to-t to-transparent sm:block">
+            <div className="bg-primary/10 bg-effect from-accent/15 relative hidden h-65 w-full overflow-hidden rounded-t-3xl bg-linear-to-t to-transparent backdrop-blur-2xl sm:block">
               {shouldRenderSnowfall && (
                 <Suspense fallback={null}>
                   <Snowfall

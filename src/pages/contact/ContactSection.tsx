@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import ContactForm from './Forms'
-import { personalDetails } from '../about/constants'
+import { personalDetails } from '../about/data/personal-details'
 import { defaultPatterns, WebHaptics } from 'web-haptics'
 import { GlassEdgeReflect } from '@/components/ui/glass-edge-reflect/GlassEdgeReflect'
 

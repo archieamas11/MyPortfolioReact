@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils'
-import { skillsArr } from '../constants'
+import { skillsArr } from '../data/skills'
 import { motion } from 'framer-motion'
 import { useSequentialReveal } from '@/hooks/useSequentialReveal'
 import { Elasticity } from '@/components/ui/elasticity/Elasticity'

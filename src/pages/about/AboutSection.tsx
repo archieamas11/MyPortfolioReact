@@ -14,6 +14,8 @@ import { GlassEdgeReflect } from '@/components/ui/glass-edge-reflect/GlassEdgeRe
 
 export function AboutSection() {
   const { theme } = useTheme()
+  const profileImageSrc = theme === 'dark' ? 'images/me-dark.avif' : 'images/me-light.avif'
+
   return (
     <section id="about-me" className="section-wrapper">
       <div className="flex flex-col gap-8 lg:flex-row lg:gap-12">
@@ -27,24 +29,14 @@ export function AboutSection() {
           <Avatar className="h-80 w-60 rounded-lg shadow-lg lg:h-full lg:w-80">
             <div className="relative h-full w-full">
               <img
-                src="images/me-light.avif"
+                src={profileImageSrc}
                 alt="Archie Albarico profile picture"
-                className={cn(
-                  'absolute inset-0 h-full w-full rounded-lg object-cover transition-opacity duration-300',
-                  theme === 'dark' ? 'opacity-0' : 'opacity-100',
-                )}
+                width={320}
+                height={420}
+                decoding="async"
+                fetchPriority="high"
+                className={cn('absolute inset-0 h-full w-full rounded-lg object-cover')}
                 loading="eager"
-                aria-hidden={theme === 'dark'}
-              />
-              <img
-                src="images/me-dark.avif"
-                alt="Archie Albarico profile picture"
-                className={cn(
-                  'absolute inset-0 h-full w-full rounded-lg object-cover transition-opacity duration-300',
-                  theme === 'dark' ? 'opacity-100' : 'opacity-0',
-                )}
-                loading="eager"
-                aria-hidden={theme !== 'dark'}
               />
             </div>
           </Avatar>

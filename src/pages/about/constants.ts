@@ -1,0 +1,5 @@
+export { interests } from './data/interests'
+export { personalDetails } from './data/personal-details'
+export { skillsArr } from './data/skills'
+export { experienceData } from './data/experience'
+export { EducationData } from './data/education'
