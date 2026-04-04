@@ -1,12 +1,12 @@
-import { useCallback } from "react";
-import { cn } from "@/lib/utils";
-import type { SuggestionTag } from "../constants";
+import { useCallback } from 'react'
+import { cn } from '@/lib/utils'
+import type { SuggestionTag } from '../constants'
 
 interface ChatSuggestionsProps {
-  isLoading?: boolean;
-  isRateLimited?: boolean;
-  onSelect: (question: string) => void;
-  suggestions: SuggestionTag[];
+  isLoading?: boolean
+  isRateLimited?: boolean
+  onSelect: (question: string) => void
+  suggestions: SuggestionTag[]
 }
 
 export function ChatSuggestions({
@@ -18,27 +18,27 @@ export function ChatSuggestions({
   const handleSelect = useCallback(
     (question: string) => {
       if (!(isLoading || isRateLimited)) {
-        onSelect(question);
+        onSelect(question)
       }
     },
-    [onSelect, isLoading, isRateLimited]
-  );
+    [onSelect, isLoading, isRateLimited],
+  )
 
   if (suggestions.length === 0) {
-    return null;
+    return null
   }
 
   return (
     <div className="mb-1 flex gap-2 overflow-x-auto overflow-y-hidden pb-1 [-ms-overflow-style:none] [scrollbar-width:none] sm:gap-2.5 lg:mb-2 [&::-webkit-scrollbar]:hidden">
       {suggestions.map((suggestion, index) => {
-        const Icon = suggestion.icon;
+        const Icon = suggestion.icon
         return (
           <button
             aria-label={`Select suggestion: ${suggestion.tag}`}
             className={cn(
-              "glass-effect group relative flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-lg border border-border/50 px-3 py-1.5 text-muted-foreground text-xs transition-all duration-200 hover:text-foreground sm:gap-2 sm:px-3.5 sm:py-2 sm:text-sm",
-              "cursor-pointer hover:border-primary/30 hover:bg-accent/30 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2",
-              "disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:border-border/50 disabled:hover:bg-background/50"
+              'glass-effect group border-border/50 text-muted-foreground hover:text-foreground relative flex shrink-0 items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs whitespace-nowrap transition-all duration-200 sm:gap-2 sm:px-3.5 sm:py-2 sm:text-sm',
+              'hover:border-primary/30 hover:bg-accent/30 focus:ring-accent cursor-pointer hover:shadow-md focus:ring-2 focus:ring-offset-2 focus:outline-none',
+              'disabled:hover:border-border/50 disabled:hover:bg-background/50 disabled:cursor-not-allowed disabled:opacity-50',
             )}
             disabled={isLoading || isRateLimited}
             key={suggestion.question}
@@ -49,8 +49,8 @@ export function ChatSuggestions({
             <Icon className="h-3.5 w-3.5 shrink-0 transition-transform duration-200 group-hover:scale-110 sm:h-4 sm:w-4" />
             <span className="font-medium">{suggestion.tag}</span>
           </button>
-        );
+        )
       })}
     </div>
-  );
+  )
 }

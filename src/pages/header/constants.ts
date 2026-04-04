@@ -1,61 +1,61 @@
-import { BotMessageSquareIcon } from "@/components/icons/bot";
-import { FolderCodeIcon } from "@/components/icons/git-fork";
-import { HomeIcon } from "@/components/icons/home";
-import { UserIcon } from "@/components/icons/id-card";
-import { MessageCircleIcon } from "@/components/icons/message-circle";
-import { CHATBOT_ANIMATION_DURATION } from "./chatbot-container";
-import type { NavItem } from "./types";
+import { BotMessageSquareIcon } from '@/components/icons/bot'
+import { FolderCodeIcon } from '@/components/icons/git-fork'
+import { HomeIcon } from '@/components/icons/home'
+import { UserIcon } from '@/components/icons/id-card'
+import { MessageCircleIcon } from '@/components/icons/message-circle'
+import { CHATBOT_ANIMATION_DURATION } from './chatbot-container'
+import type { NavItem } from './types'
 
 export const navigationItems: NavItem[] = [
   {
-    id: "home-nav",
-    label: "Home",
+    id: 'home-nav',
+    label: 'Home',
     icon: HomeIcon,
-    href: "#hero",
-    ariaLabel: "Home - navigation bar",
+    href: '#hero',
+    ariaLabel: 'Home - navigation bar',
   },
   {
-    id: "about-nav",
-    label: "About",
+    id: 'about-nav',
+    label: 'About',
     icon: UserIcon,
-    href: "#about-me",
-    ariaLabel: "About me - Navigation bar",
+    href: '#about-me',
+    ariaLabel: 'About me - Navigation bar',
   },
   {
-    id: "projects-nav",
-    label: "Projects",
+    id: 'projects-nav',
+    label: 'Projects',
     icon: FolderCodeIcon,
-    href: "#projects",
-    ariaLabel: "Projects - Navigation bar",
+    href: '#projects',
+    ariaLabel: 'Projects - Navigation bar',
   },
   {
-    id: "contact-nav",
-    label: "Contact",
+    id: 'contact-nav',
+    label: 'Contact',
     icon: MessageCircleIcon,
-    href: "#contact",
-    ariaLabel: "Contact me - Navigation bar",
+    href: '#contact',
+    ariaLabel: 'Contact me - Navigation bar',
   },
   {
-    id: "chatbot-nav",
-    label: "Chatbot",
+    id: 'chatbot-nav',
+    label: 'Chatbot',
     icon: BotMessageSquareIcon,
-    href: "#chatbot",
-    ariaLabel: "Chatbot - Navigation bar",
+    href: '#chatbot',
+    ariaLabel: 'Chatbot - Navigation bar',
   },
   {
-    id: "separator-chatbot-theme",
-    type: "separator",
+    id: 'separator-chatbot-theme',
+    type: 'separator',
   },
   {
-    id: "theme-toggle-nav",
-    label: "Theme",
+    id: 'theme-toggle-nav',
+    label: 'Theme',
     icon: undefined,
-    href: "#theme-toggle",
-    ariaLabel: "Theme Toggle - Navigation bar",
+    href: '#theme-toggle',
+    ariaLabel: 'Theme Toggle - Navigation bar',
   },
-];
+]
 
-export const SCROLL_OFFSET = 400;
-export const SCROLL_TOP_OFFSET = 80;
-export const MINI_MODE_THRESHOLD = 50;
-export const CHATBOT_CLOSE_DELAY = CHATBOT_ANIMATION_DURATION;
+export const SCROLL_OFFSET = 400
+export const SCROLL_TOP_OFFSET = 80
+export const MINI_MODE_THRESHOLD = 50
+export const CHATBOT_CLOSE_DELAY = CHATBOT_ANIMATION_DURATION

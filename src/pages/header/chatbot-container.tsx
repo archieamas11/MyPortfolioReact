@@ -1,56 +1,48 @@
-import { motion } from "motion/react";
-import { Activity, useEffect, useState } from "react";
-import { Chatbot } from "@/pages/chatbot/Chatbot";
+import { motion } from 'motion/react'
+import { Activity, useEffect, useState } from 'react'
+import { Chatbot } from '@/pages/chatbot/Chatbot'
 
-export const CHATBOT_ANIMATION_DURATION = 300;
+export const CHATBOT_ANIMATION_DURATION = 300
 
-const ChatbotContainer = ({
-  isOpen,
-  isMini,
-}: {
-  isOpen: boolean;
-  isMini: boolean;
-}) => {
-  const [activityMode, setActivityMode] = useState<"visible" | "hidden">(
-    "hidden"
-  );
-  const [hasOpenedChatbot, setHasOpenedChatbot] = useState(false);
+const ChatbotContainer = ({ isOpen, isMini }: { isOpen: boolean; isMini: boolean }) => {
+  const [activityMode, setActivityMode] = useState<'visible' | 'hidden'>('hidden')
+  const [hasOpenedChatbot, setHasOpenedChatbot] = useState(false)
 
   useEffect(() => {
     if (isOpen) {
-      setHasOpenedChatbot(true);
+      setHasOpenedChatbot(true)
     }
-  }, [isOpen]);
+  }, [isOpen])
 
   useEffect(() => {
     if (isOpen) {
-      setActivityMode("visible");
+      setActivityMode('visible')
     } else {
       const timer = setTimeout(() => {
-        setActivityMode("hidden");
-      }, CHATBOT_ANIMATION_DURATION);
-      return () => clearTimeout(timer);
+        setActivityMode('hidden')
+      }, CHATBOT_ANIMATION_DURATION)
+      return () => clearTimeout(timer)
     }
-  }, [isOpen]);
+  }, [isOpen])
 
-  const shouldMountChatbot = isOpen || hasOpenedChatbot;
+  const shouldMountChatbot = isOpen || hasOpenedChatbot
 
   return (
     <motion.div
-      animate={{ height: isOpen ? "auto" : 0, opacity: isOpen ? 1 : 0 }}
+      animate={{ height: isOpen ? 'auto' : 0, opacity: isOpen ? 1 : 0 }}
       className="max-w-76 md:max-w-118 lg:max-w-118"
       initial={false}
-      style={{ overflow: "hidden" }}
+      style={{ overflow: 'hidden' }}
       transition={{
         duration: CHATBOT_ANIMATION_DURATION / 1000,
-        ease: "easeInOut",
+        ease: 'easeInOut',
       }}
     >
       <Activity mode={activityMode}>
         <div>{shouldMountChatbot && <Chatbot isMini={isMini} />}</div>
       </Activity>
     </motion.div>
-  );
-};
+  )
+}
 
-export default ChatbotContainer;
+export default ChatbotContainer

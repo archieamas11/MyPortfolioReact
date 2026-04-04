@@ -1,66 +1,130 @@
-import { domAnimation, LazyMotion, m, useReducedMotion } from "framer-motion";
-import { Contact, FileUser } from "lucide-react";
-import { lazy, Suspense, useMemo } from "react";
-import Coin3D from "@/components/3d-logo";
-import { AccentColorSelector } from "@/components/accent-color-selector";
-import { Button } from "@/components/ui/button";
-import { Elasticity } from "@/components/ui/elasticity/elasticity";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { cn } from "@/lib/utils";
-import { isHolidaySeason } from "@/utils/date-utils";
-import "@/components/ui/style/glass-animation.css";
-import { useTheme } from "next-themes";
+import { domAnimation, LazyMotion, m, useReducedMotion } from 'framer-motion'
+import { Contact, FileUser } from 'lucide-react'
+import type { CSSProperties } from 'react'
+import { lazy, Suspense, useEffect, useMemo, useState } from 'react'
+import Coin3D from '@/components/3d-logo'
+import { AccentColorSelector } from '@/components/accent-color-selector'
+import { Button } from '@/components/ui/button'
+import { Elasticity } from '@/components/ui/elasticity/elasticity'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+import { useIsMobile } from '@/hooks/use-mobile'
+import { cn } from '@/lib/utils'
+import { isHolidaySeason } from '@/utils/date-utils'
+import '@/components/ui/style/glass-animation.css'
+import { useTheme } from 'next-themes'
 
-const Snowfall = lazy(() => import("react-snowfall"));
+const Snowfall = lazy(() => import('react-snowfall'))
+
+const LOGO_MAX = 350
+const LOGO_MIN = 100
+const SCROLL_THRESHOLD = 250
+const LOGO_MARGIN = 10
 
 export default function HeroSection() {
-  const isMobile = useIsMobile();
-  const { resolvedTheme } = useTheme();
-  const shouldReduceMotion = useReducedMotion();
+  const isMobile = useIsMobile()
+  const { resolvedTheme } = useTheme()
+  const shouldReduceMotion = useReducedMotion()
 
-  const showSnowfall = useMemo(() => isHolidaySeason(), []);
-  const shouldAnimate = !(isMobile || shouldReduceMotion);
-  const shouldRenderSnowfall = showSnowfall && shouldAnimate;
-  const logoSize = isMobile ? 100 : 350;
+  const showSnowfall = useMemo(() => isHolidaySeason(), [])
+  const shouldAnimate = !(isMobile || shouldReduceMotion)
+  const shouldRenderSnowfall = showSnowfall && shouldAnimate
+
+  // Separate 640px breakpoint for logo scroll animation — matches Tailwind's `sm:`
+  // and the CSS #logo styles. isMobile uses 768px for other UI concerns.
+  const [isSmallMobile, setIsSmallMobile] = useState(
+    typeof window === 'undefined' ? false : window.innerWidth < 640,
+  )
+
+  useEffect(() => {
+    const mql = window.matchMedia('(max-width: 639px)')
+    const handleChange = () => setIsSmallMobile(mql.matches)
+    mql.addEventListener('change', handleChange)
+    handleChange()
+    return () => mql.removeEventListener('change', handleChange)
+  }, [])
+
+  const [mobileLogoState, setMobileLogoState] = useState({
+    progress: 0,
+    vw: typeof window === 'undefined' ? 390 : window.innerWidth,
+  })
+
+  useEffect(() => {
+    if (!isSmallMobile) {
+      setMobileLogoState({
+        progress: 0,
+        vw: typeof window === 'undefined' ? 390 : window.innerWidth,
+      })
+      return
+    }
+
+    const update = () => {
+      const raw = Math.min(Math.max(window.scrollY / SCROLL_THRESHOLD, 0), 1)
+      // Ease-in-out cubic for smooth deceleration at both ends of the animation
+      const p = raw < 0.5 ? 4 * raw ** 3 : 1 - (-2 * raw + 2) ** 3 / 2
+      setMobileLogoState({ progress: p, vw: window.innerWidth })
+    }
+
+    window.addEventListener('scroll', update, { passive: true })
+    window.addEventListener('resize', update, { passive: true })
+    update()
+
+    return () => {
+      window.removeEventListener('scroll', update)
+      window.removeEventListener('resize', update)
+    }
+  }, [isSmallMobile])
+
+  const { progress, vw } = mobileLogoState
+  const coinSize = isSmallMobile ? Math.round(LOGO_MAX - (LOGO_MAX - LOGO_MIN) * progress) : LOGO_MAX
+
+  // Interpolate from centered-top (350px) to top-right corner (100px)
+  // left: vw/2 - 175  →  vw - 110  (right edge at vw - LOGO_MARGIN for LOGO_MIN)
+  // top:  -175         →  10        (half above viewport  →  LOGO_MARGIN from top)
+  const mobileLogoStyle: CSSProperties | undefined = isSmallMobile
+    ? {
+        position: 'fixed',
+        left: `${
+          vw / 2 - LOGO_MAX / 2 + (vw - LOGO_MIN - LOGO_MARGIN - (vw / 2 - LOGO_MAX / 2)) * progress
+        }px`,
+        width: `${coinSize}px`,
+        height: `${coinSize}px`,
+        zIndex: 100,
+        margin: 0,
+        padding: 0,
+        transform: 'none',
+        borderRadius: '50%',
+      }
+    : undefined
+
   const snowfallConfig = useMemo(
     () => ({
       snowflakeCount: 50,
-      color: resolvedTheme === "light" ? "#4A90E2" : "#fff",
+      color: resolvedTheme === 'light' ? '#4A90E2' : '#fff',
     }),
-    [resolvedTheme]
-  );
+    [resolvedTheme],
+  )
 
   return (
-    <section
-      className="section-wrapper flex items-center justify-center"
-      id="hero"
-    >
+    <section className="section-wrapper flex items-center justify-center" id="hero">
       <div className="flex min-h-150 w-full max-w-7xl">
         <LazyMotion features={domAnimation}>
           <m.div
             animate={{ opacity: 1, y: 0 }}
             className="relative top-10 flex w-full justify-center lg:top-50"
-            initial={
-              shouldAnimate ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }
-            }
+            initial={shouldAnimate ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
             transition={{ duration: shouldAnimate ? 0.5 : 0 }}
           >
             {/* Hero section logo background */}
-            <div className="relative hidden h-65 w-full overflow-hidden rounded-t-3xl bg-effect bg-linear-to-t bg-primary/10 from-accent/15 to-transparent backdrop-blur-2xl [-webkit-mask-image:radial-gradient(150px_at_50%_0%,transparent_99%,black_100%)] [mask-image:radial-gradient(150px_at_50%_0%,transparent_99%,black_100%)] sm:block">
+            <div className="bg-effect bg-primary/10 from-accent/15 relative hidden h-65 w-full overflow-hidden rounded-t-3xl bg-linear-to-t to-transparent [mask-image:radial-gradient(150px_at_50%_0%,transparent_99%,black_100%)] backdrop-blur-2xl [-webkit-mask-image:radial-gradient(150px_at_50%_0%,transparent_99%,black_100%)] md:block">
               {shouldRenderSnowfall && (
                 <Suspense fallback={null}>
                   <Snowfall
                     color={snowfallConfig.color}
                     snowflakeCount={snowfallConfig.snowflakeCount}
                     style={{
-                      position: "absolute",
-                      width: "100%",
-                      height: "100%",
+                      position: 'absolute',
+                      width: '100%',
+                      height: '100%',
                       top: 0,
                       left: 0,
                       zIndex: 0,
@@ -75,18 +139,18 @@ export default function HeroSection() {
               enabled={shouldAnimate}
               withGlassEdgeReflect={true}
             >
-              <div className="absolute top-45 sm:top-2 sm:right-2">
+              <div className="absolute top-45 md:top-2 md:right-2">
                 <AccentColorSelector />
               </div>
             </Elasticity>
 
             {/* Logo  */}
-            <div id="logo">
+            <div id="logo" style={mobileLogoStyle}>
               <Coin3D
                 enableIntro={shouldAnimate}
                 isMobile={isMobile}
                 logoSrc="/images/aaa-white.avif"
-                size={logoSize}
+                size={coinSize}
               />
             </div>
 
@@ -95,36 +159,31 @@ export default function HeroSection() {
               <m.h1
                 animate={{ opacity: 1, scale: 1 }}
                 className={cn(
-                  "relative ml-0 bg-linear-to-b from-50% from-primary to-50% to-accent bg-clip-text text-center font-bold font-oswald text-[60px] text-transparent leading-tight tracking-widest sm:text-[60px] md:text-[70px] lg:text-[105px] xl:ml-3 xl:text-[140px]"
+                  'from-primary to-accent font-oswald relative ml-0 bg-linear-to-b from-50% to-50% bg-clip-text text-center text-[60px] leading-tight font-bold tracking-widest text-transparent sm:text-[60px] md:text-[70px] lg:text-[105px] xl:ml-3 xl:text-[140px]',
                 )}
-                initial={
-                  shouldAnimate
-                    ? { opacity: 0, scale: 0.9 }
-                    : { opacity: 1, scale: 1 }
-                }
+                initial={shouldAnimate ? { opacity: 0, scale: 0.9 } : { opacity: 1, scale: 1 }}
                 transition={{
                   duration: shouldAnimate ? 0.7 : 0,
                   delay: shouldAnimate ? 0.2 : 0,
                 }}
               >
                 ARCHIE ALBARICO
-                <span className="absolute inset-0 -z-10 bg-linear-to-b from-primary/10 to-accent/30 opacity-50 blur-xl" />
+                <span className="from-primary/10 to-accent/30 absolute inset-0 -z-10 bg-linear-to-b opacity-50 blur-xl" />
               </m.h1>
+
               <m.div
                 animate={{ opacity: 1, y: 0 }}
                 className="flex w-full flex-col items-center justify-between gap-4 sm:flex-row sm:gap-6"
-                initial={
-                  shouldAnimate ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }
-                }
+                initial={shouldAnimate ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }}
                 transition={{
                   duration: shouldAnimate ? 0.5 : 0,
                   delay: shouldAnimate ? 0.4 : 0,
                 }}
               >
-                <h2 className="font-normal text-2xl text-muted-foreground leading-none lg:text-[35px]">
+                <h2 className="text-muted-foreground text-2xl leading-none font-normal lg:text-[35px]">
                   Full-Stack Developer
                 </h2>
-                <div className="flex w-full max-w-80 flex-row gap-2 sm:w-auto">
+                <div className="flex w-full max-w-80 flex-row gap-2 md:w-auto">
                   <a
                     aria-label="Download Resume"
                     className="w-[70%] sm:w-auto"
@@ -132,25 +191,15 @@ export default function HeroSection() {
                     rel="noopener noreferrer"
                     target="_blank"
                   >
-                    <Button
-                      className="w-full bg-accent/30 sm:w-auto"
-                      variant="glass"
-                    >
+                    <Button className="bg-accent/30 w-full sm:w-auto" variant="glass">
                       <FileUser />
                       Resume
                     </Button>
                   </a>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <a
-                        aria-label="Contact Me"
-                        className="flex-1 sm:w-auto"
-                        href="#contact"
-                      >
-                        <Button
-                          size={isMobile ? "default" : "icon"}
-                          variant="glass"
-                        >
+                      <a aria-label="Contact Me" className="flex-1 sm:w-auto" href="#contact">
+                        <Button size={isMobile ? 'default' : 'icon'} variant="glass">
                           <Contact />
                           <span className="block sm:hidden">Contact</span>
                         </Button>
@@ -165,5 +214,5 @@ export default function HeroSection() {
         </LazyMotion>
       </div>
     </section>
-  );
+  )
 }

@@ -1,28 +1,23 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react'
 
 export function useRateLimit() {
-  const [rateLimitedUntil, setRateLimitedUntil] = useState<number | null>(null);
+  const [rateLimitedUntil, setRateLimitedUntil] = useState<number | null>(null)
 
-  const isRateLimited = rateLimitedUntil
-    ? Date.now() < rateLimitedUntil
-    : false;
+  const isRateLimited = rateLimitedUntil ? Date.now() < rateLimitedUntil : false
 
   useEffect(() => {
     if (!rateLimitedUntil) {
-      return;
+      return
     }
 
-    const remaining = rateLimitedUntil - Date.now();
-    const timeoutId = setTimeout(
-      () => setRateLimitedUntil(null),
-      Math.max(0, remaining)
-    );
+    const remaining = rateLimitedUntil - Date.now()
+    const timeoutId = setTimeout(() => setRateLimitedUntil(null), Math.max(0, remaining))
 
-    return () => clearTimeout(timeoutId);
-  }, [rateLimitedUntil]);
+    return () => clearTimeout(timeoutId)
+  }, [rateLimitedUntil])
 
   return {
     isRateLimited,
     setRateLimitedUntil,
-  };
+  }
 }

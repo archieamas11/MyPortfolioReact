@@ -1,3 +1,3 @@
 /// <reference types="vite/client" />
 
-declare module "@formspark/use-formspark";
+declare module '@formspark/use-formspark'

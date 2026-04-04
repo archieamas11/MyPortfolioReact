@@ -84,11 +84,11 @@
 @keyframes liquidDistort {
   0%,
   100% {
-    filter: url("#lg-dist") brightness(1);
+    filter: url('#lg-dist') brightness(1);
   }
 
   50% {
-    filter: url("#lg-dist") brightness(1.2) contrast(1.1);
+    filter: url('#lg-dist') brightness(1.2) contrast(1.1);
   }
 }
 

@@ -1,25 +1,18 @@
-import type { SVGMotionProps, Variants } from "motion/react";
-import { motion, useAnimation } from "motion/react";
-import {
-  forwardRef,
-  type MouseEventHandler,
-  useCallback,
-  useImperativeHandle,
-  useRef,
-} from "react";
+import type { SVGMotionProps, Variants } from 'motion/react'
+import { motion, useAnimation } from 'motion/react'
+import { forwardRef, type MouseEventHandler, useCallback, useImperativeHandle, useRef } from 'react'
 
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils'
 
 export interface SunIconHandle {
-  startAnimation: () => void;
-  stopAnimation: () => void;
+  startAnimation: () => void
+  stopAnimation: () => void
 }
 
-interface SunIconProps
-  extends Omit<SVGMotionProps<SVGSVGElement>, "onMouseEnter" | "onMouseLeave"> {
-  onMouseEnter?: MouseEventHandler<SVGSVGElement>;
-  onMouseLeave?: MouseEventHandler<SVGSVGElement>;
-  size?: number;
+interface SunIconProps extends Omit<SVGMotionProps<SVGSVGElement>, 'onMouseEnter' | 'onMouseLeave'> {
+  onMouseEnter?: MouseEventHandler<SVGSVGElement>
+  onMouseLeave?: MouseEventHandler<SVGSVGElement>
+  size?: number
 }
 
 const PATH_VARIANTS: Variants = {
@@ -28,43 +21,43 @@ const PATH_VARIANTS: Variants = {
     opacity: [0, 1],
     transition: { delay: i * 0.1, duration: 0.3 },
   }),
-};
+}
 
 const SunIcon = forwardRef<SunIconHandle, SunIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
-    const controls = useAnimation();
-    const isControlledRef = useRef(false);
+    const controls = useAnimation()
+    const isControlledRef = useRef(false)
 
     useImperativeHandle(ref, () => {
-      isControlledRef.current = true;
+      isControlledRef.current = true
 
       return {
-        startAnimation: () => controls.start("animate"),
-        stopAnimation: () => controls.start("normal"),
-      };
-    });
+        startAnimation: () => controls.start('animate'),
+        stopAnimation: () => controls.start('normal'),
+      }
+    })
 
     const handleMouseEnter = useCallback(
       (e: React.MouseEvent<SVGSVGElement>) => {
         if (isControlledRef.current) {
-          onMouseEnter?.(e);
+          onMouseEnter?.(e)
         } else {
-          controls.start("animate");
+          controls.start('animate')
         }
       },
-      [controls, onMouseEnter]
-    );
+      [controls, onMouseEnter],
+    )
 
     const handleMouseLeave = useCallback(
       (e: React.MouseEvent<SVGSVGElement>) => {
         if (isControlledRef.current) {
-          onMouseLeave?.(e);
+          onMouseLeave?.(e)
         } else {
-          controls.start("normal");
+          controls.start('normal')
         }
       },
-      [controls, onMouseLeave]
-    );
+      [controls, onMouseLeave],
+    )
 
     return (
       <motion.svg
@@ -85,28 +78,22 @@ const SunIcon = forwardRef<SunIconHandle, SunIconProps>(
         <title>Light mode</title>
         <circle cx="12" cy="12" r="4" />
         {[
-          "M12 3v1",
-          "M12 20v1",
-          "M3 12h1",
-          "M20 12h1",
-          "m18.364 5.636-.707.707",
-          "m6.343 17.657-.707.707",
-          "m5.636 5.636.707.707",
-          "m17.657 17.657.707.707",
+          'M12 3v1',
+          'M12 20v1',
+          'M3 12h1',
+          'M20 12h1',
+          'm18.364 5.636-.707.707',
+          'm6.343 17.657-.707.707',
+          'm5.636 5.636.707.707',
+          'm17.657 17.657.707.707',
         ].map((d, index) => (
-          <motion.path
-            animate={controls}
-            custom={index + 1}
-            d={d}
-            key={d}
-            variants={PATH_VARIANTS}
-          />
+          <motion.path animate={controls} custom={index + 1} d={d} key={d} variants={PATH_VARIANTS} />
         ))}
       </motion.svg>
-    );
-  }
-);
+    )
+  },
+)
 
-SunIcon.displayName = "SunIcon";
+SunIcon.displayName = 'SunIcon'
 
-export { SunIcon };
+export { SunIcon }

@@ -1,33 +1,33 @@
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
-import "./index.css";
-import "flag-icons/css/flag-icons.min.css";
-import { MotionConfig as MotionConfigFromFramer } from "framer-motion";
-import { MotionConfig as MotionConfigFromMotion } from "motion/react";
-import { BrowserRouter, Route, Routes } from "react-router";
-import { ThemeProvider } from "@/components/provider/theme-provider.tsx";
-import NotFound from "@/pages/not-found.tsx";
-import App from "./app.tsx";
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+import 'flag-icons/css/flag-icons.min.css'
+import { MotionConfig as MotionConfigFromFramer } from 'framer-motion'
+import { MotionConfig as MotionConfigFromMotion } from 'motion/react'
+import { BrowserRouter, Route, Routes } from 'react-router'
+import { ThemeProvider } from '@/components/provider/theme-provider.tsx'
+import NotFound from '@/pages/not-found.tsx'
+import App from './app.tsx'
 
 const ignoreReactScanError = (): void => {
   // react-scan is optional in development.
-};
+}
 
 if (import.meta.env.DEV) {
-  import("react-scan")
+  import('react-scan')
     .then(({ scan }) => {
       scan({
         enabled: true,
         log: true,
-      });
+      })
     })
-    .catch(ignoreReactScanError);
+    .catch(ignoreReactScanError)
 }
 
-const rootElement = document.getElementById("root");
+const rootElement = document.getElementById('root')
 
 if (!rootElement) {
-  throw new Error("Root element with id 'root' was not found.");
+  throw new Error("Root element with id 'root' was not found.")
 }
 
 createRoot(rootElement).render(
@@ -35,11 +35,7 @@ createRoot(rootElement).render(
     <BrowserRouter>
       <MotionConfigFromFramer reducedMotion="user">
         <MotionConfigFromMotion reducedMotion="user">
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="dark"
-            storageKey="vite-ui-theme"
-          >
+          <ThemeProvider attribute="class" defaultTheme="dark" storageKey="vite-ui-theme">
             <Routes>
               <Route element={<App />} path="/" />
               <Route element={<NotFound />} path="*" />
@@ -48,5 +44,5 @@ createRoot(rootElement).render(
         </MotionConfigFromMotion>
       </MotionConfigFromFramer>
     </BrowserRouter>
-  </StrictMode>
-);
+  </StrictMode>,
+)

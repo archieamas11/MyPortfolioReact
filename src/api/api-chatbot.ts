@@ -1,403 +1,376 @@
-import type { ChatbotResponse } from "@/types/types";
-import { APIError } from "@/types/types";
+import type { ChatbotResponse } from '@/types/types'
+import { APIError } from '@/types/types'
 
-const API_BASE_URL = import.meta.env.VITE_RAG_API_URL;
-const API_SECRET_KEY = import.meta.env.VITE_API_SECRET_KEY;
+const API_BASE_URL = import.meta.env.VITE_RAG_API_URL
+const API_SECRET_KEY = import.meta.env.VITE_API_SECRET_KEY
 
-const REQUEST_TIMEOUT = 30_000;
-const MAX_RETRIES = 2;
-const RETRY_DELAY = 1000;
-const MAX_QUERY_LENGTH = 2000;
-const MAX_BUFFER_SIZE = 1024 * 1024;
+const REQUEST_TIMEOUT = 30_000
+const MAX_RETRIES = 2
+const RETRY_DELAY = 1000
+const MAX_QUERY_LENGTH = 2000
+const MAX_BUFFER_SIZE = 1024 * 1024
 
 interface StreamMetadata {
-  answer?: string | null;
-  intent: string;
-  matchFound: boolean;
-  originalQuestion: string;
+  answer?: string | null
+  intent: string
+  matchFound: boolean
+  originalQuestion: string
 }
 
 interface SSEEvent {
-  data: string;
-  event: string;
+  data: string
+  event: string
 }
 
 interface ChatRequestOptions {
-  conversationHistory?: Array<{ role: "user" | "assistant"; content: string }>;
-  existingIntents: string[];
-  prompt: string;
+  conversationHistory?: Array<{ role: 'user' | 'assistant'; content: string }>
+  existingIntents: string[]
+  prompt: string
 }
 
 interface ErrorEventData {
-  code?: string;
-  message: string;
+  code?: string
+  message: string
 }
 
 class ConfigurationError extends Error {
   constructor(message: string) {
-    super(message);
-    this.name = "ConfigurationError";
-    Object.setPrototypeOf(this, ConfigurationError.prototype);
+    super(message)
+    this.name = 'ConfigurationError'
+    Object.setPrototypeOf(this, ConfigurationError.prototype)
   }
 }
 
 function validateConfiguration(): void {
-  if (!API_BASE_URL || typeof API_BASE_URL !== "string") {
-    throw new ConfigurationError("VITE_RAG_API_URL is not configured");
+  if (!API_BASE_URL || typeof API_BASE_URL !== 'string') {
+    throw new ConfigurationError('VITE_RAG_API_URL is not configured')
   }
   try {
-    new URL(API_BASE_URL);
+    new URL(API_BASE_URL)
   } catch {
-    throw new ConfigurationError("VITE_RAG_API_URL is not a valid URL");
+    throw new ConfigurationError('VITE_RAG_API_URL is not a valid URL')
   }
 }
 
 function sleep(ms: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms));
+  return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
 function validateQuery(query: string): { valid: boolean; error?: string } {
-  const trimmed = query.trim();
+  const trimmed = query.trim()
   if (!trimmed) {
-    return { valid: false, error: "Please enter a message" };
+    return { valid: false, error: 'Please enter a message' }
   }
   if (trimmed.length > MAX_QUERY_LENGTH) {
     return {
       valid: false,
       error: `Message is too long. Please keep it under ${MAX_QUERY_LENGTH} characters.`,
-    };
+    }
   }
-  return { valid: true };
+  return { valid: true }
 }
 
 function parseSSEEvents(chunk: string): SSEEvent[] {
-  const events: SSEEvent[] = [];
-  const lines = chunk.split("\n");
-  let currentEvent = "message";
-  let currentData = "";
+  const events: SSEEvent[] = []
+  const lines = chunk.split('\n')
+  let currentEvent = 'message'
+  let currentData = ''
   for (const line of lines) {
-    const trimmedLine = line.trim();
-    if (trimmedLine.startsWith("event:")) {
-      currentEvent = trimmedLine.slice(6).trim() || "message";
-    } else if (trimmedLine.startsWith("data:")) {
-      const dataValue = trimmedLine.slice(5).trim();
+    const trimmedLine = line.trim()
+    if (trimmedLine.startsWith('event:')) {
+      currentEvent = trimmedLine.slice(6).trim() || 'message'
+    } else if (trimmedLine.startsWith('data:')) {
+      const dataValue = trimmedLine.slice(5).trim()
       if (currentData) {
-        currentData += `\n${dataValue}`;
+        currentData += `\n${dataValue}`
       } else {
-        currentData = dataValue;
+        currentData = dataValue
       }
-    } else if (trimmedLine === "" && currentData) {
-      events.push({ event: currentEvent, data: currentData });
-      currentEvent = "message";
-      currentData = "";
-    } else if (trimmedLine && !trimmedLine.startsWith(":") && currentData) {
-      currentData += `\n${trimmedLine}`;
+    } else if (trimmedLine === '' && currentData) {
+      events.push({ event: currentEvent, data: currentData })
+      currentEvent = 'message'
+      currentData = ''
+    } else if (trimmedLine && !trimmedLine.startsWith(':') && currentData) {
+      currentData += `\n${trimmedLine}`
     }
   }
-  if (currentData && !chunk.endsWith("\n\n")) {
-    return events;
+  if (currentData && !chunk.endsWith('\n\n')) {
+    return events
   }
-  return events;
+  return events
 }
 
 function applySSEEvents(
   events: SSEEvent[],
   metadata: StreamMetadata | null,
   fullAnswer: string,
-  onChunk: (text: string) => void
+  onChunk: (text: string) => void,
 ): { metadata: StreamMetadata | null; fullAnswer: string } {
-  let nextMetadata = metadata;
-  let nextFullAnswer = fullAnswer;
+  let nextMetadata = metadata
+  let nextFullAnswer = fullAnswer
   for (const event of events) {
-    const result = processSSEEvent(
-      event,
-      nextMetadata,
-      nextFullAnswer,
-      onChunk
-    );
+    const result = processSSEEvent(event, nextMetadata, nextFullAnswer, onChunk)
     if (result.error) {
-      throw result.error;
+      throw result.error
     }
-    nextMetadata = result.metadata ?? nextMetadata;
-    nextFullAnswer = result.fullAnswer;
+    nextMetadata = result.metadata ?? nextMetadata
+    nextFullAnswer = result.fullAnswer
   }
-  return { metadata: nextMetadata, fullAnswer: nextFullAnswer };
+  return { metadata: nextMetadata, fullAnswer: nextFullAnswer }
 }
 
 function processSSEEvent(
   event: SSEEvent,
   metadata: StreamMetadata | null,
   fullAnswer: string,
-  onChunk: (text: string) => void
+  onChunk: (text: string) => void,
 ): { metadata: StreamMetadata | null; fullAnswer: string; error?: APIError } {
-  const { event: eventType, data } = event;
-  if (!data || data === "{}" || data.trim() === "") {
-    return { metadata, fullAnswer };
+  const { event: eventType, data } = event
+  if (!data || data === '{}' || data.trim() === '') {
+    return { metadata, fullAnswer }
   }
   try {
-    if (eventType === "metadata") {
-      const parsed = JSON.parse(data) as StreamMetadata;
-      return { metadata: parsed, fullAnswer };
+    if (eventType === 'metadata') {
+      const parsed = JSON.parse(data) as StreamMetadata
+      return { metadata: parsed, fullAnswer }
     }
-    if (eventType === "text") {
-      let text: string;
+    if (eventType === 'text') {
+      let text: string
       try {
-        text = JSON.parse(data) as string;
+        text = JSON.parse(data) as string
       } catch {
-        text = data;
+        text = data
       }
-      const updatedAnswer = fullAnswer + text;
-      onChunk(text);
-      return { metadata, fullAnswer: updatedAnswer };
+      const updatedAnswer = fullAnswer + text
+      onChunk(text)
+      return { metadata, fullAnswer: updatedAnswer }
     }
-    if (eventType === "error") {
-      const errorData = JSON.parse(data) as ErrorEventData;
+    if (eventType === 'error') {
+      const errorData = JSON.parse(data) as ErrorEventData
       return {
         metadata,
         fullAnswer,
-        error: new APIError(errorData.message || "Unknown error occurred"),
-      };
+        error: new APIError(errorData.message || 'Unknown error occurred'),
+      }
     }
   } catch (parseError) {
-    if (eventType === "text") {
-      const updatedAnswer = fullAnswer + data;
-      onChunk(data);
-      return { metadata, fullAnswer: updatedAnswer };
+    if (eventType === 'text') {
+      const updatedAnswer = fullAnswer + data
+      onChunk(data)
+      return { metadata, fullAnswer: updatedAnswer }
     }
-    console.warn("Failed to parse SSE event:", eventType, parseError);
+    console.warn('Failed to parse SSE event:', eventType, parseError)
   }
-  return { metadata, fullAnswer };
+  return { metadata, fullAnswer }
 }
 
 async function fetchWithTimeout(
   url: string,
   options: RequestInit,
   timeout: number,
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ): Promise<Response> {
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), timeout);
+  const controller = new AbortController()
+  const timeoutId = setTimeout(() => controller.abort(), timeout)
   if (signal) {
     if (signal.aborted) {
-      clearTimeout(timeoutId);
-      throw new DOMException("Request aborted", "AbortError");
+      clearTimeout(timeoutId)
+      throw new DOMException('Request aborted', 'AbortError')
     }
-    signal.addEventListener("abort", () => {
-      controller.abort();
-      clearTimeout(timeoutId);
-    });
+    signal.addEventListener('abort', () => {
+      controller.abort()
+      clearTimeout(timeoutId)
+    })
   }
   try {
     const response = await fetch(url, {
       ...options,
       signal: controller.signal,
-    });
-    return response;
+    })
+    return response
   } catch (error) {
-    if (error instanceof DOMException && error.name === "AbortError") {
-      throw error;
+    if (error instanceof DOMException && error.name === 'AbortError') {
+      throw error
     }
-    throw error;
+    throw error
   } finally {
-    clearTimeout(timeoutId);
+    clearTimeout(timeoutId)
   }
 }
 
 function handleRateLimitResponse(response: Response): ChatbotResponse {
-  const retryAfterHeader = response.headers.get("Retry-After");
-  const retryAfter = retryAfterHeader
-    ? Number.parseInt(retryAfterHeader, 10)
-    : 60;
+  const retryAfterHeader = response.headers.get('Retry-After')
+  const retryAfter = retryAfterHeader ? Number.parseInt(retryAfterHeader, 10) : 60
   return {
     success: false,
     error: `Too many requests. Please wait ${retryAfter} seconds.`,
     rateLimited: true,
     retryAfter: Number.isNaN(retryAfter) ? 60 : retryAfter,
-  };
+  }
 }
 
 async function processStreamResponse(
   reader: ReadableStreamDefaultReader<Uint8Array>,
   decoder: TextDecoder,
   onChunk: (text: string) => void,
-  abortSignal?: AbortSignal
+  abortSignal?: AbortSignal,
 ): Promise<{ fullAnswer: string; metadata: StreamMetadata | null }> {
-  let fullAnswer = "";
-  let metadata: StreamMetadata | null = null;
-  let buffer = "";
+  let fullAnswer = ''
+  let metadata: StreamMetadata | null = null
+  let buffer = ''
 
   const processBufferChunk = (): void => {
-    const events = parseSSEEvents(buffer);
-    const lastCompleteEvent = buffer.lastIndexOf("\n\n");
+    const events = parseSSEEvents(buffer)
+    const lastCompleteEvent = buffer.lastIndexOf('\n\n')
     if (lastCompleteEvent !== -1) {
-      buffer = buffer.slice(lastCompleteEvent + 2);
+      buffer = buffer.slice(lastCompleteEvent + 2)
     }
-    const result = applySSEEvents(events, metadata, fullAnswer, onChunk);
-    metadata = result.metadata;
-    fullAnswer = result.fullAnswer;
-  };
+    const result = applySSEEvents(events, metadata, fullAnswer, onChunk)
+    metadata = result.metadata
+    fullAnswer = result.fullAnswer
+  }
 
   const processRemainingBuffer = (): void => {
     if (!buffer.trim()) {
-      return;
+      return
     }
-    const remainingEvents = parseSSEEvents(`${buffer}\n\n`);
-    const result = applySSEEvents(
-      remainingEvents,
-      metadata,
-      fullAnswer,
-      onChunk
-    );
-    metadata = result.metadata;
-    fullAnswer = result.fullAnswer;
-  };
+    const remainingEvents = parseSSEEvents(`${buffer}\n\n`)
+    const result = applySSEEvents(remainingEvents, metadata, fullAnswer, onChunk)
+    metadata = result.metadata
+    fullAnswer = result.fullAnswer
+  }
 
   try {
     while (true) {
       if (abortSignal?.aborted) {
-        await reader.cancel();
-        throw new DOMException("Request cancelled", "AbortError");
+        await reader.cancel()
+        throw new DOMException('Request cancelled', 'AbortError')
       }
-      const { done, value } = await reader.read();
+      const { done, value } = await reader.read()
       if (done) {
-        break;
+        break
       }
-      buffer += decoder.decode(value, { stream: true });
+      buffer += decoder.decode(value, { stream: true })
       if (buffer.length > MAX_BUFFER_SIZE) {
-        throw new APIError("Response buffer exceeded maximum size");
+        throw new APIError('Response buffer exceeded maximum size')
       }
-      processBufferChunk();
+      processBufferChunk()
     }
-    processRemainingBuffer();
+    processRemainingBuffer()
   } finally {
-    reader.releaseLock();
+    reader.releaseLock()
   }
-  return { fullAnswer, metadata };
+  return { fullAnswer, metadata }
 }
 
 function buildRequestBody(
   prompt: string,
   existingIntents: string[],
-  conversationHistory?: Array<{ role: "user" | "assistant"; content: string }>
+  conversationHistory?: Array<{ role: 'user' | 'assistant'; content: string }>,
 ): ChatRequestOptions {
   return {
     prompt,
     existingIntents: Array.isArray(existingIntents) ? existingIntents : [],
     conversationHistory:
-      conversationHistory && Array.isArray(conversationHistory)
-        ? conversationHistory
-        : undefined,
-  };
+      conversationHistory && Array.isArray(conversationHistory) ? conversationHistory : undefined,
+  }
 }
 
 function buildHeaders(): HeadersInit {
   const headers: HeadersInit = {
-    "Content-Type": "application/json",
-  };
-  if (API_SECRET_KEY && typeof API_SECRET_KEY === "string") {
-    headers["x-api-key"] = API_SECRET_KEY;
+    'Content-Type': 'application/json',
   }
-  return headers;
+  if (API_SECRET_KEY && typeof API_SECRET_KEY === 'string') {
+    headers['x-api-key'] = API_SECRET_KEY
+  }
+  return headers
 }
 
-async function parseErrorResponse(
-  response: Response
-): Promise<{ error?: string }> {
+async function parseErrorResponse(response: Response): Promise<{ error?: string }> {
   try {
-    const contentType = response.headers.get("content-type");
-    if (contentType?.includes("application/json")) {
-      return (await response.json()) as { error?: string };
+    const contentType = response.headers.get('content-type')
+    if (contentType?.includes('application/json')) {
+      return (await response.json()) as { error?: string }
     }
   } catch {
     // Ignore JSON parse errors for error responses
   }
-  return {};
+  return {}
 }
 
 function isRetryableError(error: unknown): boolean {
   if (error instanceof TypeError) {
-    return true;
+    return true
   }
   if (error instanceof APIError && error.status && error.status >= 500) {
-    return true;
+    return true
   }
-  return error instanceof Error && error.message.includes("fetch");
+  return error instanceof Error && error.message.includes('fetch')
 }
 
 function toErrorInstance(error: unknown): Error {
   if (error instanceof Error) {
-    return error;
+    return error
   }
-  return new Error(String(error));
+  return new Error(String(error))
 }
 
 async function executeChatRequest(
   requestBody: ChatRequestOptions,
   onChunk: (text: string) => void,
-  abortSignal?: AbortSignal
+  abortSignal?: AbortSignal,
 ): Promise<ChatbotResponse> {
   const response = await fetchWithTimeout(
     `${API_BASE_URL}/api/chat`,
     {
-      method: "POST",
+      method: 'POST',
       headers: buildHeaders(),
       body: JSON.stringify(requestBody),
     },
     REQUEST_TIMEOUT,
-    abortSignal
-  );
+    abortSignal,
+  )
 
   if (response.status === 429) {
-    return handleRateLimitResponse(response);
+    return handleRateLimitResponse(response)
   }
 
   if (!response.ok) {
-    const errorData = await parseErrorResponse(response);
-    throw new APIError(
-      errorData.error || `Server error: ${response.status}`,
-      response.status
-    );
+    const errorData = await parseErrorResponse(response)
+    throw new APIError(errorData.error || `Server error: ${response.status}`, response.status)
   }
 
   if (!response.body) {
-    throw new APIError("No response body received");
+    throw new APIError('No response body received')
   }
 
-  const reader = response.body.getReader();
-  const decoder = new TextDecoder();
-  const { fullAnswer, metadata } = await processStreamResponse(
-    reader,
-    decoder,
-    onChunk,
-    abortSignal
-  );
+  const reader = response.body.getReader()
+  const decoder = new TextDecoder()
+  const { fullAnswer, metadata } = await processStreamResponse(reader, decoder, onChunk, abortSignal)
 
   if (!(metadata || fullAnswer)) {
-    throw new APIError("No response received from server");
+    throw new APIError('No response received from server')
   }
 
   return {
     success: true,
     data: {
-      answer: fullAnswer || metadata?.answer || "No response generated",
+      answer: fullAnswer || metadata?.answer || 'No response generated',
       matchFound: metadata?.matchFound ?? false,
       intent: metadata?.intent,
       confidence: metadata?.matchFound ? 0.85 : 0.35,
     },
-  };
+  }
 }
 
-async function maybeWaitForRetry(
-  attempt: number,
-  error: unknown
-): Promise<void> {
+async function maybeWaitForRetry(attempt: number, error: unknown): Promise<void> {
   if (attempt >= MAX_RETRIES) {
-    return;
+    return
   }
   if (!isRetryableError(error)) {
-    return;
+    return
   }
-  await sleep(RETRY_DELAY * (attempt + 1));
+  await sleep(RETRY_DELAY * (attempt + 1))
 }
 
 export async function sendChatMessageStreaming(
@@ -405,43 +378,36 @@ export async function sendChatMessageStreaming(
   onChunk: (text: string) => void,
   existingIntents: string[] = [],
   abortSignal?: AbortSignal,
-  conversationHistory?: Array<{ role: "user" | "assistant"; content: string }>
+  conversationHistory?: Array<{ role: 'user' | 'assistant'; content: string }>,
 ): Promise<ChatbotResponse> {
   try {
-    validateConfiguration();
+    validateConfiguration()
   } catch (error) {
     return {
       success: false,
-      error:
-        error instanceof ConfigurationError
-          ? error.message
-          : "API configuration error",
-    };
+      error: error instanceof ConfigurationError ? error.message : 'API configuration error',
+    }
   }
-  const validation = validateQuery(query);
+  const validation = validateQuery(query)
   if (!validation.valid) {
-    return { success: false, error: validation.error };
+    return { success: false, error: validation.error }
   }
 
-  const trimmedQuery = query.trim();
-  const requestBody = buildRequestBody(
-    trimmedQuery,
-    existingIntents,
-    conversationHistory
-  );
+  const trimmedQuery = query.trim()
+  const requestBody = buildRequestBody(trimmedQuery, existingIntents, conversationHistory)
 
-  let lastError: Error | null = null;
+  let lastError: Error | null = null
 
   for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
     if (abortSignal?.aborted) {
-      return { success: false, error: "Request cancelled" };
+      return { success: false, error: 'Request cancelled' }
     }
 
     try {
-      return await executeChatRequest(requestBody, onChunk, abortSignal);
+      return await executeChatRequest(requestBody, onChunk, abortSignal)
     } catch (error) {
-      if (error instanceof DOMException && error.name === "AbortError") {
-        return { success: false, error: "Request cancelled" };
+      if (error instanceof DOMException && error.name === 'AbortError') {
+        return { success: false, error: 'Request cancelled' }
       }
 
       if (error instanceof APIError && error.rateLimited) {
@@ -450,35 +416,27 @@ export async function sendChatMessageStreaming(
           error: error.message,
           rateLimited: true,
           retryAfter: error.retryAfter,
-        };
+        }
       }
 
-      lastError = toErrorInstance(error);
-      await maybeWaitForRetry(attempt, error);
+      lastError = toErrorInstance(error)
+      await maybeWaitForRetry(attempt, error)
     }
   }
 
   return {
     success: false,
-    error:
-      lastError?.message ||
-      "Failed to connect. Please check your connection and try again.",
-  };
+    error: lastError?.message || 'Failed to connect. Please check your connection and try again.',
+  }
 }
 
-const noopOnChunk = (): void => undefined;
+const noopOnChunk = (): void => undefined
 
 export function sendChatMessage(
   query: string,
   existingIntents: string[] = [],
   abortSignal?: AbortSignal,
-  conversationHistory?: Array<{ role: "user" | "assistant"; content: string }>
+  conversationHistory?: Array<{ role: 'user' | 'assistant'; content: string }>,
 ): Promise<ChatbotResponse> {
-  return sendChatMessageStreaming(
-    query,
-    noopOnChunk,
-    existingIntents,
-    abortSignal,
-    conversationHistory
-  );
+  return sendChatMessageStreaming(query, noopOnChunk, existingIntents, abortSignal, conversationHistory)
 }

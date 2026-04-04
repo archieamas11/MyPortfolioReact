@@ -1,19 +1,19 @@
-import { useSyncExternalStore } from "react";
+import { useSyncExternalStore } from 'react'
 
-const PROJECTS_ID = "projects";
+const PROJECTS_ID = 'projects'
 const noopUnsubscribe = (): void => {
   // No subscription exists in SSR/ready states.
-};
+}
 
 function getSnapshot(): Element | null {
-  if (typeof document === "undefined") {
-    return null;
+  if (typeof document === 'undefined') {
+    return null
   }
-  return document.getElementById(PROJECTS_ID);
+  return document.getElementById(PROJECTS_ID)
 }
 
 function getServerSnapshot(): null {
-  return null;
+  return null
 }
 
 /**
@@ -21,20 +21,20 @@ function getServerSnapshot(): null {
  * The element is rendered by a sibling component, so it may not exist on first render.
  */
 function subscribe(callback: () => void): () => void {
-  if (typeof document === "undefined") {
-    return noopUnsubscribe;
+  if (typeof document === 'undefined') {
+    return noopUnsubscribe
   }
 
-  if (document.readyState !== "loading") {
-    requestAnimationFrame(callback);
-    return noopUnsubscribe;
+  if (document.readyState !== 'loading') {
+    requestAnimationFrame(callback)
+    return noopUnsubscribe
   }
 
   const onReady = () => {
-    requestAnimationFrame(callback);
-  };
-  document.addEventListener("DOMContentLoaded", onReady);
-  return () => document.removeEventListener("DOMContentLoaded", onReady);
+    requestAnimationFrame(callback)
+  }
+  document.addEventListener('DOMContentLoaded', onReady)
+  return () => document.removeEventListener('DOMContentLoaded', onReady)
 }
 
 /**
@@ -43,5 +43,5 @@ function subscribe(callback: () => void): () => void {
  * which triggers a re-render after paint and causes a visible flicker.
  */
 export function useProjectsElement(): Element | null {
-  return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
 }

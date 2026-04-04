@@ -1,7 +1,7 @@
-import { motion } from "framer-motion";
-import { AnimatedTooltip } from "@/components/ui/animated-tooltip";
-import { Elasticity } from "@/components/ui/elasticity/elasticity";
-import { interests } from "../data/interests";
+import { motion } from 'framer-motion'
+import { AnimatedTooltip } from '@/components/ui/animated-tooltip'
+import { Elasticity } from '@/components/ui/elasticity/elasticity'
+import { interests } from '../data/interests'
 
 export function InterestItem() {
   return (
@@ -12,7 +12,7 @@ export function InterestItem() {
       whileInView="show"
     >
       <motion.h2
-        className="font-bold font-oswald text-3xl tracking-widest sm:text-4xl md:text-5xl lg:text-6xl"
+        className="font-oswald text-3xl font-bold tracking-widest sm:text-4xl md:text-5xl lg:text-6xl"
         initial={{ opacity: 0, y: -20 }}
         transition={{ duration: 0.5 }}
         viewport={{ once: true }}
@@ -41,10 +41,10 @@ export function InterestItem() {
                   label={interest.label}
                 >
                   <div className="flex flex-col items-center gap-2 py-2 sm:gap-3 lg:py-0">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-md text-primary transition-colors sm:h-10 sm:w-10 lg:h-12 lg:w-12">
+                    <div className="text-primary flex h-8 w-8 items-center justify-center rounded-md transition-colors sm:h-10 sm:w-10 lg:h-12 lg:w-12">
                       <interest.icon className="sm:h-6 sm:w-6" size={20} />
                     </div>
-                    <span className="not-sr-only font-medium text-muted-foreground text-xs lg:sr-only">
+                    <span className="text-muted-foreground not-sr-only text-xs font-medium lg:sr-only">
                       {interest.label}
                     </span>
                   </div>
@@ -55,5 +55,5 @@ export function InterestItem() {
         ))}
       </motion.div>
     </motion.div>
-  );
+  )
 }

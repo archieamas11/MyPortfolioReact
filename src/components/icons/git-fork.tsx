@@ -1,25 +1,18 @@
-import type { SVGMotionProps, Variants } from "motion/react";
-import { motion, useAnimation } from "motion/react";
-import {
-  forwardRef,
-  type MouseEventHandler,
-  useCallback,
-  useImperativeHandle,
-  useRef,
-} from "react";
+import type { SVGMotionProps, Variants } from 'motion/react'
+import { motion, useAnimation } from 'motion/react'
+import { forwardRef, type MouseEventHandler, useCallback, useImperativeHandle, useRef } from 'react'
 
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils'
 
 export interface FolderCodeIconHandle {
-  startAnimation: () => void;
-  stopAnimation: () => void;
+  startAnimation: () => void
+  stopAnimation: () => void
 }
 
-interface FolderCodeIconProps
-  extends Omit<SVGMotionProps<SVGSVGElement>, "onMouseEnter" | "onMouseLeave"> {
-  onMouseEnter?: MouseEventHandler<SVGSVGElement>;
-  onMouseLeave?: MouseEventHandler<SVGSVGElement>;
-  size?: number;
+interface FolderCodeIconProps extends Omit<SVGMotionProps<SVGSVGElement>, 'onMouseEnter' | 'onMouseLeave'> {
+  onMouseEnter?: MouseEventHandler<SVGSVGElement>
+  onMouseLeave?: MouseEventHandler<SVGSVGElement>
+  size?: number
 }
 
 const CODE_VARIANTS: Variants = {
@@ -30,45 +23,45 @@ const CODE_VARIANTS: Variants = {
     opacity: 1,
     transition: {
       duration: 0.5,
-      ease: "easeInOut",
+      ease: 'easeInOut',
     },
   }),
-};
+}
 
 const FolderCodeIcon = forwardRef<FolderCodeIconHandle, FolderCodeIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
-    const controls = useAnimation();
-    const isControlledRef = useRef(false);
+    const controls = useAnimation()
+    const isControlledRef = useRef(false)
 
     useImperativeHandle(ref, () => {
-      isControlledRef.current = true;
+      isControlledRef.current = true
       return {
-        startAnimation: () => controls.start("animate"),
-        stopAnimation: () => controls.start("normal"),
-      };
-    });
+        startAnimation: () => controls.start('animate'),
+        stopAnimation: () => controls.start('normal'),
+      }
+    })
 
     const handleMouseEnter = useCallback(
       (e: React.MouseEvent<SVGSVGElement>) => {
         if (isControlledRef.current) {
-          onMouseEnter?.(e);
+          onMouseEnter?.(e)
         } else {
-          controls.start("animate");
+          controls.start('animate')
         }
       },
-      [controls, onMouseEnter]
-    );
+      [controls, onMouseEnter],
+    )
 
     const handleMouseLeave = useCallback(
       (e: React.MouseEvent<SVGSVGElement>) => {
         if (isControlledRef.current) {
-          onMouseLeave?.(e);
+          onMouseLeave?.(e)
         } else {
-          controls.start("normal");
+          controls.start('normal')
         }
       },
-      [controls, onMouseLeave]
-    );
+      [controls, onMouseLeave],
+    )
 
     return (
       <motion.svg
@@ -103,10 +96,10 @@ const FolderCodeIcon = forwardRef<FolderCodeIconHandle, FolderCodeIconProps>(
           variants={CODE_VARIANTS}
         />
       </motion.svg>
-    );
-  }
-);
+    )
+  },
+)
 
-FolderCodeIcon.displayName = "FolderCodeIcon";
+FolderCodeIcon.displayName = 'FolderCodeIcon'
 
-export { FolderCodeIcon };
+export { FolderCodeIcon }

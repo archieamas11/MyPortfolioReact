@@ -1,21 +1,20 @@
-import { motion } from "framer-motion";
-import { useTheme } from "next-themes";
-import { Avatar } from "@/components/ui/avatar";
-import { GlassEdgeReflect } from "@/components/ui/glass-edge-reflect/glass-edge-reflect";
-import { Separator } from "@/components/ui/separator";
-import { Tabs, TabsList, TabsPanel, TabsTab } from "@/components/ui/tabs";
-import { cn } from "@/lib/utils";
-import AboutMe from "./components/about-me";
-import Contact from "./components/contact";
-import { InterestItem } from "./components/interest";
-import SkillsItems from "./components/skills";
-import EducationPage from "./education";
-import ExperiencePage from "./experience";
+import { motion } from 'framer-motion'
+import { useTheme } from 'next-themes'
+import { Avatar } from '@/components/ui/avatar'
+import { GlassEdgeReflect } from '@/components/ui/glass-edge-reflect/glass-edge-reflect'
+import { Separator } from '@/components/ui/separator'
+import { Tabs, TabsList, TabsPanel, TabsTab } from '@/components/ui/tabs'
+import { cn } from '@/lib/utils'
+import AboutMe from './components/about-me'
+import Contact from './components/contact'
+import { InterestItem } from './components/interest'
+import SkillsItems from './components/skills'
+import EducationPage from './education'
+import ExperiencePage from './experience'
 
 export function AboutSection() {
-  const { theme } = useTheme();
-  const profileImageSrc =
-    theme === "dark" ? "images/me-dark.avif" : "images/me-light.avif";
+  const { theme } = useTheme()
+  const profileImageSrc = theme === 'dark' ? 'images/me-dark.avif' : 'images/me-light.avif'
 
   return (
     <section className="section-wrapper" id="about-me">
@@ -23,7 +22,7 @@ export function AboutSection() {
         <motion.div
           className="relative mx-auto p-2 lg:mx-0"
           initial={{ opacity: 0, scale: 0.5, rotate: -5 }}
-          transition={{ duration: 0.6, type: "spring", bounce: 0.12 }}
+          transition={{ duration: 0.6, type: 'spring', bounce: 0.12 }}
           viewport={{ once: true }}
           whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
         >
@@ -31,9 +30,7 @@ export function AboutSection() {
             <div className="relative h-full w-full">
               <img
                 alt="Portrait of Archie Albarico"
-                className={cn(
-                  "absolute inset-0 h-full w-full rounded-lg object-cover"
-                )}
+                className={cn('absolute inset-0 h-full w-full rounded-lg object-cover')}
                 decoding="async"
                 fetchPriority="high"
                 height={420}
@@ -63,10 +60,7 @@ export function AboutSection() {
       >
         <Tabs defaultValue="experience">
           <div className="border-b">
-            <TabsList
-              className="w-full *:data-[slot=tabs-trigger]:h-12"
-              variant="underline"
-            >
+            <TabsList className="w-full *:data-[slot=tabs-trigger]:h-12" variant="underline">
               <TabsTab value="experience">Experience</TabsTab>
               <TabsTab value="education">Education</TabsTab>
             </TabsList>
@@ -83,5 +77,5 @@ export function AboutSection() {
       <Separator className="my-10 sm:my-12" />
       <SkillsItems />
     </section>
-  );
+  )
 }

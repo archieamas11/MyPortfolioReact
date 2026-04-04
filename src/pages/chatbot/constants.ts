@@ -1,4 +1,4 @@
-import type { LucideIcon } from "lucide-react";
+import type { LucideIcon } from 'lucide-react'
 import {
   Award,
   BookOpen,
@@ -15,124 +15,124 @@ import {
   Presentation,
   Target,
   Users,
-} from "lucide-react";
+} from 'lucide-react'
 
-export const STORAGE_KEY = "chatbot-messages";
-export const MAX_STORED_MESSAGES = 50;
+export const STORAGE_KEY = 'chatbot-messages'
+export const MAX_STORED_MESSAGES = 50
 export const INITIAL_MESSAGE_TEXT =
-  "Hello! I'm Archie's RAG Chatbot. How can I assist you today? Feel free to ask about my portfolio, skills, experience, or any of my projects.";
+  "Hello! I'm Archie's RAG Chatbot. How can I assist you today? Feel free to ask about my portfolio, skills, experience, or any of my projects."
 
 export interface SuggestionTag {
-  icon: LucideIcon;
-  question: string;
-  tag: string;
+  icon: LucideIcon
+  question: string
+  tag: string
 }
 
 export const SUGGESTION_TAGS: SuggestionTag[] = [
   {
-    tag: "Skills",
+    tag: 'Skills',
     icon: Code,
-    question: "What technologies and skills do you know?",
+    question: 'What technologies and skills do you know?',
   },
   {
-    tag: "Projects",
+    tag: 'Projects',
     icon: FolderKanban,
-    question: "What projects have you worked on?",
+    question: 'What projects have you worked on?',
   },
   {
-    tag: "Experience",
+    tag: 'Experience',
     icon: Briefcase,
-    question: "Tell me about your background and experience",
+    question: 'Tell me about your background and experience',
   },
   {
-    tag: "Education",
+    tag: 'Education',
     icon: GraduationCap,
-    question: "Tell me about your education",
+    question: 'Tell me about your education',
   },
-  { tag: "Contact", icon: Mail, question: "How can I contact you?" },
+  { tag: 'Contact', icon: Mail, question: 'How can I contact you?' },
   {
-    tag: "Interests",
+    tag: 'Interests',
     icon: Heart,
-    question: "What are your interests and hobbies?",
+    question: 'What are your interests and hobbies?',
   },
   {
-    tag: "GitHub",
+    tag: 'GitHub',
     icon: Github,
-    question: "What projects are on your GitHub?",
+    question: 'What projects are on your GitHub?',
   },
-  { tag: "Location", icon: MapPin, question: "Where are you based?" },
+  { tag: 'Location', icon: MapPin, question: 'Where are you based?' },
   {
-    tag: "Career Goals",
+    tag: 'Career Goals',
     icon: Briefcase,
-    question: "What are your career goals?",
+    question: 'What are your career goals?',
   },
   {
-    tag: "Strengths",
+    tag: 'Strengths',
     icon: Heart,
-    question: "What are your strengths as a developer?",
+    question: 'What are your strengths as a developer?',
   },
   {
-    tag: "Achievements",
+    tag: 'Achievements',
     icon: GraduationCap,
-    question: "What are your recent achievements?",
+    question: 'What are your recent achievements?',
   },
   // Commented out - not mentioned in Me.txt
   // { tag: 'Favorite Tech', icon: Code, question: 'What is your favorite technology or tool to use?' },
   // { tag: 'Open Source', icon: Github, question: 'What is your involvement in open source?' },
   // New questions based on Me.txt content
   {
-    tag: "Cemeterease",
+    tag: 'Cemeterease',
     icon: MapIcon,
-    question: "Tell me about the Cemeterease project",
+    question: 'Tell me about the Cemeterease project',
   },
   {
-    tag: "ICITE 2025",
+    tag: 'ICITE 2025',
     icon: Presentation,
-    question: "Tell me about your ICITE 2025 conference presentation",
+    question: 'Tell me about your ICITE 2025 conference presentation',
   },
   {
-    tag: "GIS Systems",
+    tag: 'GIS Systems',
     icon: MapIcon,
-    question: "What experience do you have with GIS and map-based systems?",
+    question: 'What experience do you have with GIS and map-based systems?',
   },
   {
-    tag: "Work Values",
+    tag: 'Work Values',
     icon: Heart,
-    question: "What are your work values and principles?",
+    question: 'What are your work values and principles?',
   },
   {
-    tag: "Learning Focus",
+    tag: 'Learning Focus',
     icon: BookOpen,
-    question: "What are you currently learning or focusing on?",
+    question: 'What are you currently learning or focusing on?',
   },
   {
-    tag: "Collaboration",
+    tag: 'Collaboration',
     icon: Users,
-    question: "How do you prefer to collaborate with teams?",
+    question: 'How do you prefer to collaborate with teams?',
   },
   {
-    tag: "Availability",
+    tag: 'Availability',
     icon: BriefcaseBusiness,
-    question: "What opportunities are you open to?",
+    question: 'What opportunities are you open to?',
   },
   {
-    tag: "Research Paper",
+    tag: 'Research Paper',
     icon: Presentation,
-    question: "Tell me about your research paper presentation",
+    question: 'Tell me about your research paper presentation',
   },
   {
-    tag: "Finisterre",
+    tag: 'Finisterre',
     icon: FolderKanban,
-    question: "Tell me about the Finisterre Gardenz project",
+    question: 'Tell me about the Finisterre Gardenz project',
   },
   {
-    tag: "Web Design Win",
+    tag: 'Web Design Win',
     icon: Award,
-    question: "Tell me about your web designing competition win",
+    question: 'Tell me about your web designing competition win',
   },
   {
-    tag: "Industry Interests",
+    tag: 'Industry Interests',
     icon: Target,
-    question: "What areas of technology interest you most?",
+    question: 'What areas of technology interest you most?',
   },
-];
+]

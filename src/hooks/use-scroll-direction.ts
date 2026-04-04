@@ -1,41 +1,34 @@
-import { useEffect, useRef, useState } from "react";
-import { MINI_MODE_THRESHOLD } from "@/pages/header/constants";
+import { useEffect, useRef, useState } from 'react'
+import { MINI_MODE_THRESHOLD } from '@/pages/header/constants'
 
-export const useScrollDirection = (
-  isMobile: boolean,
-  isChatbotOpen: boolean
-) => {
-  const [isMini, setIsMini] = useState(false);
-  const lastScrollTop = useRef(0);
+export const useScrollDirection = (isMobile: boolean, isChatbotOpen: boolean) => {
+  const [isMini, setIsMini] = useState(false)
+  const lastScrollTop = useRef(0)
 
   useEffect(() => {
     if (isMobile) {
-      setIsMini(false);
+      setIsMini(false)
     }
-  }, [isMobile]);
+  }, [isMobile])
 
   useEffect(() => {
     const handleScroll = () => {
-      const currentScroll =
-        window.pageYOffset || document.documentElement.scrollTop;
+      const currentScroll = window.pageYOffset || document.documentElement.scrollTop
 
       if (!isChatbotOpen) {
-        if (
-          currentScroll > lastScrollTop.current &&
-          currentScroll > MINI_MODE_THRESHOLD
-        ) {
-          setIsMini(true);
+        if (currentScroll > lastScrollTop.current && currentScroll > MINI_MODE_THRESHOLD) {
+          setIsMini(true)
         } else if (currentScroll < lastScrollTop.current) {
-          setIsMini(false);
+          setIsMini(false)
         }
       }
 
-      lastScrollTop.current = currentScroll <= 0 ? 0 : currentScroll;
-    };
+      lastScrollTop.current = currentScroll <= 0 ? 0 : currentScroll
+    }
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [isChatbotOpen]);
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [isChatbotOpen])
 
-  return isMini;
-};
+  return isMini
+}

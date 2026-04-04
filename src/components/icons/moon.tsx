@@ -1,25 +1,18 @@
-import type { SVGMotionProps, Transition, Variants } from "motion/react";
-import { motion, useAnimation } from "motion/react";
-import {
-  forwardRef,
-  type MouseEventHandler,
-  useCallback,
-  useImperativeHandle,
-  useRef,
-} from "react";
+import type { SVGMotionProps, Transition, Variants } from 'motion/react'
+import { motion, useAnimation } from 'motion/react'
+import { forwardRef, type MouseEventHandler, useCallback, useImperativeHandle, useRef } from 'react'
 
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils'
 
 export interface MoonIconHandle {
-  startAnimation: () => void;
-  stopAnimation: () => void;
+  startAnimation: () => void
+  stopAnimation: () => void
 }
 
-interface MoonIconProps
-  extends Omit<SVGMotionProps<SVGSVGElement>, "onMouseEnter" | "onMouseLeave"> {
-  onMouseEnter?: MouseEventHandler<SVGSVGElement>;
-  onMouseLeave?: MouseEventHandler<SVGSVGElement>;
-  size?: number;
+interface MoonIconProps extends Omit<SVGMotionProps<SVGSVGElement>, 'onMouseEnter' | 'onMouseLeave'> {
+  onMouseEnter?: MouseEventHandler<SVGSVGElement>
+  onMouseLeave?: MouseEventHandler<SVGSVGElement>
+  size?: number
 }
 
 const SVG_VARIANTS: Variants = {
@@ -29,48 +22,48 @@ const SVG_VARIANTS: Variants = {
   animate: {
     rotate: [0, -10, 10, -5, 5, 0],
   },
-};
+}
 
 const SVG_TRANSITION: Transition = {
   duration: 1.2,
-  ease: "easeInOut",
-};
+  ease: 'easeInOut',
+}
 
 const MoonIcon = forwardRef<MoonIconHandle, MoonIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
-    const controls = useAnimation();
-    const isControlledRef = useRef(false);
+    const controls = useAnimation()
+    const isControlledRef = useRef(false)
 
     useImperativeHandle(ref, () => {
-      isControlledRef.current = true;
+      isControlledRef.current = true
 
       return {
-        startAnimation: () => controls.start("animate"),
-        stopAnimation: () => controls.start("normal"),
-      };
-    });
+        startAnimation: () => controls.start('animate'),
+        stopAnimation: () => controls.start('normal'),
+      }
+    })
 
     const handleMouseEnter = useCallback(
       (e: React.MouseEvent<SVGSVGElement>) => {
         if (isControlledRef.current) {
-          onMouseEnter?.(e);
+          onMouseEnter?.(e)
         } else {
-          controls.start("animate");
+          controls.start('animate')
         }
       },
-      [controls, onMouseEnter]
-    );
+      [controls, onMouseEnter],
+    )
 
     const handleMouseLeave = useCallback(
       (e: React.MouseEvent<SVGSVGElement>) => {
         if (isControlledRef.current) {
-          onMouseLeave?.(e);
+          onMouseLeave?.(e)
         } else {
-          controls.start("normal");
+          controls.start('normal')
         }
       },
-      [controls, onMouseLeave]
-    );
+      [controls, onMouseLeave],
+    )
     return (
       <motion.svg
         animate={controls}
@@ -93,10 +86,10 @@ const MoonIcon = forwardRef<MoonIconHandle, MoonIconProps>(
         <title>Dark mode</title>
         <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
       </motion.svg>
-    );
-  }
-);
+    )
+  },
+)
 
-MoonIcon.displayName = "MoonIcon";
+MoonIcon.displayName = 'MoonIcon'
 
-export { MoonIcon };
+export { MoonIcon }

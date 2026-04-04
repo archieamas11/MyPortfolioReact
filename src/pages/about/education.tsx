@@ -1,16 +1,16 @@
-import { motion } from "framer-motion";
-import { Badge } from "@/components/ui/badge";
-import { EducationData } from "./data/education";
+import { motion } from 'framer-motion'
+import { Badge } from '@/components/ui/badge'
+import { EducationData } from './data/education'
 
 export default function EducationPage() {
   return (
     <section className="w-full px-4 py-16" id="education">
       <div className="relative mx-auto">
         {/* Desktop Horizontal Line */}
-        <div className="absolute top-2 left-0 hidden h-0.5 w-full -translate-y-1/2 bg-border md:block" />
+        <div className="bg-border absolute top-2 left-0 hidden h-0.5 w-full -translate-y-1/2 md:block" />
 
         {/* Mobile Vertical Line */}
-        <div className="absolute top-0 left-2 h-full w-0.5 -translate-x-1/2 bg-border md:hidden" />
+        <div className="bg-border absolute top-0 left-2 h-full w-0.5 -translate-x-1/2 md:hidden" />
 
         <div className="grid grid-cols-1 gap-8 md:grid-cols-4 md:gap-10">
           {EducationData.map((item, index) => (
@@ -23,27 +23,22 @@ export default function EducationPage() {
               whileInView={{ opacity: 1, y: 0 }}
             >
               {/* Dot Marker */}
-              <div className="absolute top-0 left-0 z-10 flex h-4 w-4 items-center justify-center rounded-full bg-background ring-2 ring-accent md:top-0 md:left-0">
-                <div className="h-2 w-2 rounded-full bg-accent" />
+              <div className="bg-background ring-accent absolute top-0 left-0 z-10 flex h-4 w-4 items-center justify-center rounded-full ring-2 md:top-0 md:left-0">
+                <div className="bg-accent h-2 w-2 rounded-full" />
               </div>
 
               {/* Content */}
               <div className="flex flex-col gap-3 pt-1 md:pt-8">
                 <div className="flex items-center gap-2">
-                  <Badge
-                    className="w-fit gap-2 px-3 py-1 font-medium text-sm"
-                    variant="outline"
-                  >
-                    <span className="text-muted-foreground">
-                      0{EducationData.length - index}
-                    </span>
+                  <Badge className="w-fit gap-2 px-3 py-1 text-sm font-medium" variant="outline">
+                    <span className="text-muted-foreground">0{EducationData.length - index}</span>
                     <span>{item.level}</span>
                   </Badge>
                 </div>
 
                 <div className="flex flex-col gap-3">
                   <div className="flex items-start gap-3">
-                    <div className="h-10 w-10 shrink-0 overflow-hidden rounded-full border bg-muted">
+                    <div className="bg-muted h-10 w-10 shrink-0 overflow-hidden rounded-full border">
                       <img
                         alt={item.level}
                         className="h-full w-full object-cover"
@@ -54,13 +49,9 @@ export default function EducationPage() {
                         width={40}
                       />
                     </div>
-                    <div className="min-w-0 flex-1 space-y-1 text-muted-foreground text-sm">
-                      <div className="font-medium text-foreground leading-tight">
-                        {item.school}
-                      </div>
-                      <div className="text-muted-foreground text-xs leading-relaxed">
-                        {item.degree}
-                      </div>
+                    <div className="text-muted-foreground min-w-0 flex-1 space-y-1 text-sm">
+                      <div className="text-foreground leading-tight font-medium">{item.school}</div>
+                      <div className="text-muted-foreground text-xs leading-relaxed">{item.degree}</div>
                     </div>
                   </div>
                 </div>
@@ -70,5 +61,5 @@ export default function EducationPage() {
         </div>
       </div>
     </section>
-  );
+  )
 }

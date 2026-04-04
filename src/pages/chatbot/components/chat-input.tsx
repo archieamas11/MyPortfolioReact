@@ -1,20 +1,20 @@
-import { IconPlayerStopFilled } from "@tabler/icons-react";
-import { ArrowUpIcon } from "lucide-react";
-import type React from "react";
-import { useCallback, useRef, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Elasticity } from "@/components/ui/elasticity/elasticity";
-import { Textarea } from "@/components/ui/textarea";
-import { cn } from "@/lib/utils";
+import { IconPlayerStopFilled } from '@tabler/icons-react'
+import { ArrowUpIcon } from 'lucide-react'
+import type React from 'react'
+import { useCallback, useRef, useState } from 'react'
+import { Button } from '@/components/ui/button'
+import { Elasticity } from '@/components/ui/elasticity/elasticity'
+import { Textarea } from '@/components/ui/textarea'
+import { cn } from '@/lib/utils'
 
 interface RagInputProps {
-  disabled?: boolean;
-  isLoading: boolean;
-  isRateLimited: boolean;
-  onCancel: () => void;
-  onChange: (value: string) => void;
-  onSubmit: () => void;
-  value: string;
+  disabled?: boolean
+  isLoading: boolean
+  isRateLimited: boolean
+  onCancel: () => void
+  onChange: (value: string) => void
+  onSubmit: () => void
+  value: string
 }
 
 export default function ChatInput({
@@ -28,67 +28,67 @@ export default function ChatInput({
 }: RagInputProps) {
   const preventDefault = useCallback((): void => {
     // Synthetic form event shim for shared submit handler.
-  }, []);
+  }, [])
 
-  const [isExpanded, setIsExpanded] = useState(false);
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const [isExpanded, setIsExpanded] = useState(false)
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
 
   const handleTextareaChange = useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-      const newValue = e.target.value;
-      onChange(newValue);
+      const newValue = e.target.value
+      onChange(newValue)
 
       if (textareaRef.current) {
-        textareaRef.current.style.height = "auto";
-        textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+        textareaRef.current.style.height = 'auto'
+        textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`
       }
 
-      setIsExpanded(newValue.length > 50 || newValue.includes("\n"));
+      setIsExpanded(newValue.length > 50 || newValue.includes('\n'))
     },
-    [onChange]
-  );
+    [onChange],
+  )
 
   const resetHeight = useCallback(() => {
     if (textareaRef.current) {
-      textareaRef.current.style.height = "auto";
+      textareaRef.current.style.height = 'auto'
     }
-    setIsExpanded(false);
-  }, []);
+    setIsExpanded(false)
+  }, [])
 
   const handleSubmit = useCallback(
     (e: React.FormEvent) => {
-      e.preventDefault();
+      e.preventDefault()
 
       if (value.trim() && !isRateLimited && !disabled) {
-        onSubmit();
-        resetHeight();
+        onSubmit()
+        resetHeight()
       }
     },
-    [value, onSubmit, isRateLimited, disabled, resetHeight]
-  );
+    [value, onSubmit, isRateLimited, disabled, resetHeight],
+  )
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
-      if (e.key === "Enter" && !e.shiftKey) {
-        e.preventDefault();
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault()
         if (isLoading) {
-          onCancel();
+          onCancel()
         } else if (value.trim() && !isRateLimited && !disabled) {
-          onSubmit();
-          resetHeight();
+          onSubmit()
+          resetHeight()
         }
       }
     },
-    [value, onSubmit, onCancel, isLoading, isRateLimited, disabled, resetHeight]
-  );
+    [value, onSubmit, onCancel, isLoading, isRateLimited, disabled, resetHeight],
+  )
 
   const handleButtonClick = useCallback(() => {
     if (isLoading) {
-      onCancel();
+      onCancel()
     } else {
-      handleSubmit({ preventDefault } as React.FormEvent);
+      handleSubmit({ preventDefault } as React.FormEvent)
     }
-  }, [isLoading, onCancel, handleSubmit, preventDefault]);
+  }, [isLoading, onCancel, handleSubmit, preventDefault])
 
   return (
     <>
@@ -96,14 +96,12 @@ export default function ChatInput({
         <form className="group/composer w-full" onSubmit={handleSubmit}>
           <div
             className={cn(
-              "glass-effect mx-auto max-h-35 w-full max-w-2xl cursor-text overflow-clip border border-border bg-background/50 bg-clip-padding p-1 shadow-lg transition-all duration-200 hover:shadow-xl md:p-2 dark:bg-muted/50",
+              'glass-effect border-border bg-background/50 dark:bg-muted/50 mx-auto max-h-35 w-full max-w-2xl cursor-text overflow-clip border bg-clip-padding p-1 shadow-lg transition-all duration-200 hover:shadow-xl md:p-2',
               {
-                "grid grid-cols-1 grid-rows-[auto_1fr_auto] rounded-lg":
-                  isExpanded,
-                "grid grid-cols-[auto_1fr_auto] grid-rows-[auto_1fr_auto] rounded-lg":
-                  !isExpanded,
-                "opacity-50": isRateLimited,
-              }
+                'grid grid-cols-1 grid-rows-[auto_1fr_auto] rounded-lg': isExpanded,
+                'grid grid-cols-[auto_1fr_auto] grid-rows-[auto_1fr_auto] rounded-lg': !isExpanded,
+                'opacity-50': isRateLimited,
+              },
             )}
             style={{
               gridTemplateAreas: isExpanded
@@ -112,27 +110,22 @@ export default function ChatInput({
             }}
           >
             <div
-              className={cn(
-                "flex min-h-14 items-center overflow-x-hidden px-1.5",
-                {
-                  "mb-0 px-2 py-1": isExpanded,
-                  "-my-2.5": !isExpanded,
-                }
-              )}
-              style={{ gridArea: "primary" }}
+              className={cn('flex min-h-14 items-center overflow-x-hidden px-1.5', {
+                'mb-0 px-2 py-1': isExpanded,
+                '-my-2.5': !isExpanded,
+              })}
+              style={{ gridArea: 'primary' }}
             >
               <div className="max-h-52 flex-1 overflow-auto">
                 <Textarea
                   aria-label="Chat message input"
-                  className="scrollbar-thin min-h-0 resize-none rounded-none border-0 p-0 text-sm placeholder:text-muted-foreground focus-visible:ring-0 focus-visible:ring-offset-0 md:text-md lg:text-base dark:bg-transparent"
+                  className="scrollbar-thin placeholder:text-muted-foreground md:text-md min-h-0 resize-none rounded-none border-0 p-0 text-sm focus-visible:ring-0 focus-visible:ring-offset-0 lg:text-base dark:bg-transparent"
                   disabled={isRateLimited || disabled}
                   maxLength={2000}
                   onChange={handleTextareaChange}
                   onKeyDown={handleKeyDown}
                   placeholder={
-                    isRateLimited
-                      ? "Please wait before sending another message..."
-                      : "Ask anything"
+                    isRateLimited ? 'Please wait before sending another message...' : 'Ask anything'
                   }
                   ref={textareaRef}
                   rows={1}
@@ -143,17 +136,14 @@ export default function ChatInput({
             <Elasticity className="rounded-full">
               <div
                 className="flex items-center gap-2"
-                style={{ gridArea: isExpanded ? "footer" : "trailing" }}
+                style={{ gridArea: isExpanded ? 'footer' : 'trailing' }}
               >
                 <div className="ms-auto flex items-center gap-1.5">
                   {(value.trim() || isLoading) && (
                     <Button
-                      aria-label={isLoading ? "Cancel message" : "Send message"}
-                      className="glass-effect h-9 w-9 rounded-full bg-accent/40 text-primary shadow-md transition-all duration-200 hover:scale-105 hover:bg-accent/50 hover:shadow-lg active:scale-95"
-                      disabled={
-                        !isLoading &&
-                        (isRateLimited || !value.trim() || disabled)
-                      }
+                      aria-label={isLoading ? 'Cancel message' : 'Send message'}
+                      className="glass-effect bg-accent/40 text-primary hover:bg-accent/50 h-9 w-9 rounded-full shadow-md transition-all duration-200 hover:scale-105 hover:shadow-lg active:scale-95"
+                      disabled={!isLoading && (isRateLimited || !value.trim() || disabled)}
                       onClick={handleButtonClick}
                       size="icon"
                       type="button"
@@ -172,13 +162,10 @@ export default function ChatInput({
         </form>
       </div>
       {isRateLimited && (
-        <p
-          className="mt-2 text-center text-muted-foreground text-xs"
-          role="alert"
-        >
+        <p className="text-muted-foreground mt-2 text-center text-xs" role="alert">
           Rate limited. Please wait before sending another message.
         </p>
       )}
     </>
-  );
+  )
 }

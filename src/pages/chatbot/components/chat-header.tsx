@@ -1,16 +1,16 @@
-import { TrashIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { CardHeader, CardTitle } from "@/components/ui/card";
+import { TrashIcon } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { CardHeader, CardTitle } from '@/components/ui/card'
 
 interface ChatHeaderProps {
-  isLoading: boolean;
-  onClear: () => void;
+  isLoading: boolean
+  onClear: () => void
 }
 
 export function ChatHeader({ onClear, isLoading }: ChatHeaderProps) {
   return (
     <CardHeader className="flex flex-row items-center justify-between px-4 py-3 sm:px-6">
-      <CardTitle className="flex items-center gap-2 font-semibold text-base text-foreground">
+      <CardTitle className="text-foreground flex items-center gap-2 text-base font-semibold">
         Portfolio Chatbot
       </CardTitle>
       <Button
@@ -23,5 +23,5 @@ export function ChatHeader({ onClear, isLoading }: ChatHeaderProps) {
         <TrashIcon className="h-4 w-4" />
       </Button>
     </CardHeader>
-  );
+  )
 }
