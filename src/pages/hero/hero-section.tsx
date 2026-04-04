@@ -1,6 +1,6 @@
 import { domAnimation, LazyMotion, m, useReducedMotion } from "framer-motion";
 import { Contact, FileUser } from "lucide-react";
-import { lazy, Suspense, useMemo } from "react";
+import { lazy, Suspense, useEffect, useMemo, useState } from "react";
 import Coin3D from "@/components/3d-logo";
 import { AccentColorSelector } from "@/components/accent-color-selector";
 import { Button } from "@/components/ui/button";
@@ -17,7 +17,6 @@ import "@/components/ui/style/glass-animation.css";
 import { useTheme } from "next-themes";
 
 const Snowfall = lazy(() => import("react-snowfall"));
-const coinSize = 350;
 
 export default function HeroSection() {
 	const isMobile = useIsMobile();
@@ -27,6 +26,33 @@ export default function HeroSection() {
 	const showSnowfall = useMemo(() => isHolidaySeason(), []);
 	const shouldAnimate = !(isMobile || shouldReduceMotion);
 	const shouldRenderSnowfall = showSnowfall && shouldAnimate;
+
+	const [coin3dSize, setCoin3dSize] = useState(420);
+	const [isScrolled, setIsScrolled] = useState(false);
+
+	useEffect(() => {
+		const SMALL_MOBILE_MAX_WIDTH = 640;
+		const syncFromScroll = () => {
+			const isSmallScreen = window.innerWidth < SMALL_MOBILE_MAX_WIDTH;
+			if (!isSmallScreen) {
+				setIsScrolled(false);
+				setCoin3dSize(420);
+				return;
+			}
+			const scrollY = window.scrollY || document.documentElement.scrollTop;
+			const scrolled = scrollY > 0;
+			setIsScrolled(scrolled);
+			setCoin3dSize(scrolled ? 100 : 420);
+		};
+
+		syncFromScroll();
+		window.addEventListener("scroll", syncFromScroll, { passive: true });
+		window.addEventListener("resize", syncFromScroll, { passive: true });
+		return () => {
+			window.removeEventListener("scroll", syncFromScroll);
+			window.removeEventListener("resize", syncFromScroll);
+		};
+	}, []);
 
 	const snowfallConfig = useMemo(
 		() => ({
@@ -82,12 +108,18 @@ export default function HeroSection() {
 						</Elasticity>
 
 						{/* Logo  */}
-						<div className="absolute left-1/2 -translate-x-1/2 -top-45">
+						<div
+							className={cn(
+								isScrolled && "fixed top-2 left-2 z-50 translate-none",
+								!isScrolled &&
+									"absolute left-1/2 -translate-x-1/2 -top-53",
+							)}
+						>
 							<Coin3D
 								enableIntro={shouldAnimate}
 								isMobile={isMobile}
 								logoSrc="/images/aaa-white.avif"
-								size={coinSize}
+								size={coin3dSize}
 							/>
 						</div>
 

@@ -1,14 +1,10 @@
 import { ContactShadows, Environment, useTexture } from '@react-three/drei'
 import { Canvas, type RootState, useFrame } from '@react-three/fiber'
-import React, { useEffect, useRef } from 'react'
+import { type FC, type RefObject, useEffect, useRef, useState } from 'react'
 import * as THREE from 'three'
 
-// Must match SCROLL_THRESHOLD in hero-section.tsx — the scroll distance (px)
-// at which the logo animation fully completes and reaches the top-right corner.
-const CORNER_SCROLL_THRESHOLD = 250
-// Must match the CSS sm: breakpoint used for the logo scroll animation.
 const SMALL_MOBILE_MAX_WIDTH = 640
-const COIN_RADIUS = 1.2
+const COIN_RADIUS = 1
 
 interface Coin3DProps {
   enableIntro?: boolean
@@ -48,11 +44,8 @@ function updateMeshRotation(
 ) {
   if (isMobile) {
     mesh.rotation.x = baseRotationX
-    // Scroll-driven Y rotation only on small screens (< 640px) and only once
-    // the logo has fully transitioned to the top-right corner.
     const isSmallScreen = window.innerWidth < SMALL_MOBILE_MAX_WIDTH
-    const isInCorner = window.scrollY >= CORNER_SCROLL_THRESHOLD
-    mesh.rotation.y = isSmallScreen && isInCorner ? baseRotationY + window.scrollY * 0.01 : baseRotationY
+    mesh.rotation.y = isSmallScreen ? baseRotationY + window.scrollY * 0.01 : baseRotationY
     return
   }
 
@@ -70,9 +63,9 @@ function updateMeshRotation(
 }
 
 function useIntroAnimation(
-  meshRef: React.RefObject<THREE.Group | null>,
+  meshRef: RefObject<THREE.Group | null>,
   { enableIntro, isMobile }: { enableIntro: boolean; isMobile: boolean },
-  isHoveredRef: React.RefObject<boolean>,
+  isHoveredRef: RefObject<boolean>,
 ) {
   const introStartTimeRef = useRef<number | null>(null)
   const introDuration = isMobile ? 0.75 : 1.05
@@ -113,7 +106,7 @@ function useIntroAnimation(
   })
 }
 
-const CoinModel: React.FC<CoinModelProps> = ({ logoSrc, isMobile, accentColor, enableIntro }) => {
+const CoinModel: FC<CoinModelProps> = ({ logoSrc, isMobile, accentColor, enableIntro }) => {
   const meshRef = useRef<THREE.Group>(null)
   const isHoveredRef = useRef(false)
   const texture = useTexture(logoSrc, (tex) => {
@@ -221,7 +214,7 @@ const CoinModel: React.FC<CoinModelProps> = ({ logoSrc, isMobile, accentColor, e
   )
 }
 
-const CoinScene: React.FC<{
+const CoinScene: FC<{
   logoSrc: string
   isMobile: boolean
   accentColor: THREE.Color
@@ -255,13 +248,13 @@ const CoinScene: React.FC<{
   )
 }
 
-const Coin3D: React.FC<Omit<Coin3DProps, 'accentColor'>> = ({
+const Coin3D: FC<Coin3DProps> = ({
   isMobile,
   logoSrc,
   size,
   enableIntro = true,
 }) => {
-  const [threeColor, setThreeColor] = React.useState(() => new THREE.Color('#f43f5e'))
+  const [threeColor, setThreeColor] = useState(() => new THREE.Color('#f43f5e'))
 
   useEffect(() => {
     const saved = localStorage.getItem('accent-color')
