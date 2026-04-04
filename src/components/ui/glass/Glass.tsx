@@ -33,7 +33,7 @@ const Glass = forwardRef(function GlassInner<T extends ElementType = 'div'>(
   // biome-ignore lint/suspicious/noExplicitAny: false positive
   ref: React.ForwardedRef<any>,
 ) {
-  const Component = (as || 'div') as ElementType
+  const tag = as || 'div'
   const [isAnimating, setIsAnimating] = useState(false)
   const [ripplePosition, setRipplePosition] = useState({ x: 0, y: 0 })
   const containerRef = useRef<HTMLDivElement>(null)
@@ -84,9 +84,13 @@ const Glass = forwardRef(function GlassInner<T extends ElementType = 'div'>(
         />
       )}
 
-      <Component {...props} className={cn('glassContent', className)} onClick={handleClick} ref={ref}>
-        {children}
-      </Component>
+      {React.createElement(tag, {
+        ...props,
+        className: cn('glassContent', className),
+        onClick: handleClick,
+        ref,
+        children,
+      })}
     </div>
   )
 }) as <T extends ElementType = 'div'>(

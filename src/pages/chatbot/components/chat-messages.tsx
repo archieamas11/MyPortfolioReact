@@ -10,7 +10,7 @@ interface ChatMessagesProps {
 }
 
 export function ChatMessages({ messages, scrollAreaRef }: ChatMessagesProps) {
-  useAutoScroll(scrollAreaRef, messages)
+  useAutoScroll(scrollAreaRef)
 
   return (
     <div className="h-full w-full" ref={scrollAreaRef}>
