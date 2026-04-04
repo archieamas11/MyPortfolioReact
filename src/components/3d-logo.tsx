@@ -1,6 +1,6 @@
 import { ContactShadows, Environment, useTexture } from "@react-three/drei";
-import { Canvas, useFrame } from "@react-three/fiber";
-import React, { Suspense, useEffect, useRef } from "react";
+import { Canvas, type RootState, useFrame } from "@react-three/fiber";
+import React, { useEffect, useRef } from "react";
 import * as THREE from "three";
 
 interface Coin3DProps {
@@ -17,12 +17,63 @@ interface CoinModelProps {
   logoSrc: string;
 }
 
+function calculateIntroProgress(
+  elapsedTime: number,
+  startTime: number,
+  duration: number,
+  enableIntro: boolean
+) {
+  if (!enableIntro) {
+    return 1;
+  }
+  return THREE.MathUtils.clamp((elapsedTime - startTime) / duration, 0, 1);
+}
+
+function updateMeshRotation(
+  mesh: THREE.Group,
+  state: RootState,
+  isHovered: boolean,
+  isMobile: boolean,
+  introProgress: number,
+  baseRotationX: number,
+  baseRotationY: number,
+  targetRotation: { x: number; y: number }
+) {
+  if (isMobile) {
+    mesh.rotation.x = baseRotationX;
+    mesh.rotation.y = baseRotationY + window.scrollY * 0.01;
+    return;
+  }
+
+  if (introProgress < 1) {
+    mesh.rotation.x = baseRotationX;
+    mesh.rotation.y = baseRotationY;
+    return;
+  }
+
+  targetRotation.x = isHovered ? -(state.pointer.y * Math.PI) / 32 : 0;
+  targetRotation.y = isHovered ? (state.pointer.x * Math.PI) / 32 : 0;
+
+  mesh.rotation.x = THREE.MathUtils.lerp(
+    mesh.rotation.x,
+    targetRotation.x,
+    0.1
+  );
+  mesh.rotation.y = THREE.MathUtils.lerp(
+    mesh.rotation.y,
+    targetRotation.y,
+    0.1
+  );
+}
+
 function useIntroAnimation(
-  meshRef: React.RefObject<THREE.Group>,
-  { enableIntro, isMobile }: { enableIntro: boolean; isMobile: boolean }
+  meshRef: React.RefObject<THREE.Group | null>,
+  { enableIntro, isMobile }: { enableIntro: boolean; isMobile: boolean },
+  isHoveredRef: React.RefObject<boolean>
 ) {
   const introStartTimeRef = useRef<number | null>(null);
   const introDuration = isMobile ? 0.75 : 1.05;
+  const targetRotation = useRef({ x: 0, y: 0 });
 
   useFrame((state) => {
     const mesh = meshRef.current;
@@ -30,25 +81,30 @@ function useIntroAnimation(
       return;
     }
 
-    if (introStartTimeRef.current === null) {
-      introStartTimeRef.current = state.clock.elapsedTime;
-    }
+    introStartTimeRef.current ??= state.clock.elapsedTime;
 
-    const introElapsed = state.clock.elapsedTime - introStartTimeRef.current;
-    const introProgress = enableIntro
-      ? Math.min(Math.max(introElapsed / introDuration, 0), 1)
-      : 1;
+    const introProgress = calculateIntroProgress(
+      state.clock.elapsedTime,
+      introStartTimeRef.current,
+      introDuration,
+      enableIntro
+    );
+
     const easedIntro = 1 - (1 - introProgress) ** 3;
+    const baseRotationX = enableIntro ? (1 - easedIntro) * -0.35 : 0;
+    const baseRotationY = enableIntro ? (1 - easedIntro) * Math.PI * 1.1 : 0;
 
-    let rotationY = enableIntro ? (1 - easedIntro) * Math.PI * 1.1 : 0;
+    updateMeshRotation(
+      mesh,
+      state,
+      isHoveredRef.current,
+      isMobile,
+      introProgress,
+      baseRotationX,
+      baseRotationY,
+      targetRotation.current
+    );
 
-    if (isMobile) {
-      const scrollY = window.scrollY;
-      rotationY += scrollY * 0.01;
-    }
-
-    mesh.rotation.x = enableIntro ? (1 - easedIntro) * -0.35 : 0;
-    mesh.rotation.y = rotationY;
     mesh.position.y = enableIntro ? (1 - easedIntro) * 0.34 : 0;
     mesh.scale.setScalar(enableIntro ? 0.72 + easedIntro * 0.28 : 1);
   });
@@ -61,18 +117,31 @@ const CoinModel: React.FC<CoinModelProps> = ({
   enableIntro,
 }) => {
   const meshRef = useRef<THREE.Group>(null);
+  const isHoveredRef = useRef(false);
   const texture = useTexture(logoSrc, (tex) => {
     tex.colorSpace = THREE.SRGBColorSpace;
     tex.anisotropy = 16;
   });
 
-  useIntroAnimation(meshRef, { enableIntro, isMobile });
+  useIntroAnimation(meshRef, { enableIntro, isMobile }, isHoveredRef);
 
   const coinRadius = isMobile ? 0.8 : 1.2;
   const coinThickness = 0.105;
 
   return (
-    <group ref={meshRef}>
+    <group
+      onPointerEnter={() => {
+        if (!isMobile) {
+          isHoveredRef.current = true;
+        }
+      }}
+      onPointerLeave={() => {
+        if (!isMobile) {
+          isHoveredRef.current = false;
+        }
+      }}
+      ref={meshRef}
+    >
       {/* MAIN COIN BODY */}
       <mesh rotation={[Math.PI / 2, 0, 0]}>
         <cylinderGeometry args={[coinRadius, coinRadius, coinThickness, 128]} />
@@ -291,22 +360,12 @@ const Coin3D: React.FC<Omit<Coin3DProps, "accentColor">> = ({
           powerPreference: "high-performance",
         }}
       >
-        <Suspense
-          fallback={
-            <Html center>
-              <div className="flex h-full w-full animate-pulse items-center justify-center rounded-full bg-gradient-to-br from-gray-50 to-gray-100">
-                <div className="h-3/4 w-3/4 rounded-full bg-gray-200/50" />
-              </div>
-            </Html>
-          }
-        >
-          <CoinScene
-            accentColor={threeColor}
-            enableIntro={enableIntro}
-            isMobile={isMobile}
-            logoSrc={logoSrc}
-          />
-        </Suspense>
+        <CoinScene
+          accentColor={threeColor}
+          enableIntro={enableIntro}
+          isMobile={isMobile}
+          logoSrc={logoSrc}
+        />
       </Canvas>
     </div>
   );

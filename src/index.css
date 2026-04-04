@@ -461,9 +461,4 @@ html {
   .liquid-blob-vignette {
     opacity: 1;
   }
-
-  .logo-coin {
-    transform: rotateY(0deg);
-    transition: none;
-  }
 }

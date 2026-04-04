@@ -51,8 +51,7 @@ export default function HeroSection() {
             transition={{ duration: shouldAnimate ? 0.5 : 0 }}
           >
             {/* Hero section logo background */}
-            <div className="relative hidden h-65 w-full overflow-hidden rounded-t-3xl bg-effect bg-linear-to-t bg-primary/10 from-accent/15 to-transparent backdrop-blur-2xl sm:block">
-              <div className="glass absolute -top-36 left-1/2 h-75 w-75 -translate-x-1/2 transform rounded-full bg-background" />
+            <div className="relative hidden h-65 w-full overflow-hidden rounded-t-3xl bg-effect bg-linear-to-t bg-primary/10 from-accent/15 to-transparent backdrop-blur-2xl [-webkit-mask-image:radial-gradient(150px_at_50%_0%,transparent_99%,black_100%)] [mask-image:radial-gradient(150px_at_50%_0%,transparent_99%,black_100%)] sm:block">
               {shouldRenderSnowfall && (
                 <Suspense fallback={null}>
                   <Snowfall
