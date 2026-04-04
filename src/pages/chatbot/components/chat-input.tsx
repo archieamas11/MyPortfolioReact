@@ -3,7 +3,7 @@ import { ArrowUpIcon } from 'lucide-react'
 import type React from 'react'
 import { useCallback, useRef, useState } from 'react'
 import { Button } from '@/components/ui/button'
-import { Elasticity } from '@/components/ui/elasticity/elasticity'
+import Elasticity from '@/components/ui/elasticity/elasticity'
 import { Textarea } from '@/components/ui/textarea'
 import { cn } from '@/lib/utils'
 

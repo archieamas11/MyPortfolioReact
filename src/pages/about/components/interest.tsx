@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import { AnimatedTooltip } from '@/components/ui/animated-tooltip'
-import { Elasticity } from '@/components/ui/elasticity/elasticity'
+import Elasticity from '@/components/ui/elasticity/elasticity'
 import { interests } from '../data/interests'
 
 export function InterestItem() {

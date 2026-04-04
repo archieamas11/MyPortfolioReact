@@ -30,7 +30,7 @@ type ElasticityProps = {
     style?: React.CSSProperties
   }
 
-export function Elasticity({
+export default function Elasticity({
   children,
   enabled = true,
   elasticity = 0.15,

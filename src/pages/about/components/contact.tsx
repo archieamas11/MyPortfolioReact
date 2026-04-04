@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import { AnimatedTooltip } from '@/components/ui/animated-tooltip'
-import { Elasticity } from '@/components/ui/elasticity/elasticity'
+import Elasticity from '@/components/ui/elasticity/elasticity'
 import { personalDetails } from '../data/personal-details'
 
 const container = {
@@ -8,7 +8,7 @@ const container = {
   show: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.1,
+      staggerChildren: 0.1,  
       delayChildren: 0.3,
     },
   },

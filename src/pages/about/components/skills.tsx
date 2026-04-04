@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { Elasticity } from '@/components/ui/elasticity/elasticity'
+import Elasticity from '@/components/ui/elasticity/elasticity'
 import { useIsMobile } from '@/hooks/use-mobile'
 import { useSequentialReveal } from '@/hooks/use-sequential-reveal'
 import { cn } from '@/lib/utils'

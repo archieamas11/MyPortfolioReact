@@ -4,7 +4,7 @@ import { lazy, Suspense, useEffect, useMemo, useState } from "react";
 import Coin3D from "@/components/3d-logo";
 import { AccentColorSelector } from "@/components/accent-color-selector";
 import { Button } from "@/components/ui/button";
-import { Elasticity } from "@/components/ui/elasticity/elasticity";
+import Elasticity from "@/components/ui/elasticity/elasticity";
 import {
 	Tooltip,
 	TooltipContent,
