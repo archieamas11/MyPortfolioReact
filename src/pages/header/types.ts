@@ -1,10 +1,15 @@
 export interface NavItem {
-  id: string
-  type?: 'separator'
-  label?: string
-  icon?: React.ComponentType<{ className?: string }>
-  href?: string
-  ariaLabel?: string
+  ariaLabel?: string;
+  href?: string;
+  icon?: React.ComponentType<{ className?: string }>;
+  id: string;
+  label?: string;
+  type?: "separator";
 }
 
-export type SectionId = 'home-nav' | 'about-nav' | 'projects-nav' | 'contact-nav' | 'chatbot-nav'
+export type SectionId =
+  | "home-nav"
+  | "about-nav"
+  | "projects-nav"
+  | "contact-nav"
+  | "chatbot-nav";

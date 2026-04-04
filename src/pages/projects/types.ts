@@ -1,10 +1,10 @@
 export interface Project {
-  title: string
-  description: string
-  detailedDescription?: string
-  tags: string[]
-  website?: string
-  link?: string
-  image?: string
-  platform: 'web' | 'mobile'
+  description: string;
+  detailedDescription?: string;
+  image?: string;
+  link?: string;
+  platform: "web" | "mobile";
+  tags: string[];
+  title: string;
+  website?: string;
 }

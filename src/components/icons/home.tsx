@@ -1,23 +1,31 @@
-import type { Transition, Variants } from 'motion/react'
-import type { HTMLAttributes } from 'react'
-import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react'
-import { motion, useAnimation } from 'motion/react'
+import type { SVGMotionProps, Transition, Variants } from "motion/react";
+import { motion, useAnimation } from "motion/react";
+import {
+  forwardRef,
+  type MouseEventHandler,
+  useCallback,
+  useImperativeHandle,
+  useRef,
+} from "react";
 
-import { cn } from '@/lib/utils'
+import { cn } from "@/lib/utils";
 
 export interface HomeIconHandle {
-  startAnimation: () => void
-  stopAnimation: () => void
+  startAnimation: () => void;
+  stopAnimation: () => void;
 }
 
-interface HomeIconProps extends HTMLAttributes<HTMLDivElement> {
-  size?: number
+interface HomeIconProps
+  extends Omit<SVGMotionProps<SVGSVGElement>, "onMouseEnter" | "onMouseLeave"> {
+  onMouseEnter?: MouseEventHandler<SVGSVGElement>;
+  onMouseLeave?: MouseEventHandler<SVGSVGElement>;
+  size?: number;
 }
 
 const DEFAULT_TRANSITION: Transition = {
   duration: 0.6,
   opacity: { duration: 0.2 },
-}
+};
 
 const PATH_VARIANTS: Variants = {
   normal: {
@@ -28,74 +36,72 @@ const PATH_VARIANTS: Variants = {
     opacity: [0, 1],
     pathLength: [0, 1],
   },
-}
+};
 
 const HomeIcon = forwardRef<HomeIconHandle, HomeIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
-    const controls = useAnimation()
-    const isControlledRef = useRef(false)
+    const controls = useAnimation();
+    const isControlledRef = useRef(false);
 
     useImperativeHandle(ref, () => {
-      isControlledRef.current = true
+      isControlledRef.current = true;
 
       return {
-        startAnimation: () => controls.start('animate'),
-        stopAnimation: () => controls.start('normal'),
-      }
-    })
+        startAnimation: () => controls.start("animate"),
+        stopAnimation: () => controls.start("normal"),
+      };
+    });
 
     const handleMouseEnter = useCallback(
-      (e: React.MouseEvent<HTMLDivElement>) => {
-        if (!isControlledRef.current) {
-          controls.start('animate')
+      (e: React.MouseEvent<SVGSVGElement>) => {
+        if (isControlledRef.current) {
+          onMouseEnter?.(e);
         } else {
-          onMouseEnter?.(e)
+          controls.start("animate");
         }
       },
-      [controls, onMouseEnter],
-    )
+      [controls, onMouseEnter]
+    );
 
     const handleMouseLeave = useCallback(
-      (e: React.MouseEvent<HTMLDivElement>) => {
-        if (!isControlledRef.current) {
-          controls.start('normal')
+      (e: React.MouseEvent<SVGSVGElement>) => {
+        if (isControlledRef.current) {
+          onMouseLeave?.(e);
         } else {
-          onMouseLeave?.(e)
+          controls.start("normal");
         }
       },
-      [controls, onMouseLeave],
-    )
+      [controls, onMouseLeave]
+    );
     return (
-      <div
+      <motion.svg
         className={cn(className)}
+        fill="none"
+        height={size}
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        viewBox="0 0 24 24"
+        width={size}
+        xmlns="http://www.w3.org/2000/svg"
+        {...props}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        {...props}
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width={size}
-          height={size}
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-          <motion.path
-            d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"
-            variants={PATH_VARIANTS}
-            transition={DEFAULT_TRANSITION}
-            animate={controls}
-          />
-        </svg>
-      </div>
-    )
-  },
-)
+        <title>Home</title>
+        <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+        <motion.path
+          animate={controls}
+          d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"
+          transition={DEFAULT_TRANSITION}
+          variants={PATH_VARIANTS}
+        />
+      </motion.svg>
+    );
+  }
+);
 
-HomeIcon.displayName = 'HomeIcon'
+HomeIcon.displayName = "HomeIcon";
 
-export { HomeIcon }
+export { HomeIcon };

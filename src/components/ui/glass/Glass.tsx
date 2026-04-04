@@ -1,24 +1,24 @@
-import './glass.css'
+import "./glass.css";
 import React, {
-  forwardRef,
   type ComponentPropsWithoutRef,
   type ElementType,
+  forwardRef,
   useCallback,
   useRef,
   useState,
-} from 'react'
-import { cn } from '@/lib/utils'
+} from "react";
+import { cn } from "@/lib/utils";
 
-export type GlassProps<T extends ElementType = 'div'> = {
-  as?: T
-  children?: React.ReactNode
-  rootClassName?: string
-  rootStyle?: React.CSSProperties
-  enableLiquidAnimation?: boolean
-  triggerAnimation?: boolean
-} & ComponentPropsWithoutRef<T>
+export type GlassProps<T extends ElementType = "div"> = {
+  as?: T;
+  children?: React.ReactNode;
+  rootClassName?: string;
+  rootStyle?: React.CSSProperties;
+  enableLiquidAnimation?: boolean;
+  triggerAnimation?: boolean;
+} & ComponentPropsWithoutRef<T>;
 
-const Glass = forwardRef(function GlassInner<T extends ElementType = 'div'>(
+const Glass = forwardRef(function GlassInner<T extends ElementType = "div">(
   {
     as,
     children,
@@ -30,67 +30,80 @@ const Glass = forwardRef(function GlassInner<T extends ElementType = 'div'>(
     onClick,
     ...props
   }: GlassProps<T>,
-  ref: React.ForwardedRef<any>,
+  // biome-ignore lint/suspicious/noExplicitAny: false positive
+  ref: React.ForwardedRef<any>
 ) {
-  const Component = (as || 'div') as ElementType
-  const [isAnimating, setIsAnimating] = useState(false)
-  const [ripplePosition, setRipplePosition] = useState({ x: 0, y: 0 })
-  const containerRef = useRef<HTMLDivElement>(null)
+  const Component = (as || "div") as ElementType;
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [ripplePosition, setRipplePosition] = useState({ x: 0, y: 0 });
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const handleClick = useCallback(
+    // biome-ignore lint/suspicious/noExplicitAny: false positive
     (event: React.MouseEvent<any>) => {
       if (enableLiquidAnimation && containerRef.current) {
-        const rect = containerRef.current.getBoundingClientRect()
-        const x = ((event.clientX - rect.left) / rect.width) * 100
-        const y = ((event.clientY - rect.top) / rect.height) * 100
+        const rect = containerRef.current.getBoundingClientRect();
+        const x = ((event.clientX - rect.left) / rect.width) * 100;
+        const y = ((event.clientY - rect.top) / rect.height) * 100;
 
-        setRipplePosition({ x, y })
-        setIsAnimating(true)
-        window.setTimeout(() => setIsAnimating(false), 800)
+        setRipplePosition({ x, y });
+        setIsAnimating(true);
+        window.setTimeout(() => setIsAnimating(false), 800);
       }
 
-      onClick?.(event)
+      onClick?.(event);
     },
-    [enableLiquidAnimation, onClick],
-  )
+    [enableLiquidAnimation, onClick]
+  );
 
   React.useEffect(() => {
-    if (!triggerAnimation) return
+    if (!triggerAnimation) {
+      return;
+    }
 
     // Center the ripple for programmatic triggers
-    setRipplePosition({ x: 50, y: 50 })
-    setIsAnimating(true)
-    const timer = window.setTimeout(() => setIsAnimating(false), 800)
-    return () => clearTimeout(timer)
-  }, [triggerAnimation])
+    setRipplePosition({ x: 50, y: 50 });
+    setIsAnimating(true);
+    const timer = window.setTimeout(() => setIsAnimating(false), 800);
+    return () => clearTimeout(timer);
+  }, [triggerAnimation]);
 
   return (
-    <>
-      <div
-        ref={containerRef}
-        className={cn('glassContainer', rootClassName, isAnimating && 'glassAnimating')}
-        style={rootStyle}
+    <div
+      className={cn(
+        "glassContainer",
+        rootClassName,
+        isAnimating && "glassAnimating"
+      )}
+      ref={containerRef}
+      style={rootStyle}
+    >
+      {isAnimating && (
+        <div
+          className="glassRipple"
+          style={{
+            left: `${ripplePosition.x}%`,
+            top: `${ripplePosition.y}%`,
+          }}
+        />
+      )}
+
+      <Component
+        {...props}
+        className={cn("glassContent", className)}
+        onClick={handleClick}
+        ref={ref}
       >
-        {isAnimating && (
-          <div
-            className="glassRipple"
-            style={{
-              left: `${ripplePosition.x}%`,
-              top: `${ripplePosition.y}%`,
-            }}
-          />
-        )}
+        {children}
+      </Component>
+    </div>
+  );
+}) as <T extends ElementType = "div">(
+  // biome-ignore lint/suspicious/noExplicitAny: false positive
+  props: GlassProps<T> & { ref?: React.ForwardedRef<any> }
+) => React.ReactElement;
 
-        <Component {...props} ref={ref} onClick={handleClick} className={cn('glassContent', className)}>
-          {children}
-        </Component>
-      </div>
-    </>
-  )
-}) as <T extends ElementType = 'div'>(
-  props: GlassProps<T> & { ref?: React.ForwardedRef<any> },
-) => React.ReactElement
+// biome-ignore lint/suspicious/noExplicitAny: false positive
+(Glass as any).displayName = "Glass";
 
-;(Glass as any).displayName = 'Glass'
-
-export default Glass
+export default Glass;

@@ -1,5 +1,5 @@
-@import 'tailwindcss';
-@import 'tw-animate-css';
+@import "tailwindcss";
+@import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -43,7 +43,7 @@
 
 /* Accent interpolation when AccentColorSelector updates --accent */
 @property --accent {
-  syntax: '<color>';
+  syntax: "<color>";
   inherits: true;
   initial-value: #f43f5e;
 }
@@ -86,7 +86,7 @@
 }
 
 .font-oswald {
-  font-family: 'Oswald', sans-serif;
+  font-family: "Oswald", sans-serif;
 }
 
 .dark {
@@ -169,9 +169,9 @@
 }
 
 .wave-emoji {
-  animation: wave 1.6s infinite;
   display: inline-block;
   transform-origin: 70% 70%;
+  animation: wave 1.6s infinite;
 }
 
 /* Hide scrollbar for Chrome, Safari, and Edge */
@@ -204,34 +204,34 @@ html {
 }
 
 #logo {
+  /* --coin-rotation: 0deg; */
   /* background-color: var(--color-primary); */
-  height: 250px;
-  width: 250px;
-  border-radius: 50%;
-  padding: 20px;
   position: absolute;
-  top: 5%;
+  top: 0%;
   left: 50%;
-  transform: translate(-50%, -50%);
   z-index: 100;
+  padding: 0;
+  margin: 0;
+
+  /* background-color: var(--color-primary); */
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
 
   @media screen and (max-width: 640px) {
+    position: fixed;
     top: -1px;
     right: 0;
     left: auto;
-    transform: none;
-    position: fixed;
     width: 100%;
-    height: 40dvh;
-    border-radius: 0 0 20px 20px;
+    transform: none;
 
     &.scrolled {
-      padding: 10px;
+      z-index: 100;
       width: 50px;
       height: 50px;
-      border-radius: 50%;
+      padding: 10px;
       margin: 10px;
-      z-index: 100;
+      border-radius: 50%;
     }
   }
 }
@@ -242,7 +242,8 @@ html {
     inset -3px -3px 0.5px -3px rgba(0, 0, 0, 0.85),
     inset 1px 1px 1px -0.5px rgba(0, 0, 0, 0.6),
     inset -1px -1px 1px -0.5px rgba(0, 0, 0, 0.6),
-    /* inset 0 0 6px 6px rgba(0, 0, 0, 0.12), */ inset 0 0 2px 2px rgba(0, 0, 0, 0.06),
+    /* inset 0 0 6px 6px rgba(0, 0, 0, 0.12), */ inset 0 0 2px 2px
+    rgba(0, 0, 0, 0.06),
     0 0 12px rgba(255, 255, 255, 0.15);
   transition: all 0.3s ease;
 }
@@ -253,7 +254,8 @@ html {
     inset -3px -3px 0.5px -3.5px rgba(255, 255, 255, 0.85),
     inset 1px 1px 1px -0.5px rgba(255, 255, 255, 0.6),
     inset -1px -1px 1px -0.5px rgba(255, 255, 255, 0.6),
-    /* inset 0 0 6px 6px rgba(255, 255, 255, 0.12), */ inset 0 0 2px 2px rgba(255, 255, 255, 0.06),
+    /* inset 0 0 6px 6px rgba(255, 255, 255, 0.12), */ inset 0 0 2px 2px
+    rgba(255, 255, 255, 0.06),
     0 0 12px rgba(0, 0, 0, 0.15);
   transition: all 0.3s ease;
 }
@@ -263,7 +265,8 @@ html {
     inset 3px 3px 0.5px -3px rgba(0, 0, 0, 0.9),
     inset -3px -3px 0.5px -3px rgba(0, 0, 0, 0.85),
     inset 1px 1px 1px -0.5px rgba(0, 0, 0, 0.6),
-    /* inset 0 0 6px 6px rgba(0, 0, 0, 0.12), */ inset 0 0 2px 2px rgba(0, 0, 0, 0.06),
+    /* inset 0 0 6px 6px rgba(0, 0, 0, 0.12), */ inset 0 0 2px 2px
+    rgba(0, 0, 0, 0.06),
     0 0 12px rgba(255, 255, 255, 0.15);
   transition: all 0.3s ease;
 }
@@ -273,7 +276,8 @@ html {
     inset 3px 3px 0.5px -3.5px rgba(255, 255, 255, 0.09),
     inset -3px -3px 0.5px -3.5px rgba(255, 255, 255, 0.85),
     inset 1px 1px 1px -0.5px rgba(255, 255, 255, 0.6),
-    /* inset 0 0 6px 6px rgba(255, 255, 255, 0.12), */ inset 0 0 2px 2px rgba(255, 255, 255, 0.06),
+    /* inset 0 0 6px 6px rgba(255, 255, 255, 0.12), */ inset 0 0 2px 2px
+    rgba(255, 255, 255, 0.06),
     0 0 12px rgba(0, 0, 0, 0.15);
   transition: all 0.3s ease;
 }
@@ -300,8 +304,8 @@ html {
 
 /* Liquid blob background */
 .liquid-blob-stage {
-  isolation: isolate;
   contain: layout style;
+  isolation: isolate;
 }
 
 @keyframes liquid-float-a {
@@ -364,10 +368,10 @@ html {
   z-index: 0;
   width: min(56vw, 42rem);
   height: min(56vw, 42rem);
-  will-change: transform;
+  opacity: 0.45;
   transform: translateZ(0);
   backface-visibility: hidden;
-  opacity: 0.45;
+  will-change: transform;
 }
 
 .dark .liquid-blob {
@@ -385,8 +389,8 @@ html {
 }
 
 .liquid-blob--2 {
-  bottom: -10%;
   right: -14%;
+  bottom: -10%;
   width: min(50vw, 38rem);
   height: min(50vw, 38rem);
   animation: liquid-float-b 32s ease-in-out infinite alternate;
@@ -450,11 +454,16 @@ html {
 
 @media (prefers-reduced-motion: reduce) {
   .liquid-blob {
-    animation: none !important;
     transform: none;
+    animation: none !important;
   }
 
   .liquid-blob-vignette {
     opacity: 1;
+  }
+
+  .logo-coin {
+    transform: rotateY(0deg);
+    transition: none;
   }
 }

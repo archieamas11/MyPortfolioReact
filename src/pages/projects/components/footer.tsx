@@ -1,23 +1,31 @@
-import { Button } from '@/components/ui/button'
-import { Github, Globe } from 'lucide-react'
-import type { Project } from '../types'
-import { cn } from '@/lib/utils'
+import { Github, Globe } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import type { Project } from "../types";
 
 interface ProjectFooterProps {
-  project: Project
-  fullWidth?: boolean
+  fullWidth?: boolean;
+  project: Project;
 }
 
-export default function ProjectFooter({ project, fullWidth = false }: ProjectFooterProps) {
+export default function ProjectFooter({
+  project,
+  fullWidth = false,
+}: ProjectFooterProps) {
   return (
-    <div className={cn('flex gap-2', fullWidth ? 'w-full' : '')}>
+    <div className={cn("flex gap-2", fullWidth ? "w-full" : "")}>
       {project.website && (
-        <Button asChild variant="glass" size="sm" className={cn(fullWidth ? 'flex-1' : '')}>
+        <Button
+          asChild
+          className={cn(fullWidth ? "flex-1" : "")}
+          size="sm"
+          variant="glass"
+        >
           <a
-            href={project.website}
-            target="_blank"
-            rel="noopener noreferrer"
             aria-label={`Open ${project.title} website in a new tab`}
+            href={project.website}
+            rel="noopener noreferrer"
+            target="_blank"
           >
             <Globe className="mr-1 h-4 w-4" />
             Website
@@ -25,12 +33,17 @@ export default function ProjectFooter({ project, fullWidth = false }: ProjectFoo
         </Button>
       )}
       {project.link && (
-        <Button asChild variant="glass" size="sm" className={cn(fullWidth ? 'flex-1' : '')}>
+        <Button
+          asChild
+          className={cn(fullWidth ? "flex-1" : "")}
+          size="sm"
+          variant="glass"
+        >
           <a
-            href={project.link}
-            target="_blank"
-            rel="noopener noreferrer"
             aria-label={`View ${project.title} source code on GitHub`}
+            href={project.link}
+            rel="noopener noreferrer"
+            target="_blank"
           >
             <Github className="mr-1 h-4 w-4" />
             Source
@@ -38,5 +51,5 @@ export default function ProjectFooter({ project, fullWidth = false }: ProjectFoo
         </Button>
       )}
     </div>
-  )
+  );
 }

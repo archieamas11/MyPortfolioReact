@@ -1,22 +1,22 @@
-import { interests } from '../data/interests'
-import { AnimatedTooltip } from '@/components/ui/animated-tooltip'
-import { motion } from 'framer-motion'
-import { Elasticity } from '@/components/ui/elasticity/Elasticity'
+import { motion } from "framer-motion";
+import { AnimatedTooltip } from "@/components/ui/animated-tooltip";
+import { Elasticity } from "@/components/ui/elasticity/elasticity";
+import { interests } from "../data/interests";
 
 export function InterestItem() {
   return (
     <motion.div
       className="col-span-1 w-full space-y-6 lg:space-y-9 lg:text-center"
       initial="hidden"
-      whileInView="show"
       viewport={{ once: true }}
+      whileInView="show"
     >
       <motion.h2
-        className="font-oswald text-3xl font-bold tracking-widest sm:text-4xl md:text-5xl lg:text-6xl"
+        className="font-bold font-oswald text-3xl tracking-widest sm:text-4xl md:text-5xl lg:text-6xl"
         initial={{ opacity: 0, y: -20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
         transition={{ duration: 0.5 }}
+        viewport={{ once: true }}
+        whileInView={{ opacity: 1, y: 0 }}
       >
         INTEREST
       </motion.h2>
@@ -24,27 +24,27 @@ export function InterestItem() {
       <motion.div
         className="grid grid-cols-3 gap-3"
         initial="hidden"
-        whileInView="show"
         viewport={{ once: true }}
+        whileInView="show"
       >
         {interests.map((interest) => (
           <motion.div key={interest.id}>
             <Elasticity
-              enabled={false}
-              withGlassEdgeReflect={true}
-              glassEdgeReflectProps={{ clipContent: false }}
               className="rounded-lg"
+              enabled={false}
+              glassEdgeReflectProps={{ clipContent: false }}
+              withGlassEdgeReflect={true}
             >
               <div className="rounded-lg">
                 <AnimatedTooltip
-                  label={interest.label}
                   className="glass-effect cursor-auto overflow-hidden rounded-lg p-2 text-center shadow-sm transition-all duration-200 hover:bg-white/10 hover:shadow-md sm:p-3"
+                  label={interest.label}
                 >
                   <div className="flex flex-col items-center gap-2 py-2 sm:gap-3 lg:py-0">
-                    <div className="text-primary flex h-8 w-8 items-center justify-center rounded-md transition-colors sm:h-10 sm:w-10 lg:h-12 lg:w-12">
-                      <interest.icon size={20} className="sm:h-6 sm:w-6" />
+                    <div className="flex h-8 w-8 items-center justify-center rounded-md text-primary transition-colors sm:h-10 sm:w-10 lg:h-12 lg:w-12">
+                      <interest.icon className="sm:h-6 sm:w-6" size={20} />
                     </div>
-                    <span className="text-muted-foreground not-sr-only text-xs font-medium lg:sr-only">
+                    <span className="not-sr-only font-medium text-muted-foreground text-xs lg:sr-only">
                       {interest.label}
                     </span>
                   </div>
@@ -55,5 +55,5 @@ export function InterestItem() {
         ))}
       </motion.div>
     </motion.div>
-  )
+  );
 }

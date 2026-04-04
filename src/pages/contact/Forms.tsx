@@ -1,11 +1,10 @@
-import { useForm } from 'react-hook-form'
-import { useFormspark } from '@formspark/use-formspark'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
-import { useRef } from 'react'
-import { useToast } from '@/components/ui/toast'
-import { Turnstile, type TurnstileInstance } from '@marsidev/react-turnstile'
-import { Button } from '@/components/ui/button'
+import { useFormspark } from "@formspark/use-formspark";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
+import { useRef } from "react";
+import { useForm } from "react-hook-form";
+import type { z } from "zod";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -14,45 +13,55 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Textarea } from '@/components/ui/textarea'
-import { contactSchema } from './schema'
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/components/ui/toast/toast-provider";
+import { contactSchema } from "./schema";
 
 export default function ContactForm() {
-  const turnstileRef = useRef<TurnstileInstance>(null)
-  const { showToast } = useToast()
+  const turnstileRef = useRef<TurnstileInstance>(null);
+  const { showToast } = useToast();
   const [submit, submitting] = useFormspark({
     formId: import.meta.env.VITE_FORMSPARK_FORM_ID,
-  })
+  });
 
   const form = useForm<z.infer<typeof contactSchema>>({
     resolver: zodResolver(contactSchema),
     defaultValues: {
-      full_name: '',
-      email: '',
-      subject: '',
-      message: '',
-      website: '',
-      phone: '',
-      turnstileToken: '',
+      full_name: "",
+      email: "",
+      subject: "",
+      message: "",
+      website: "",
+      phone: "",
+      turnstileToken: "",
     },
-  })
+  });
 
   async function onSubmit(values: z.infer<typeof contactSchema>) {
     try {
       if (values.website || values.phone) {
         showToast({
-          variant: 'error',
+          variant: "error",
           description: "We couldn't process your submission. Please try again.",
-        })
-        return
+        });
+        return;
       }
 
       if (!values.turnstileToken) {
-        showToast({ variant: 'error', description: 'Please complete the verification above.' })
-        return
+        showToast({
+          variant: "error",
+          description: "Please complete the verification above.",
+        });
+        return;
       }
 
       await submit({
@@ -60,24 +69,28 @@ export default function ContactForm() {
         email: values.email,
         subject: values.subject,
         message: values.message,
-        'cf-turnstile-response': values.turnstileToken,
-      })
+        "cf-turnstile-response": values.turnstileToken,
+      });
 
-      showToast({ variant: 'success', description: 'Message sent. Thank you for reaching out.' })
+      showToast({
+        variant: "success",
+        description: "Message sent. Thank you for reaching out.",
+      });
 
-      turnstileRef.current?.reset()
-      form.reset()
+      turnstileRef.current?.reset();
+      form.reset();
     } catch {
       showToast({
-        variant: 'error',
-        description: "We couldn't send your message. Please try again in a moment.",
-      })
+        variant: "error",
+        description:
+          "We couldn't send your message. Please try again in a moment.",
+      });
     }
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form className="space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
           control={form.control}
           name="full_name"
@@ -102,7 +115,9 @@ export default function ContactForm() {
               <FormControl>
                 <Input placeholder="name@example.com" type="email" {...field} />
               </FormControl>
-              <FormDescription className="sr-only">Your email address</FormDescription>
+              <FormDescription className="sr-only">
+                Your email address
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -114,7 +129,10 @@ export default function ContactForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Subject</FormLabel>
-              <Select onValueChange={field.onChange} value={field.value || undefined}>
+              <Select
+                onValueChange={field.onChange}
+                value={field.value || undefined}
+              >
                 <FormControl>
                   <SelectTrigger className="h-12! w-full">
                     <SelectValue placeholder="Select a subject" />
@@ -142,8 +160,8 @@ export default function ContactForm() {
               <FormLabel>Message</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder="Tell me about your project, idea, or how we can work together..."
                   className="h-30 resize-none"
+                  placeholder="Tell me about your project, idea, or how we can work together..."
                   {...field}
                 />
               </FormControl>
@@ -154,7 +172,7 @@ export default function ContactForm() {
         />
 
         {/* Honeypot fields - hidden from real users */}
-        <div className="sr-only" aria-hidden="true">
+        <div aria-hidden="true" className="sr-only">
           <FormField
             control={form.control}
             name="website"
@@ -162,7 +180,13 @@ export default function ContactForm() {
               <FormItem>
                 <FormLabel>Website (Leave blank)</FormLabel>
                 <FormControl>
-                  <Input placeholder="" type="text" tabIndex={-1} autoComplete="off" {...field} />
+                  <Input
+                    autoComplete="off"
+                    placeholder=""
+                    tabIndex={-1}
+                    type="text"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -176,7 +200,13 @@ export default function ContactForm() {
               <FormItem>
                 <FormLabel>Phone (Leave blank)</FormLabel>
                 <FormControl>
-                  <Input placeholder="" type="text" tabIndex={-1} autoComplete="off" {...field} />
+                  <Input
+                    autoComplete="off"
+                    placeholder=""
+                    tabIndex={-1}
+                    type="text"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -193,27 +223,34 @@ export default function ContactForm() {
               <FormControl>
                 <div className="flex w-full justify-center overflow-x-auto">
                   <Turnstile
-                    ref={turnstileRef}
-                    siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY || '1x00000000000000000000AA'}
-                    options={{
-                      theme: 'auto',
-                      size: 'flexible',
-                      appearance: 'execute',
-                    }}
-                    onSuccess={(token) => {
-                      field.onChange(token)
-                    }}
                     onError={() => {
-                      field.onChange('')
-                      showToast({ variant: 'error', description: 'Verification failed. Please try again.' })
+                      field.onChange("");
+                      showToast({
+                        variant: "error",
+                        description: "Verification failed. Please try again.",
+                      });
                     }}
                     onExpire={() => {
-                      field.onChange('')
+                      field.onChange("");
                       showToast({
-                        variant: 'error',
-                        description: 'Verification expired. Please complete it again.',
-                      })
+                        variant: "error",
+                        description:
+                          "Verification expired. Please complete it again.",
+                      });
                     }}
+                    onSuccess={(token) => {
+                      field.onChange(token);
+                    }}
+                    options={{
+                      theme: "auto",
+                      size: "flexible",
+                      appearance: "execute",
+                    }}
+                    ref={turnstileRef}
+                    siteKey={
+                      import.meta.env.VITE_TURNSTILE_SITE_KEY ||
+                      "1x00000000000000000000AA"
+                    }
                   />
                 </div>
               </FormControl>
@@ -222,10 +259,16 @@ export default function ContactForm() {
           )}
         />
 
-        <Button type="submit" className="mt-5 w-full" variant={'glass'} size={'xl'} disabled={submitting}>
-          {submitting ? 'Sending...' : 'Send message'}
+        <Button
+          className="mt-5 w-full"
+          disabled={submitting}
+          size={"xl"}
+          type="submit"
+          variant={"glass"}
+        >
+          {submitting ? "Sending..." : "Send message"}
         </Button>
       </form>
     </Form>
-  )
+  );
 }

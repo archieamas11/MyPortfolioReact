@@ -1,0 +1,184 @@
+import { IconPlayerStopFilled } from "@tabler/icons-react";
+import { ArrowUpIcon } from "lucide-react";
+import type React from "react";
+import { useCallback, useRef, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Elasticity } from "@/components/ui/elasticity/elasticity";
+import { Textarea } from "@/components/ui/textarea";
+import { cn } from "@/lib/utils";
+
+interface RagInputProps {
+  disabled?: boolean;
+  isLoading: boolean;
+  isRateLimited: boolean;
+  onCancel: () => void;
+  onChange: (value: string) => void;
+  onSubmit: () => void;
+  value: string;
+}
+
+export default function ChatInput({
+  value,
+  onChange,
+  onSubmit,
+  onCancel,
+  isLoading,
+  isRateLimited,
+  disabled,
+}: RagInputProps) {
+  const preventDefault = useCallback((): void => {
+    // Synthetic form event shim for shared submit handler.
+  }, []);
+
+  const [isExpanded, setIsExpanded] = useState(false);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  const handleTextareaChange = useCallback(
+    (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      const newValue = e.target.value;
+      onChange(newValue);
+
+      if (textareaRef.current) {
+        textareaRef.current.style.height = "auto";
+        textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+      }
+
+      setIsExpanded(newValue.length > 50 || newValue.includes("\n"));
+    },
+    [onChange]
+  );
+
+  const resetHeight = useCallback(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = "auto";
+    }
+    setIsExpanded(false);
+  }, []);
+
+  const handleSubmit = useCallback(
+    (e: React.FormEvent) => {
+      e.preventDefault();
+
+      if (value.trim() && !isRateLimited && !disabled) {
+        onSubmit();
+        resetHeight();
+      }
+    },
+    [value, onSubmit, isRateLimited, disabled, resetHeight]
+  );
+
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        if (isLoading) {
+          onCancel();
+        } else if (value.trim() && !isRateLimited && !disabled) {
+          onSubmit();
+          resetHeight();
+        }
+      }
+    },
+    [value, onSubmit, onCancel, isLoading, isRateLimited, disabled, resetHeight]
+  );
+
+  const handleButtonClick = useCallback(() => {
+    if (isLoading) {
+      onCancel();
+    } else {
+      handleSubmit({ preventDefault } as React.FormEvent);
+    }
+  }, [isLoading, onCancel, handleSubmit, preventDefault]);
+
+  return (
+    <>
+      <div className="w-full">
+        <form className="group/composer w-full" onSubmit={handleSubmit}>
+          <div
+            className={cn(
+              "glass-effect mx-auto max-h-35 w-full max-w-2xl cursor-text overflow-clip border border-border bg-background/50 bg-clip-padding p-1 shadow-lg transition-all duration-200 hover:shadow-xl md:p-2 dark:bg-muted/50",
+              {
+                "grid grid-cols-1 grid-rows-[auto_1fr_auto] rounded-lg":
+                  isExpanded,
+                "grid grid-cols-[auto_1fr_auto] grid-rows-[auto_1fr_auto] rounded-lg":
+                  !isExpanded,
+                "opacity-50": isRateLimited,
+              }
+            )}
+            style={{
+              gridTemplateAreas: isExpanded
+                ? "'header' 'primary' 'footer'"
+                : "'header header header' 'leading primary trailing' '. footer .'",
+            }}
+          >
+            <div
+              className={cn(
+                "flex min-h-14 items-center overflow-x-hidden px-1.5",
+                {
+                  "mb-0 px-2 py-1": isExpanded,
+                  "-my-2.5": !isExpanded,
+                }
+              )}
+              style={{ gridArea: "primary" }}
+            >
+              <div className="max-h-52 flex-1 overflow-auto">
+                <Textarea
+                  aria-label="Chat message input"
+                  className="scrollbar-thin min-h-0 resize-none rounded-none border-0 p-0 text-sm placeholder:text-muted-foreground focus-visible:ring-0 focus-visible:ring-offset-0 md:text-md lg:text-base dark:bg-transparent"
+                  disabled={isRateLimited || disabled}
+                  maxLength={2000}
+                  onChange={handleTextareaChange}
+                  onKeyDown={handleKeyDown}
+                  placeholder={
+                    isRateLimited
+                      ? "Please wait before sending another message..."
+                      : "Ask anything"
+                  }
+                  ref={textareaRef}
+                  rows={1}
+                  value={value}
+                />
+              </div>
+            </div>
+            <Elasticity className="rounded-full">
+              <div
+                className="flex items-center gap-2"
+                style={{ gridArea: isExpanded ? "footer" : "trailing" }}
+              >
+                <div className="ms-auto flex items-center gap-1.5">
+                  {(value.trim() || isLoading) && (
+                    <Button
+                      aria-label={isLoading ? "Cancel message" : "Send message"}
+                      className="glass-effect h-9 w-9 rounded-full bg-accent/40 text-primary shadow-md transition-all duration-200 hover:scale-105 hover:bg-accent/50 hover:shadow-lg active:scale-95"
+                      disabled={
+                        !isLoading &&
+                        (isRateLimited || !value.trim() || disabled)
+                      }
+                      onClick={handleButtonClick}
+                      size="icon"
+                      type="button"
+                    >
+                      {isLoading ? (
+                        <IconPlayerStopFilled className="size-5" />
+                      ) : (
+                        <ArrowUpIcon className="size-5" />
+                      )}
+                    </Button>
+                  )}
+                </div>
+              </div>
+            </Elasticity>
+          </div>
+        </form>
+      </div>
+      {isRateLimited && (
+        <p
+          className="mt-2 text-center text-muted-foreground text-xs"
+          role="alert"
+        >
+          Rate limited. Please wait before sending another message.
+        </p>
+      )}
+    </>
+  );
+}

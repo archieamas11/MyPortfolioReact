@@ -1,25 +1,25 @@
-import type { ComponentType, ReactNode } from 'react'
+import type { ComponentType, ReactNode } from "react";
 
-export type SkillLevel = 'advanced' | 'intermediate' | 'beginner'
+export type SkillLevel = "advanced" | "intermediate" | "beginner";
 
 export interface SkillItem {
-  icon: ComponentType<{ size?: string | number }>
-  label: string
-  experience: number
-  level: SkillLevel
-  progressWidth: string
+  experience: number;
+  icon: ComponentType<{ size?: string | number }>;
+  label: string;
+  level: SkillLevel;
+  progressWidth: string;
 }
 
 export interface ExperienceItem {
-  date: string
-  role: string
-  company: string
-  points: ReactNode
+  company: string;
+  date: string;
+  points: ReactNode;
+  role: string;
 }
 
 export interface EducationItem {
-  level: string
-  logo: string
-  school: string
-  degree?: string
+  degree?: string;
+  level: string;
+  logo: string;
+  school: string;
 }

@@ -1,27 +1,46 @@
-import { useState } from 'react'
-import { motion, useTransform, AnimatePresence, useMotionValue, useSpring } from 'framer-motion'
-import { cn } from '@/lib/utils'
-import { useIsMobile } from '@/hooks/use-mobile'
+/** biome-ignore-all lint/a11y/noNoninteractiveElementInteractions: false positive */
+/** biome-ignore-all lint/a11y/noStaticElementInteractions: false positive */
+import {
+  AnimatePresence,
+  motion,
+  useMotionValue,
+  useSpring,
+  useTransform,
+} from "framer-motion";
+import { useState } from "react";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { cn } from "@/lib/utils";
 
 interface AnimatedTooltipProps {
-  label: string
-  value?: string
-  children: React.ReactNode
-  className?: string
+  children: React.ReactNode;
+  className?: string;
+  label: string;
+  value?: string;
 }
 
-export function AnimatedTooltip({ label, value, children, className }: AnimatedTooltipProps) {
-  const [isHovered, setIsHovered] = useState(false)
-  const isMobile = useIsMobile()
-  const springConfig = { stiffness: 100, damping: 5 }
-  const x = useMotionValue(0)
-  const rotate = useSpring(useTransform(x, [-100, 100], [-45, 45]), springConfig)
-  const translateX = useSpring(useTransform(x, [-100, 100], [-50, 50]), springConfig)
+export function AnimatedTooltip({
+  label,
+  value,
+  children,
+  className,
+}: AnimatedTooltipProps) {
+  const [isHovered, setIsHovered] = useState(false);
+  const isMobile = useIsMobile();
+  const springConfig = { stiffness: 100, damping: 5 };
+  const x = useMotionValue(0);
+  const rotate = useSpring(
+    useTransform(x, [-100, 100], [-45, 45]),
+    springConfig
+  );
+  const translateX = useSpring(
+    useTransform(x, [-100, 100], [-50, 50]),
+    springConfig
+  );
 
   const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
-    const halfWidth = event.currentTarget.offsetWidth / 2
-    x.set(event.nativeEvent.offsetX - halfWidth)
-  }
+    const halfWidth = event.currentTarget.offsetWidth / 2;
+    x.set(event.nativeEvent.offsetX - halfWidth);
+  };
 
   return (
     <div
@@ -32,34 +51,43 @@ export function AnimatedTooltip({ label, value, children, className }: AnimatedT
       <AnimatePresence mode="popLayout">
         {isHovered && !isMobile && (
           <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.6 }}
             animate={{
               opacity: 1,
               y: 0,
               scale: 1,
               transition: {
-                type: 'spring',
+                type: "spring",
                 stiffness: 260,
                 damping: 10,
               },
             }}
+            className="absolute -top-16 left-1/2 z-50 flex -translate-x-1/2 flex-col items-center justify-center rounded-md bg-foreground px-4 py-2 text-xs shadow-xl"
             exit={{ opacity: 0, y: 20, scale: 0.6 }}
+            initial={{ opacity: 0, y: 20, scale: 0.6 }}
             style={{
-              translateX: translateX,
-              rotate: rotate,
-              whiteSpace: 'nowrap',
+              translateX,
+              rotate,
+              whiteSpace: "nowrap",
             }}
-            className="bg-foreground absolute -top-16 left-1/2 z-50 flex -translate-x-1/2 flex-col items-center justify-center rounded-md px-4 py-2 text-xs shadow-xl"
           >
-            <div className="text-background relative z-30 text-base font-bold">{label}</div>
-            {value && <div className="text-background relative z-30 text-sm">{value}</div>}
-            <div className="border-t-foreground absolute bottom-0 left-1/2 h-0 w-0 -translate-x-1/2 translate-y-full transform border-t-4 border-r-4 border-l-4 border-transparent"></div>
+            <div className="relative z-30 font-bold text-background text-base">
+              {label}
+            </div>
+            {value && (
+              <div className="relative z-30 text-background text-sm">
+                {value}
+              </div>
+            )}
+            <div className="absolute bottom-0 left-1/2 h-0 w-0 -translate-x-1/2 translate-y-full transform border-transparent border-t-4 border-t-foreground border-r-4 border-l-4" />
           </motion.div>
         )}
       </AnimatePresence>
-      <div onMouseMove={handleMouseMove} className={cn(isHovered && 'z-30', className)}>
+      <div
+        className={cn(isHovered && "z-30", className)}
+        onMouseMove={handleMouseMove}
+      >
         {children}
       </div>
     </div>
-  )
+  );
 }

@@ -1,38 +1,52 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import 'flag-icons/css/flag-icons.min.css'
-import App from './App.tsx'
-import { ThemeProvider } from '@/components/provider/theme-provider.tsx'
-import { BrowserRouter, Route, Routes } from 'react-router'
-import NotFound from '@/pages/NotFound.tsx'
-import { MotionConfig as MotionConfigFromMotion } from 'motion/react'
-import { MotionConfig as MotionConfigFromFramer } from 'framer-motion'
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import "./index.css";
+import "flag-icons/css/flag-icons.min.css";
+import { MotionConfig as MotionConfigFromFramer } from "framer-motion";
+import { MotionConfig as MotionConfigFromMotion } from "motion/react";
+import { BrowserRouter, Route, Routes } from "react-router";
+import { ThemeProvider } from "@/components/provider/theme-provider.tsx";
+import NotFound from "@/pages/not-found.tsx";
+import App from "./app.tsx";
+
+const ignoreReactScanError = (): void => {
+  // react-scan is optional in development.
+};
 
 if (import.meta.env.DEV) {
-  import('react-scan')
+  import("react-scan")
     .then(({ scan }) => {
       scan({
         enabled: true,
         log: true,
-      })
+      });
     })
-    .catch(() => {})
+    .catch(ignoreReactScanError);
 }
 
-createRoot(document.getElementById('root')!).render(
+const rootElement = document.getElementById("root");
+
+if (!rootElement) {
+  throw new Error("Root element with id 'root' was not found.");
+}
+
+createRoot(rootElement).render(
   <StrictMode>
     <BrowserRouter>
       <MotionConfigFromFramer reducedMotion="user">
         <MotionConfigFromMotion reducedMotion="user">
-          <ThemeProvider attribute="class" defaultTheme="dark" storageKey="vite-ui-theme">
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            storageKey="vite-ui-theme"
+          >
             <Routes>
-              <Route path="/" element={<App />} />
-              <Route path="*" element={<NotFound />} />
+              <Route element={<App />} path="/" />
+              <Route element={<NotFound />} path="*" />
             </Routes>
           </ThemeProvider>
         </MotionConfigFromMotion>
       </MotionConfigFromFramer>
     </BrowserRouter>
-  </StrictMode>,
-)
+  </StrictMode>
+);

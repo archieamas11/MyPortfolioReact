@@ -1,8 +1,10 @@
-import { cn } from '@/lib/utils'
+import { cn } from "@/lib/utils";
 
 const Separator = ({ isMini }: { isMini: boolean }) => (
-  <li className="mx-1 flex items-center" aria-hidden="true">
-    <div className={cn('bg-primary/40 w-px', { 'h-8': !isMini, 'h-6': isMini })} />
+  <li aria-hidden="true" className="mx-1 flex items-center">
+    <div
+      className={cn("w-px bg-primary/40", { "h-8": !isMini, "h-6": isMini })}
+    />
   </li>
-)
-export default Separator
+);
+export default Separator;

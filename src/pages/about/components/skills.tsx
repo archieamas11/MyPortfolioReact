@@ -1,31 +1,36 @@
-import { cn } from '@/lib/utils'
-import { skillsArr } from '../data/skills'
-import { motion } from 'framer-motion'
-import { useSequentialReveal } from '@/hooks/useSequentialReveal'
-import { Elasticity } from '@/components/ui/elasticity/Elasticity'
-import { useIsMobile } from '@/hooks/use-mobile'
+import { motion } from "framer-motion";
+import { Elasticity } from "@/components/ui/elasticity/elasticity";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { useSequentialReveal } from "@/hooks/use-sequential-reveal";
+import { cn } from "@/lib/utils";
+import { skillsArr } from "../data/skills";
 
 function SkillsItems() {
   const { containerRef, registerItem } = useSequentialReveal({
     delay: 0,
     threshold: 0.25,
     replay: true,
-  })
-  const isMobile = useIsMobile()
-  const elasticityEnabled = !isMobile
+  });
+  const isMobile = useIsMobile();
+  const elasticityEnabled = !isMobile;
 
   return (
     <div className="space-y-8">
       <div className="space-y-2">
-        <h2 className="font-oswald text-3xl font-bold tracking-widest sm:text-4xl md:text-5xl lg:text-6xl">
+        <h2 className="font-bold font-oswald text-3xl tracking-widest sm:text-4xl md:text-5xl lg:text-6xl">
           SKILLS
         </h2>
-        <p className="text-muted-foreground">Tools and technologies I work with</p>
+        <p className="text-muted-foreground">
+          Tools and technologies I work with
+        </p>
       </div>
 
-      <motion.div className="grid grid-cols-2 gap-4 py-2 lg:grid-cols-7 lg:gap-6" ref={containerRef}>
+      <motion.div
+        className="grid grid-cols-2 gap-4 py-2 lg:grid-cols-7 lg:gap-6"
+        ref={containerRef}
+      >
         {skillsArr.map((skill) => {
-          const Icon = skill.icon
+          const Icon = skill.icon;
           // const levelVariants = {
           //   advanced: {
           //     border: 'border-green-500/30 hover:border-green-500/60',
@@ -51,16 +56,20 @@ function SkillsItems() {
           // }[skill.level]
 
           return (
-            <Elasticity key={skill.label} enabled={elasticityEnabled} elasticity={0.6}>
+            <Elasticity
+              elasticity={0.6}
+              enabled={elasticityEnabled}
+              key={skill.label}
+            >
               <div
-                ref={registerItem}
                 className={cn(
-                  'group glass-effect relative flex flex-col items-center overflow-hidden rounded-lg border py-8 transition-all duration-300',
-                  'hover:bg-linear-to-b',
+                  "group glass-effect relative flex flex-col items-center overflow-hidden rounded-lg border py-8 transition-all duration-300",
+                  "hover:bg-linear-to-b"
                   // levelVariants.border,
                   // levelVariants.shadow,
                   // levelVariants.gradient,
                 )}
+                ref={registerItem}
               >
                 {/* <div className="via-primary/10 absolute inset-0 -left-full -z-10 bg-gradient-to-r from-transparent to-transparent transition-[left] duration-500 group-hover:left-full" /> */}
 
@@ -81,7 +90,7 @@ function SkillsItems() {
                 </div>
 
                 <div className="flex w-full flex-col items-center gap-1 text-center">
-                  <p className="group-hover:text-primary text-base leading-tight font-semibold transition-colors duration-300">
+                  <p className="font-semibold text-base leading-tight transition-colors duration-300 group-hover:text-primary">
                     {skill.label}
                   </p>
                   {/* {skill.experience && (
@@ -111,10 +120,10 @@ function SkillsItems() {
               </div> */}
               </div>
             </Elasticity>
-          )
+          );
         })}
       </motion.div>
     </div>
-  )
+  );
 }
-export default SkillsItems
+export default SkillsItems;

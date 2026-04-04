@@ -1,17 +1,25 @@
-import type { Variants } from 'motion/react'
-import type { HTMLAttributes } from 'react'
-import { forwardRef, useCallback, useImperativeHandle, useRef } from 'react'
-import { motion, useAnimation } from 'motion/react'
+import type { SVGMotionProps, Variants } from "motion/react";
+import { motion, useAnimation } from "motion/react";
+import {
+  forwardRef,
+  type MouseEventHandler,
+  useCallback,
+  useImperativeHandle,
+  useRef,
+} from "react";
 
-import { cn } from '@/lib/utils'
+import { cn } from "@/lib/utils";
 
 export interface UserIconHandle {
-  startAnimation: () => void
-  stopAnimation: () => void
+  startAnimation: () => void;
+  stopAnimation: () => void;
 }
 
-interface UserIconProps extends HTMLAttributes<HTMLDivElement> {
-  size?: number
+interface UserIconProps
+  extends Omit<SVGMotionProps<SVGSVGElement>, "onMouseEnter" | "onMouseLeave"> {
+  onMouseEnter?: MouseEventHandler<SVGSVGElement>;
+  onMouseLeave?: MouseEventHandler<SVGSVGElement>;
+  size?: number;
 }
 
 const PATH_VARIANT: Variants = {
@@ -21,7 +29,7 @@ const PATH_VARIANT: Variants = {
     opacity: [0, 1],
     pathOffset: [1, 0],
   },
-}
+};
 
 const CIRCLE_VARIANT: Variants = {
   normal: {
@@ -34,78 +42,82 @@ const CIRCLE_VARIANT: Variants = {
     pathOffset: [1, 0],
     scale: [0.5, 1],
   },
-}
+};
 
 const UserIcon = forwardRef<UserIconHandle, UserIconProps>(
   ({ onMouseEnter, onMouseLeave, className, size = 28, ...props }, ref) => {
-    const controls = useAnimation()
-    const isControlledRef = useRef(false)
+    const controls = useAnimation();
+    const isControlledRef = useRef(false);
 
     useImperativeHandle(ref, () => {
-      isControlledRef.current = true
+      isControlledRef.current = true;
 
       return {
-        startAnimation: () => controls.start('animate'),
-        stopAnimation: () => controls.start('normal'),
-      }
-    })
+        startAnimation: () => controls.start("animate"),
+        stopAnimation: () => controls.start("normal"),
+      };
+    });
 
     const handleMouseEnter = useCallback(
-      (e: React.MouseEvent<HTMLDivElement>) => {
-        if (!isControlledRef.current) {
-          controls.start('animate')
+      (e: React.MouseEvent<SVGSVGElement>) => {
+        if (isControlledRef.current) {
+          onMouseEnter?.(e);
         } else {
-          onMouseEnter?.(e)
+          controls.start("animate");
         }
       },
-      [controls, onMouseEnter],
-    )
+      [controls, onMouseEnter]
+    );
 
     const handleMouseLeave = useCallback(
-      (e: React.MouseEvent<HTMLDivElement>) => {
-        if (!isControlledRef.current) {
-          controls.start('normal')
+      (e: React.MouseEvent<SVGSVGElement>) => {
+        if (isControlledRef.current) {
+          onMouseLeave?.(e);
         } else {
-          onMouseLeave?.(e)
+          controls.start("normal");
         }
       },
-      [controls, onMouseLeave],
-    )
+      [controls, onMouseLeave]
+    );
     return (
-      <div
+      <motion.svg
         className={cn(className)}
+        fill="none"
+        height={size}
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        viewBox="0 0 24 24"
+        width={size}
+        xmlns="http://www.w3.org/2000/svg"
+        {...props}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        {...props}
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width={size}
-          height={size}
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <motion.circle cx="12" cy="8" r="5" animate={controls} variants={CIRCLE_VARIANT} />
+        <title>User profile</title>
+        <motion.circle
+          animate={controls}
+          cx="12"
+          cy="8"
+          r="5"
+          variants={CIRCLE_VARIANT}
+        />
 
-          <motion.path
-            d="M20 21a8 8 0 0 0-16 0"
-            variants={PATH_VARIANT}
-            transition={{
-              delay: 0.1,
-              duration: 0.3,
-            }}
-            animate={controls}
-          />
-        </svg>
-      </div>
-    )
-  },
-)
+        <motion.path
+          animate={controls}
+          d="M20 21a8 8 0 0 0-16 0"
+          transition={{
+            delay: 0.1,
+            duration: 0.3,
+          }}
+          variants={PATH_VARIANT}
+        />
+      </motion.svg>
+    );
+  }
+);
 
-UserIcon.displayName = 'UserIcon'
+UserIcon.displayName = "UserIcon";
 
-export { UserIcon }
+export { UserIcon };
