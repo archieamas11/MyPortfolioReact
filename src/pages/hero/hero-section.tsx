@@ -1,6 +1,7 @@
 import { domAnimation, LazyMotion, m, useReducedMotion } from "framer-motion";
 import { Contact, FileUser } from "lucide-react";
 import { lazy, Suspense, useMemo } from "react";
+import Coin3D from "@/components/3d-logo";
 import { AccentColorSelector } from "@/components/accent-color-selector";
 import { Button } from "@/components/ui/button";
 import { Elasticity } from "@/components/ui/elasticity/elasticity";
@@ -12,7 +13,6 @@ import {
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import { isHolidaySeason } from "@/utils/date-utils";
-import Coin3D from "../../../test/3d";
 import "@/components/ui/style/glass-animation.css";
 import { useTheme } from "next-themes";
 
