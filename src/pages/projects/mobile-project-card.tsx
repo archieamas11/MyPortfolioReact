@@ -2,7 +2,7 @@ import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
 import { GlassEdgeReflect } from '@/components/ui/glass-edge-reflect/glass-edge-reflect'
 import { Iphone } from '@/components/ui/iphone'
-import ProjectFooter from './components/footer'
+import ProjectFooter from './components/project-footer'
 import type { Project } from './types'
 
 interface MobileProjectCardProps {

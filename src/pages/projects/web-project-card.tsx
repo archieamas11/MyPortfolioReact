@@ -1,7 +1,7 @@
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { GlassEdgeReflect } from '@/components/ui/glass-edge-reflect/glass-edge-reflect'
-import ProjectFooter from './components/footer'
+import ProjectFooter from './components/project-footer'
 import type { Project } from './types'
 
 interface WebProjectCardProps {

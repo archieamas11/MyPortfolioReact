@@ -2,7 +2,7 @@ import { Separator } from '@/components/ui/separator'
 
 declare const __LAST_UPDATED__: string
 
-export function Footer() {
+export function FooterSection() {
   return (
     <footer className="mb-15 py-2 lg:mb-0">
       <Separator className="opacity-50" />

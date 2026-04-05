@@ -3,7 +3,7 @@ import { LiquidBlobBackground } from '@/components/liquid-blob-background'
 import { ToastProvider } from '@/components/ui/toast/toast-provider'
 import { useIsMobile } from '@/hooks/use-mobile'
 import { useScrollHaptics } from '@/hooks/use-scroll-haptics'
-import { Footer } from '@/pages/footer'
+import { FooterSection } from '@/pages/footer/footer-section'
 import { HeaderSection } from '@/pages/header'
 import HeroSection from '@/pages/hero/hero-section'
 
@@ -45,7 +45,9 @@ function App() {
             <ContactSection />
           </Suspense>
         </div>
-        <Footer />
+        <Suspense fallback={<SectionFallback />}>
+          <FooterSection />
+        </Suspense>
       </div>
     </ToastProvider>
   )
