@@ -20,7 +20,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { useToast } from '@/components/ui/toast/toast-provider'
 import { contactSchema } from './schema'
 
-export default function ContactForm() {
+export default function ContactForm() { 
   const turnstileRef = useRef<TurnstileInstance>(null)
   const { showToast } = useToast()
   const [submit, submitting] = useFormspark({

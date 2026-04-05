@@ -1,4 +1,4 @@
-import { StrictMode } from 'react'
+import { StrictMode, Suspense } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import 'flag-icons/css/flag-icons.min.css'
@@ -38,7 +38,9 @@ createRoot(rootElement).render(
           <ThemeProvider attribute="class" defaultTheme="dark" storageKey="vite-ui-theme">
             <Routes>
               <Route element={<App />} path="/" />
-              <Route element={<NotFound />} path="*" />
+              <Suspense fallback={null}>
+                <Route element={<NotFound />} path="*" />
+              </Suspense>
             </Routes>
           </ThemeProvider>
         </MotionConfigFromMotion>

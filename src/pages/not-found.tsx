@@ -2,7 +2,7 @@ import { ArrowLeft, Home, SearchX } from 'lucide-react'
 import { useLocation, useNavigate } from 'react-router'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { Footer } from '@/pages/footer'
+import { FooterSection } from '@/pages/footer/footer-section'
 
 export default function NotFound() {
   const navigate = useNavigate()
@@ -69,7 +69,7 @@ export default function NotFound() {
           </CardFooter>
         </Card>
       </main>
-      <Footer />
+      <FooterSection />
     </div>
   )
 }

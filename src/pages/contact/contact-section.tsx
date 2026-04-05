@@ -2,7 +2,7 @@ import { defaultPatterns, WebHaptics } from 'web-haptics'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { GlassEdgeReflect } from '@/components/ui/glass-edge-reflect/glass-edge-reflect'
 import { personalDetails } from '../about/data/personal-details'
-import ContactForm from './forms'
+import ContactForm from './contact-form'
 
 export function ContactSection() {
   const haptics = new WebHaptics()
