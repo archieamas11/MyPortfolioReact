@@ -51,7 +51,12 @@ function SkillsItems() {
           // }[skill.level]
 
           return (
-            <Elasticity elasticity={0.6} enabled={elasticityEnabled} key={skill.label}>
+            <Elasticity
+              elasticity={0.6}
+              enabled={elasticityEnabled}
+              key={skill.label}
+              withGlassEdgeReflect={true}
+            >
               <div
                 className={cn(
                   'group glass-effect relative flex flex-col items-center overflow-hidden rounded-lg border py-8 transition-all duration-300',

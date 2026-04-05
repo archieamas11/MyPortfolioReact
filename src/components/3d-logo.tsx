@@ -248,12 +248,7 @@ const CoinScene: FC<{
   )
 }
 
-const Coin3D: FC<Coin3DProps> = ({
-  isMobile,
-  logoSrc,
-  size,
-  enableIntro = true,
-}) => {
+const Coin3D: FC<Coin3DProps> = ({ isMobile, logoSrc, size, enableIntro = true }) => {
   const [threeColor, setThreeColor] = useState(() => new THREE.Color('#f43f5e'))
 
   useEffect(() => {
@@ -273,7 +268,10 @@ const Coin3D: FC<Coin3DProps> = ({
   }, [])
 
   return (
-    <div style={size ? { width: size, height: size } : undefined}>
+    <div
+      className={'absolute -top-53 left-1/2 -translate-x-1/2'}
+      style={size ? { width: size, height: size } : { width: 420, height: 420 }}
+    >
       <Canvas
         camera={{ position: [0, 0, 4], fov: 45 }}
         dpr={Math.min(typeof window === 'undefined' ? 1 : window.devicePixelRatio, 2)}

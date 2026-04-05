@@ -132,6 +132,9 @@ function buildEdgeGradients(intensity: number) {
   return { layer1, layer2 }
 }
 
+const interactiveRootClassName =
+  'group relative isolate [--glass-content-z:1] [&>*:not(.glass-surface-edge-overlay)]:relative [&>*:not(.glass-surface-edge-overlay)]:z-[var(--glass-content-z)]'
+
 const GlassSurfaceOverlay = React.forwardRef<HTMLDivElement, GlassSurfaceOverlayProps>(
   function GlassSurfaceOverlay(
     { className, style, isChatbotOpen = false, isProjectsVisible = false, ...rest },
@@ -453,7 +456,7 @@ const GlassSurfaceInteractive = React.forwardRef<HTMLElement, GlassSurfaceIntera
       <>
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 z-0 transition-opacity duration-300 ease-in-out"
+          className="glass-surface-edge-overlay pointer-events-none absolute inset-0 z-0 transition-opacity duration-300 ease-in-out"
           style={{
             borderRadius: 'inherit',
             padding: edgeThicknessPx,
@@ -467,7 +470,7 @@ const GlassSurfaceInteractive = React.forwardRef<HTMLElement, GlassSurfaceIntera
         />
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 z-0 transition-opacity duration-300 ease-in-out"
+          className="glass-surface-edge-overlay pointer-events-none absolute inset-0 z-0 transition-opacity duration-300 ease-in-out"
           style={{
             borderRadius: 'inherit',
             padding: edgeThicknessPx,
@@ -487,7 +490,11 @@ const GlassSurfaceInteractive = React.forwardRef<HTMLElement, GlassSurfaceIntera
       if (!(onlyChild && React.isValidElement<ChildInteractiveProps>(onlyChild))) {
         return (
           <div
-            className={cn('group relative', clipContent ? 'overflow-hidden' : 'overflow-visible', className)}
+            className={cn(
+              interactiveRootClassName,
+              clipContent ? 'overflow-hidden' : 'overflow-visible',
+              className,
+            )}
             onPointerEnter={handlePointerEnter}
             onPointerLeave={handlePointerLeave}
             onPointerMove={handlePointerMove}
@@ -513,7 +520,7 @@ const GlassSurfaceInteractive = React.forwardRef<HTMLElement, GlassSurfaceIntera
 
       return React.cloneElement(typedChild, {
         className: cn(
-          'group relative',
+          interactiveRootClassName,
           clipContent ? 'overflow-hidden' : 'overflow-visible',
           childProps.className,
           className,
@@ -534,7 +541,11 @@ const GlassSurfaceInteractive = React.forwardRef<HTMLElement, GlassSurfaceIntera
 
     return (
       <div
-        className={cn('group relative', clipContent ? 'overflow-hidden' : 'overflow-visible', className)}
+        className={cn(
+          interactiveRootClassName,
+          clipContent ? 'overflow-hidden' : 'overflow-visible',
+          className,
+        )}
         onPointerEnter={handlePointerEnter}
         onPointerLeave={handlePointerLeave}
         onPointerMove={handlePointerMove}
