@@ -513,6 +513,10 @@ const GlassSurfaceInteractive = React.forwardRef<HTMLElement, GlassSurfaceIntera
       const childProps = typedChild.props
       const isReact19 = Number.parseInt(React.version.split('.')[0], 10) >= 19
       const existingRef = isReact19 ? childProps.ref : (typedChild as any).ref
+      const mergedChildRef = useMemo(
+        () => mergeRefs<HTMLElement>(existingRef, rootRef),
+        [existingRef, rootRef],
+      )
       const mergedStyle = {
         ...(childProps.style ?? {}),
         ...(style ?? {}),
@@ -526,7 +530,7 @@ const GlassSurfaceInteractive = React.forwardRef<HTMLElement, GlassSurfaceIntera
           className,
         ),
         style: mergedStyle,
-        ref: mergeRefs<HTMLElement>(existingRef, rootRef),
+        ref: mergedChildRef,
         onPointerEnter: callAll(childProps.onPointerEnter, handlePointerEnter),
         onPointerMove: callAll(childProps.onPointerMove, handlePointerMove),
         onPointerLeave: callAll(childProps.onPointerLeave, handlePointerLeave),
